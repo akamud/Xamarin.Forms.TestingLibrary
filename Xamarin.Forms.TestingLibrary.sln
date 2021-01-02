@@ -1,0 +1,23 @@
+
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Xamarin.Forms.TestingLibrary", "src/Xamarin.Forms.TestingLibrary/Xamarin.Forms.TestingLibrary.csproj", "{7E5844B9-A854-4CB4-9F86-9A950383E629}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{08B5CFE9-C0DD-4B55-9B64-242298C7E436}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{14F5D10D-954B-4D85-92FB-5BE0219B4AC0}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{7E5844B9-A854-4CB4-9F86-9A950383E629}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7E5844B9-A854-4CB4-9F86-9A950383E629}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7E5844B9-A854-4CB4-9F86-9A950383E629}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7E5844B9-A854-4CB4-9F86-9A950383E629}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{7E5844B9-A854-4CB4-9F86-9A950383E629} = {08B5CFE9-C0DD-4B55-9B64-242298C7E436}
+	EndGlobalSection
+EndGlobal

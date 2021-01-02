@@ -64,8 +64,7 @@ fastlane/test_output
 Apks/
 **/*/Properties/AndroidManifest-*.xml
 
-### Rider ###
-# Covers JetBrains IDEs: IntelliJ, RubyMine, PhpStorm, AppCode, PyCharm, CLion, Android Studio and WebStorm
+# Covers JetBrains IDEs: IntelliJ, RubyMine, PhpStorm, AppCode, PyCharm, CLion, Android Studio, WebStorm and Rider
 # Reference: https://intellij-support.jetbrains.com/hc/en-us/articles/206544839
 
 # User-specific stuff
@@ -95,6 +94,9 @@ Apks/
 # When using Gradle or Maven with auto-import, you should exclude module files,
 # since they will be recreated, and may cause churn.  Uncomment if using
 # auto-import.
+.idea/artifacts
+.idea/compiler.xml
+.idea/jarRepositories.xml
 .idea/modules.xml
 .idea/*.iml
 .idea/modules
