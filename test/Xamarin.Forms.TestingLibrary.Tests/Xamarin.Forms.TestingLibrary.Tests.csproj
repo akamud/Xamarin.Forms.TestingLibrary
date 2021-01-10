@@ -1,0 +1,22 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net5.0</TargetFramework>
+
+        <IsPackable>false</IsPackable>
+
+        <LangVersion>latest</LangVersion>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="NUnit" Version="3.12.0" />
+        <PackageReference Include="NUnit3TestAdapter" Version="3.16.1" />
+        <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.5.0" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\..\samples\Xamarin.Forms.TestingLibrary.SampleApp\Xamarin.Forms.TestingLibrary.SampleApp\Xamarin.Forms.TestingLibrary.SampleApp.csproj" />
+      <ProjectReference Include="..\..\src\Xamarin.Forms.TestingLibrary\Xamarin.Forms.TestingLibrary.csproj" />
+    </ItemGroup>
+
+</Project>
