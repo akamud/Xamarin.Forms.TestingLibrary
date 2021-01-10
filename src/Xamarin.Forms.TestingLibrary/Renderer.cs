@@ -9,20 +9,15 @@ namespace Xamarin.Forms.TestingLibrary
 
         public Renderer() => _app = Activator.CreateInstance<TApp>();
 
-        public Screen Render<TPage>() where TPage : Page => Render(typeof(TPage));
+        public Screen<TPage> Render<TPage>() where TPage : Page
+            => new Screen<TPage>(Activator.CreateInstance<TPage>());
 
-        public Screen Render(Type page)
-        {
-            var screenPage = (Page)Activator.CreateInstance(page);
-
-            return Render(screenPage);
-        }
-
-        public Screen Render(Page page)
+        public Screen<TPage> Render<TPage>(TPage page)
+            where TPage : Page
         {
             _app.MainPage = page;
 
-            return new Screen();
+            return new Screen<TPage>(page);
         }
     }
 }

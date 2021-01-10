@@ -16,16 +16,7 @@ namespace Xamarin.Forms.TestingLibrary.Tests.Specs
             var renderer = new Renderer<App>();
             renderer.Render<MainPage>();
 
-            renderer._app.MainPage.Should().BeOfType<MainPage>();
-        }
-
-        [Test]
-        public void RenderShouldSetAppMainPageToTypePassed()
-        {
-            var renderer = new Renderer<App>();
-            renderer.Render(typeof(MainPage));
-
-            renderer._app.MainPage.Should().BeOfType<MainPage>();
+            renderer._app.MainPage.Should().NotBeNull();
         }
 
         [Test]
@@ -36,6 +27,25 @@ namespace Xamarin.Forms.TestingLibrary.Tests.Specs
             renderer.Render(mainPage);
 
             renderer._app.MainPage.Should().Be(mainPage);
+        }
+
+        [Test]
+        public void RenderShouldReturnScreenWithPageInstanceAsContainerWhenPageTypeIsPassedAsGenericType()
+        {
+            var renderer = new Renderer<App>();
+            var screen = renderer.Render<MainPage>();
+
+            screen.Container.Should().NotBeNull();
+        }
+
+        [Test]
+        public void RenderShouldReturnScreenWithPageInstanceAsContainerWhenPageIsPassedAsParameter()
+        {
+            var renderer = new Renderer<App>();
+            var mainPage = new MainPage();
+            var screen = renderer.Render(mainPage);
+
+            screen.Container.Should().Be(mainPage);
         }
     }
 }
