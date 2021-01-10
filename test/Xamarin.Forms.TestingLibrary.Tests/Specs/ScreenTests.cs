@@ -41,7 +41,7 @@ namespace Xamarin.Forms.TestingLibrary.Tests.Specs
             Action act = () => screen.QueryByText("Name Label");
 
             act.Should().ThrowExactly<InvalidOperationException>()
-                .WithMessage("More than one element found with Text: {Name Label}");
+                .WithMessage("Sequence contains more than one element");
         }
     }
 }

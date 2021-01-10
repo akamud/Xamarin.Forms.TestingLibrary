@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 using Xamarin.Forms.TestingLibrary.FormsProxies;
 
@@ -7,7 +8,7 @@ namespace Xamarin.Forms.TestingLibrary.Extensions
 {
     public static class BindableObjectExtensions
     {
-        public static IEnumerable<LocalValueEntry> GetLocalValueEntries(this BindableObject bindableObject)
+        private static IEnumerable<LocalValueEntry> GetLocalValueEntries(this BindableObject bindableObject)
         {
             var localValueEnumerator = bindableObject.GetType().GetMethod("GetLocalValueEnumerator",
                 BindingFlags.Instance | BindingFlags.NonPublic)?.Invoke(bindableObject, new object[0]) as IEnumerator;
@@ -24,5 +25,9 @@ namespace Xamarin.Forms.TestingLibrary.Extensions
                                                 BindableContextAttributes.None));
             }
         }
+
+        internal static LocalValueEntry? GetTextValueWith(this BindableObject bindableObject, string text) =>
+            bindableObject.GetLocalValueEntries()
+                .FirstOrDefault(x => x.Property.PropertyName == "Text" && (string)x.Value == text);
     }
 }

@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using Xamarin.Forms.TestingLibrary.Extensions;
@@ -11,42 +10,36 @@ namespace Xamarin.Forms.TestingLibrary
 
         internal Screen(TPage page) => Container = page;
 
-        public View? QueryByText(string text)
+        public View? QueryByText(string text) => FindByText(text).SingleOrDefault();
+
+        public IEnumerable<View> FindByText(string text)
         {
-            List<View> foundViews = new List<View>();
+            var foundViews = new List<View>();
 
             foreach (var child in Container.LogicalChildren.OfType<View>())
             {
-                FindByTextInternal(child, text, foundViews);
+                foundViews.AddRange(FindByText(child, text));
             }
 
-            if (foundViews.Count > 1)
-                throw new InvalidOperationException($"More than one element found with Text: {{{text}}}");
-
-            return foundViews.FirstOrDefault();
+            return foundViews;
         }
 
-        private static void FindByTextInternal(View view, string text, ICollection<View> foundViews)
+        private static IEnumerable<View> FindByText(View view, string text)
         {
-            var queriedView = QueryTextProperty(view, text);
+            var foundViews = new List<View>();
 
-            if (queriedView != null)
+            var textValue = view.GetTextValueWith(text);
+            if (textValue != null)
             {
-                foundViews.Add(queriedView);
+                foundViews.Add(view);
             }
 
             foreach (var child in view.LogicalChildren.OfType<View>())
             {
-                FindByTextInternal(child, text, foundViews);
+                foundViews.AddRange(FindByText(child, text));
             }
-        }
 
-        private static View? QueryTextProperty(View view, string text)
-        {
-            var localValue = view.GetLocalValueEntries()
-                .FirstOrDefault(x => x.Property.PropertyName == "Text" && (string)x.Value == text);
-
-            return localValue != null ? view : null;
+            return foundViews;
         }
     }
 }
