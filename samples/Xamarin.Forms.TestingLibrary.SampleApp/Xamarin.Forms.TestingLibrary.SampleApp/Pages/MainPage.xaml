@@ -2,13 +2,15 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:local="clr-namespace:Xamarin.Forms.TestingLibrary.SampleApp"
-             x:Class="Xamarin.Forms.TestingLibrary.SampleApp.MainPage">
+             x:Class="Xamarin.Forms.TestingLibrary.SampleApp.Pages.MainPage">
 
     <StackLayout>
-        <!-- Place new controls here -->
-        <Label Text="Welcome to Xamarin.Forms!" 
-           HorizontalOptions="Center"
-           VerticalOptions="CenterAndExpand" />
+        <Label Text="Name Label" />
+        <Label Text="Name Label" />
+
+        <Label Text="My Label"
+               HorizontalOptions="Center"
+               VerticalOptions="CenterAndExpand" />
     </StackLayout>
 
 </ContentPage>
