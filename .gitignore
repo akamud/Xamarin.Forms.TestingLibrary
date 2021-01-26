@@ -137,6 +137,7 @@ fabric.properties
 .idea/caches/build_file_checksums.ser
 
 coverage-results/
+coverage/
 
 # End of https://www.gitignore.io/api/rider
 

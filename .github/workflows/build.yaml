@@ -19,14 +19,13 @@ jobs:
         run: dotnet build test/Xamarin.Forms.TestingLibrary.Tests/Xamarin.Forms.TestingLibrary.Tests.csproj --configuration Release
 
       - name: Test
-        run: dotnet test ./test/Xamarin.Forms.TestingLibrary.Tests/Xamarin.Forms.TestingLibrary.Tests.csproj /p:CollectCoverage=true /p:CoverletOutputFormat=cobertura
+        run: dotnet test ./test/Xamarin.Forms.TestingLibrary.Tests/Xamarin.Forms.TestingLibrary.Tests.csproj /p:CollectCoverage=true /p:CoverletOutputFormat=cobertura /p:CoverletOutput='./../../coverage/'
 
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v1.2.1
         with:
             token: ${{ secrets.CODECOV_TOKEN }}
-            files: ./coverage.cobertura.xml
-            directory: ./test/Xamarin.Forms.TestingLibrary.Tests/
+            directory: ./coverage/
             flags: unittests
             name: codecov-umbrella
             fail_ci_if_error: true
