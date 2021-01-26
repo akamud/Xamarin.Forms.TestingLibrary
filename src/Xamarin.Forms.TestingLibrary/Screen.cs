@@ -28,8 +28,7 @@ namespace Xamarin.Forms.TestingLibrary
         {
             var foundViews = new List<View>();
 
-            var textValue = view.GetTextValueWith(text);
-            if (textValue != null)
+            if (view.HasTextValueWith(text))
             {
                 foundViews.Add(view);
             }
