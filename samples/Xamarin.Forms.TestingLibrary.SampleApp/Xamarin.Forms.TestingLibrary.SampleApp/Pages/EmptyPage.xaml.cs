@@ -8,4 +8,3 @@ namespace Xamarin.Forms.TestingLibrary.SampleApp.Pages
         }
     }
 }
-
