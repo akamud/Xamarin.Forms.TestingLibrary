@@ -43,5 +43,46 @@ namespace Xamarin.Forms.TestingLibrary.Tests.Specs
             act.Should().ThrowExactly<InvalidOperationException>()
                 .WithMessage("Sequence contains more than one element");
         }
+
+        [Test]
+        public void GetByTextShouldThrowInvalidOperationExceptionWhenPageHasNoElements()
+        {
+            var screen = new Renderer<App>().Render<EmptyPage>();
+
+            Action act = () => screen.GetByText("Non-existant text");
+
+            act.Should().ThrowExactly<InvalidOperationException>()
+                .WithMessage("Sequence contains no elements");
+        }
+
+        [Test]
+        public void GetByTextShouldThrowInvalidOperationExceptionWhenNoElementWithTheGivenTextIsFoundInPageHierarchy()
+        {
+            var screen = new Renderer<App>().Render<MainPage>();
+
+            Action act = () => screen.GetByText("Non-existant text");
+
+            act.Should().ThrowExactly<InvalidOperationException>()
+                .WithMessage("Sequence contains no elements");
+        }
+
+        [Test]
+        public void GetByTextShouldReturnViewWithSameTextFoundInPageHierarchy()
+        {
+            var screen = new Renderer<App>().Render<MainPage>();
+
+            screen.GetByText("My Label").Should().BeOfType<Label>();
+        }
+
+        [Test]
+        public void GetByTextShouldThrowInvalidOperationExceptionWhenMoreThanOneTextIsFoundInPageHierarchy()
+        {
+            var screen = new Renderer<App>().Render<MainPage>();
+
+            Action act = () => screen.GetByText("Name Label");
+
+            act.Should().ThrowExactly<InvalidOperationException>()
+                .WithMessage("Sequence contains more than one element");
+        }
     }
 }

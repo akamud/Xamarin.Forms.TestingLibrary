@@ -11,8 +11,9 @@ namespace Xamarin.Forms.TestingLibrary
         internal Screen(TPage page) => Container = page;
 
         public View? QueryByText(string text) => FindByText(text).SingleOrDefault();
+        public View GetByText(string text) => FindByText(text).Single();
 
-        public IEnumerable<View> FindByText(string text)
+        private IEnumerable<View> FindByText(string text)
         {
             var foundViews = new List<View>();
 
