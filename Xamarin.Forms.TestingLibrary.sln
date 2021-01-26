@@ -6,6 +6,16 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{08B5CFE9-C0D
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{14F5D10D-954B-4D85-92FB-5BE0219B4AC0}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Xamarin.Forms.TestingLibrary.Tests", "test\Xamarin.Forms.TestingLibrary.Tests\Xamarin.Forms.TestingLibrary.Tests.csproj", "{429D0E5E-9D79-469F-A67B-EC444207EA15}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "samples", "samples", "{FCB106E8-8BE0-4EF3-819D-28985E9C4127}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Xamarin.Forms.TestingLibrary.SampleApp", "samples\Xamarin.Forms.TestingLibrary.SampleApp\Xamarin.Forms.TestingLibrary.SampleApp\Xamarin.Forms.TestingLibrary.SampleApp.csproj", "{D5CE6202-5412-40A6-8B46-0A49090E59E5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Xamarin.Forms.TestingLibrary.SampleApp.Android", "samples\Xamarin.Forms.TestingLibrary.SampleApp\Xamarin.Forms.TestingLibrary.SampleApp.Android\Xamarin.Forms.TestingLibrary.SampleApp.Android.csproj", "{B2ECF2FD-60C7-4158-BD09-FFA04A9D46CD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Xamarin.Forms.TestingLibrary.SampleApp.iOS", "samples\Xamarin.Forms.TestingLibrary.SampleApp\Xamarin.Forms.TestingLibrary.SampleApp.iOS\Xamarin.Forms.TestingLibrary.SampleApp.iOS.csproj", "{0C228373-9799-4268-9B99-001128532BCB}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -16,8 +26,28 @@ Global
 		{7E5844B9-A854-4CB4-9F86-9A950383E629}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7E5844B9-A854-4CB4-9F86-9A950383E629}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7E5844B9-A854-4CB4-9F86-9A950383E629}.Release|Any CPU.Build.0 = Release|Any CPU
+		{429D0E5E-9D79-469F-A67B-EC444207EA15}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{429D0E5E-9D79-469F-A67B-EC444207EA15}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{429D0E5E-9D79-469F-A67B-EC444207EA15}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{429D0E5E-9D79-469F-A67B-EC444207EA15}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D5CE6202-5412-40A6-8B46-0A49090E59E5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D5CE6202-5412-40A6-8B46-0A49090E59E5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D5CE6202-5412-40A6-8B46-0A49090E59E5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D5CE6202-5412-40A6-8B46-0A49090E59E5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B2ECF2FD-60C7-4158-BD09-FFA04A9D46CD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B2ECF2FD-60C7-4158-BD09-FFA04A9D46CD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B2ECF2FD-60C7-4158-BD09-FFA04A9D46CD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B2ECF2FD-60C7-4158-BD09-FFA04A9D46CD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0C228373-9799-4268-9B99-001128532BCB}.Debug|Any CPU.ActiveCfg = Debug|iPhoneSimulator
+		{0C228373-9799-4268-9B99-001128532BCB}.Debug|Any CPU.Build.0 = Debug|iPhoneSimulator
+		{0C228373-9799-4268-9B99-001128532BCB}.Release|Any CPU.ActiveCfg = Release|iPhoneSimulator
+		{0C228373-9799-4268-9B99-001128532BCB}.Release|Any CPU.Build.0 = Release|iPhoneSimulator
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{7E5844B9-A854-4CB4-9F86-9A950383E629} = {08B5CFE9-C0DD-4B55-9B64-242298C7E436}
+		{429D0E5E-9D79-469F-A67B-EC444207EA15} = {14F5D10D-954B-4D85-92FB-5BE0219B4AC0}
+		{D5CE6202-5412-40A6-8B46-0A49090E59E5} = {FCB106E8-8BE0-4EF3-819D-28985E9C4127}
+		{B2ECF2FD-60C7-4158-BD09-FFA04A9D46CD} = {FCB106E8-8BE0-4EF3-819D-28985E9C4127}
+		{0C228373-9799-4268-9B99-001128532BCB} = {FCB106E8-8BE0-4EF3-819D-28985E9C4127}
 	EndGlobalSection
 EndGlobal
