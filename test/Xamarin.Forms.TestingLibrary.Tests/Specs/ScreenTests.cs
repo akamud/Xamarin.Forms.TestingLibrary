@@ -158,8 +158,6 @@ namespace Xamarin.Forms.TestingLibrary.Tests.Specs
         {
             var screen = new Renderer<App>().Render<MainPage>();
 
-            screen.
-
             screen.GetAllByText(multipleLabelText).Should().ContainItemsAssignableTo<Label>()
                 .And.HaveCount(2);
         }
