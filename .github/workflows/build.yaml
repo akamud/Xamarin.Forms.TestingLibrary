@@ -28,8 +28,7 @@ jobs:
                   directory: ./coverage/
                   flags: unittests
                   name: codecov-umbrella
-                  ignore:
-                      - "samples/**/*"
                   fail_ci_if_error: true
+                  gcov_path_exclude: 'samples/**/*'
                   path_to_write_report: ./coverage/codecov_report.txt
                   verbose: true
