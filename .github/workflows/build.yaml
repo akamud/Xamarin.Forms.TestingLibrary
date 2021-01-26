@@ -21,9 +21,6 @@ jobs:
       - name: Test
         run: dotnet test ./test/Xamarin.Forms.TestingLibrary.Tests/Xamarin.Forms.TestingLibrary.Tests.csproj /p:CollectCoverage=true /p:CoverletOutputFormat=cobertura
 
-      - name: Publish
-        run: dotnet publish --configuration Release ./src/Astrorex.Api --output ./out/api
-
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v1.2.1
         with:
