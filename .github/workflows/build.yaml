@@ -6,6 +6,8 @@ on:
 
 jobs:
   build:
+    env:
+      DOTNET_CLI_TELEMETRY_OPTOUT: 1
     name: Build
     runs-on: macos-latest
 
@@ -14,7 +16,7 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Build
-        run: dotnet build --configuration Release
+        run: dotnet build test/Xamarin.Forms.TestingLibrary.Tests/Xamarin.Forms.TestingLibrary.Tests.csproj --configuration Release
 
       - name: Test
         run: dotnet test ./tests/Xamarin.Forms.TestingLibrary.Tests/Xamarin.Forms.TestingLibrary.Tests.csproj /p:CollectCoverage=true /p:CoverletOutputFormat=cobertura
