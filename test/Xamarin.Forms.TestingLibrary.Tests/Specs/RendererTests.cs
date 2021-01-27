@@ -3,11 +3,10 @@ using NUnit.Framework;
 using System;
 using Xamarin.Forms.TestingLibrary.SampleApp;
 using Xamarin.Forms.TestingLibrary.SampleApp.Pages;
-using Xamarin.Forms.TestingLibrary.Tests.Support;
 
 namespace Xamarin.Forms.TestingLibrary.Tests.Specs
 {
-    public class RendererTests : MockedFormsTestBase
+    public class RendererTests
     {
         [Test]
         public void RenderShouldSetAppMainPageToGenericTypePassed()
@@ -56,6 +55,16 @@ namespace Xamarin.Forms.TestingLibrary.Tests.Specs
 
             act.Should().ThrowExactly<InvalidOperationException>()
                 .WithMessage("Page cannot be null. Did you forget to pass a valid Page to your Renderer?");
+        }
+
+        [Test]
+        public void ConstructorShouldNotCallMockFormsInitWhenSkipIsTrue()
+        {
+            Action act = () => new Renderer<App>(true);
+
+            act.Should().Throw<Exception>()
+                .WithInnerException<InvalidOperationException>()
+                .WithMessage("You must call Xamarin.Forms.Forms.Init(); prior to using this property.");
         }
     }
 }

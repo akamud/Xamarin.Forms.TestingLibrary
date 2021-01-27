@@ -1,4 +1,5 @@
 using System;
+using Xamarin.Forms.Mocks;
 
 namespace Xamarin.Forms.TestingLibrary
 {
@@ -7,7 +8,12 @@ namespace Xamarin.Forms.TestingLibrary
     {
         internal readonly TApp _app;
 
-        public Renderer() => _app = Activator.CreateInstance<TApp>();
+        public Renderer(bool skipMockFormsInit = false)
+        {
+            if (!skipMockFormsInit)
+                MockForms.Init();
+            _app = Activator.CreateInstance<TApp>();
+        }
 
         public Screen<TPage> Render<TPage>() where TPage : Page
             => new Screen<TPage>(Activator.CreateInstance<TPage>());

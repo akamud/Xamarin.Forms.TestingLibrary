@@ -3,11 +3,10 @@ using NUnit.Framework;
 using System;
 using Xamarin.Forms.TestingLibrary.SampleApp;
 using Xamarin.Forms.TestingLibrary.SampleApp.Pages;
-using Xamarin.Forms.TestingLibrary.Tests.Support;
 
 namespace Xamarin.Forms.TestingLibrary.Tests.Specs
 {
-    public class ScreenTests : MockedFormsTestBase
+    public class ScreenTests
     {
         private const string singleLabelText = "My Label";
         private const string multipleLabelText = "Name Label";
