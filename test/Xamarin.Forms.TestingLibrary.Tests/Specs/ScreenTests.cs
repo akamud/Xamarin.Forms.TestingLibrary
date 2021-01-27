@@ -47,6 +47,22 @@ namespace Xamarin.Forms.TestingLibrary.Tests.Specs
         }
 
         [Test]
+        public void QueryByTextShouldReturnTypedViewWithSameTextFoundInPageHierarchy()
+        {
+            var screen = new Renderer<App>().Render<MainPage>();
+
+            screen.QueryByText<Label>(singleLabelText)!.Text.Should().Be(singleLabelText);
+        }
+
+        [Test]
+        public void QueryByTextShouldFilterElementsWithSameTextButDifferentTypesFoundInPageHierarchy()
+        {
+            var screen = new Renderer<App>().Render<MainPage>();
+
+            screen.QueryByText<Label>("Other Label")!.Text.Should().Be("Other Label");
+        }
+
+        [Test]
         public void GetByTextShouldThrowInvalidOperationExceptionWhenPageHasNoElements()
         {
             var screen = new Renderer<App>().Render<EmptyPage>();
@@ -88,6 +104,22 @@ namespace Xamarin.Forms.TestingLibrary.Tests.Specs
         }
 
         [Test]
+        public void GetByTextShouldReturnTypedViewWithSameTextFoundInPageHierarchy()
+        {
+            var screen = new Renderer<App>().Render<MainPage>();
+
+            screen.GetByText<Label>(singleLabelText)!.Text.Should().Be(singleLabelText);
+        }
+
+        [Test]
+        public void GetByTextShouldFilterElementsWithSameTextButDifferentTypesFoundInPageHierarchy()
+        {
+            var screen = new Renderer<App>().Render<MainPage>();
+
+            screen.GetByText<Label>("Other Label")!.Text.Should().Be("Other Label");
+        }
+
+        [Test]
         public void QueryAllByTextShouldReturnEmptyCollectionWhenPageHasNoElements()
         {
             var screen = new Renderer<App>().Render<EmptyPage>();
@@ -119,6 +151,23 @@ namespace Xamarin.Forms.TestingLibrary.Tests.Specs
 
             screen.QueryAllByText(multipleLabelText).Should().ContainItemsAssignableTo<Label>()
                 .And.HaveCount(2);
+        }
+
+        [Test]
+        public void QueryAllByTextShouldReturnCollectionWithTypedViewsWithSameTextFoundInPageHierarchy()
+        {
+            var screen = new Renderer<App>().Render<MainPage>();
+
+            screen.QueryAllByText<Label>(singleLabelText).Should().OnlyContain(x => x.Text == singleLabelText);
+        }
+
+        [Test]
+        public void QueryAllByTextShouldFilterElementsWithSameTextButDifferentTypesFoundInPageHierarchy()
+        {
+            var screen = new Renderer<App>().Render<MainPage>();
+
+            screen.QueryAllByText<Label>("Other Label").Should().OnlyContain(x => x.Text == "Other Label")
+                .And.HaveCount(1);
         }
 
         [Test]
@@ -159,6 +208,23 @@ namespace Xamarin.Forms.TestingLibrary.Tests.Specs
 
             screen.GetAllByText(multipleLabelText).Should().ContainItemsAssignableTo<Label>()
                 .And.HaveCount(2);
+        }
+
+        [Test]
+        public void GetAllByTextShouldReturnCollectionWithTypedViewsWithSameTextFoundInPageHierarchy()
+        {
+            var screen = new Renderer<App>().Render<MainPage>();
+
+            screen.GetAllByText<Label>(singleLabelText).Should().OnlyContain(x => x.Text == singleLabelText);
+        }
+
+        [Test]
+        public void GetAllByTextShouldFilterElementsWithSameTextButDifferentTypesFoundInPageHierarchy()
+        {
+            var screen = new Renderer<App>().Render<MainPage>();
+
+            screen.GetAllByText<Label>("Other Label").Should().OnlyContain(x => x.Text == "Other Label")
+                .And.HaveCount(1);
         }
     }
 }
