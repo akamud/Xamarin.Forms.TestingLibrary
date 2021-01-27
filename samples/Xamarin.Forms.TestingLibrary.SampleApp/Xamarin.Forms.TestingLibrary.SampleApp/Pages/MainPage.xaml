@@ -1,9 +1,7 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:local="clr-namespace:Xamarin.Forms.TestingLibrary.SampleApp"
              x:Class="Xamarin.Forms.TestingLibrary.SampleApp.Pages.MainPage">
-
     <StackLayout>
         <Label Text="Name Label" />
         <Label Text="Name Label" />
@@ -12,8 +10,20 @@
                HorizontalOptions="Center"
                VerticalOptions="CenterAndExpand" />
 
+        <Label Text="Tappable Label"
+               HorizontalOptions="Center"
+               VerticalOptions="CenterAndExpand">
+            <Label.GestureRecognizers>
+                <TapGestureRecognizer Command="{Binding TapCommand}" NumberOfTapsRequired="2" />
+            </Label.GestureRecognizers>
+        </Label>
+
+        <StackLayout Orientation="Horizontal">
+            <Label Text="User has tapped: " />
+            <Label Text="{Binding Tapped}" />
+        </StackLayout>
+
         <Label Text="Other Label" />
         <Button Text="Other Label" />
     </StackLayout>
-
 </ContentPage>
