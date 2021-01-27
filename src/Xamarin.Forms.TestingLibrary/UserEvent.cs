@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using Xamarin.Forms.Internals;
 
 namespace Xamarin.Forms.TestingLibrary
@@ -10,8 +11,8 @@ namespace Xamarin.Forms.TestingLibrary
             if (view == null)
                 throw new ArgumentNullException(nameof(view));
 
-            view.GestureRecognizers.GetGesturesFor<TapGestureRecognizer>(x =>
-                    x.NumberOfTapsRequired == numberOfTapsRequired)
+            view.GestureRecognizers.OfType<TapGestureRecognizer>()
+                .Where(x => x.NumberOfTapsRequired == numberOfTapsRequired)
                 .ForEach(x => x.SendTapped(view));
         }
     }
