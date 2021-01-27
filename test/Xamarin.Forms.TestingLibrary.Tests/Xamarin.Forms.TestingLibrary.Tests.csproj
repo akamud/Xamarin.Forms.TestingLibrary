@@ -25,4 +25,8 @@
       <ProjectReference Include="..\..\src\Xamarin.Forms.TestingLibrary\Xamarin.Forms.TestingLibrary.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Folder Include="Support" />
+    </ItemGroup>
+
 </Project>
