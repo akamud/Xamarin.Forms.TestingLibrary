@@ -11,6 +11,9 @@
         <Label Text="My Label"
                HorizontalOptions="Center"
                VerticalOptions="CenterAndExpand" />
+
+        <Label Text="Other Label" />
+        <Button Text="Other Label" />
     </StackLayout>
 
 </ContentPage>
