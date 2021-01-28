@@ -3,6 +3,7 @@ using NUnit.Framework;
 using System;
 using Xamarin.Forms.TestingLibrary.SampleApp;
 using Xamarin.Forms.TestingLibrary.SampleApp.Pages;
+using Xamarin.Forms.TestingLibrary.Tests.Stubs;
 
 namespace Xamarin.Forms.TestingLibrary.Tests.Specs
 {
@@ -225,6 +226,17 @@ namespace Xamarin.Forms.TestingLibrary.Tests.Specs
 
             screen.GetAllByText<Label>("Other Label").Should().OnlyContain(x => x.Text == "Other Label")
                 .And.HaveCount(1);
+        }
+
+        [Test]
+        public void ProvideBindingContextShouldSetContainersBindingContextWithPassedObject()
+        {
+            var screen = new Renderer<App>().Render<MainPage>();
+            var vm = new TestViewModel();
+
+            screen.ProvideBingingContext(vm);
+
+            screen.Container.BindingContext.Should().Be(vm);
         }
     }
 }
