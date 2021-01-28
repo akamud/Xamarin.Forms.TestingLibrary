@@ -14,6 +14,8 @@ namespace Xamarin.Forms.TestingLibrary
 
         internal Screen(TPage page) => Container = page;
 
+        public void ProvideBingingContext<T>(T viewModel) => Container.BindingContext = viewModel;
+
         private IEnumerable<T> FindByText<T>(string text) where T : View
         {
             var foundViews = new List<T>();
