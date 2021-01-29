@@ -17,22 +17,23 @@ namespace Xamarin.Forms.TestingLibrary
         public void ProvideBingingContext<T>(T viewModel) => Container.BindingContext = viewModel;
 
         public T? QueryByText<T>(string text) where T : View =>
-            Container.Find<T>(x => x.HasTextValueWith(text)).SingleOrDefault();
+            Container.GetPageHierarchy<T>().SingleOrDefault(x => x.HasTextValueWith(text));
 
         public View? QueryByText(string text) => QueryByText<View>(text);
 
         public IReadOnlyCollection<T> QueryAllByText<T>(string text) where T : View =>
-            Container.Find<T>(x => x.HasTextValueWith(text)).ToList().AsReadOnly();
+            Container.GetPageHierarchy<T>().Where(x => x.HasTextValueWith(text)).ToList().AsReadOnly();
 
         public IReadOnlyCollection<View> QueryAllByText(string text) => QueryAllByText<View>(text);
 
-        public T GetByText<T>(string text) where T : View => Container.Find<T>(x => x.HasTextValueWith(text)).Single();
+        public T GetByText<T>(string text) where T : View =>
+            Container.GetPageHierarchy<T>().Single(x => x.HasTextValueWith(text));
 
         public View GetByText(string text) => GetByText<View>(text);
 
         public IReadOnlyCollection<T> GetAllByText<T>(string text) where T : View
         {
-            var foundViews = Container.Find<T>(x => x.HasTextValueWith(text)).ToList();
+            var foundViews = Container.GetPageHierarchy<T>().Where(x => x.HasTextValueWith(text)).ToList();
 
             return foundViews.Count > 0
                 ? foundViews.AsReadOnly()

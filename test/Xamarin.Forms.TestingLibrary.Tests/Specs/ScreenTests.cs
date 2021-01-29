@@ -44,7 +44,7 @@ namespace Xamarin.Forms.TestingLibrary.Tests.Specs
             Action act = () => screen.QueryByText(multipleLabelText);
 
             act.Should().ThrowExactly<InvalidOperationException>()
-                .WithMessage("Sequence contains more than one element");
+                .WithMessage("Sequence contains more than one matching element");
         }
 
         [Test]
@@ -71,7 +71,7 @@ namespace Xamarin.Forms.TestingLibrary.Tests.Specs
             Action act = () => screen.GetByText("Non-existant text");
 
             act.Should().ThrowExactly<InvalidOperationException>()
-                .WithMessage("Sequence contains no elements");
+                .WithMessage("Sequence contains no matching element");
         }
 
         [Test]
@@ -82,7 +82,7 @@ namespace Xamarin.Forms.TestingLibrary.Tests.Specs
             Action act = () => screen.GetByText("Non-existant text");
 
             act.Should().ThrowExactly<InvalidOperationException>()
-                .WithMessage("Sequence contains no elements");
+                .WithMessage("Sequence contains no matching element");
         }
 
         [Test]
@@ -101,7 +101,7 @@ namespace Xamarin.Forms.TestingLibrary.Tests.Specs
             Action act = () => screen.GetByText(multipleLabelText);
 
             act.Should().ThrowExactly<InvalidOperationException>()
-                .WithMessage("Sequence contains more than one element");
+                .WithMessage("Sequence contains more than one matching element");
         }
 
         [Test]
