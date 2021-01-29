@@ -41,5 +41,10 @@ namespace Xamarin.Forms.TestingLibrary
         }
 
         public IReadOnlyCollection<View> GetAllByText(string text) => GetAllByText<View>(text);
+
+        public T? QueryByType<T>() where T : View => Container.GetPageHierarchy<T>().SingleOrDefault();
+
+        public IReadOnlyCollection<T> QueryAllByType<T>() where T : View =>
+            Container.GetPageHierarchy<T>().ToList().AsReadOnly();
     }
 }
