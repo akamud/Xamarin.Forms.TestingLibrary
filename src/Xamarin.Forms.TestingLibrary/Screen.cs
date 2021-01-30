@@ -37,7 +37,7 @@ namespace Xamarin.Forms.TestingLibrary
 
             return foundViews.Count > 0
                 ? foundViews.AsReadOnly()
-                : throw new InvalidOperationException("Sequence contains no elements");
+                : throw new InvalidOperationException("Sequence contains no matching element");
         }
 
         public IReadOnlyCollection<View> GetAllByText(string text) => GetAllByText<View>(text);
@@ -46,5 +46,16 @@ namespace Xamarin.Forms.TestingLibrary
 
         public IReadOnlyCollection<T> QueryAllByType<T>() where T : View =>
             Container.GetPageHierarchy<T>().ToList().AsReadOnly();
+
+        public T GetByType<T>() where T : View => Container.GetPageHierarchy<T>().Single();
+
+        public IReadOnlyCollection<T> GetAllByType<T>() where T : View
+        {
+            var foundViews = Container.GetPageHierarchy<T>().ToList();
+
+            return foundViews.Count > 0
+                ? foundViews.AsReadOnly()
+                : throw new InvalidOperationException("Sequence contains no elements");
+        }
     }
 }

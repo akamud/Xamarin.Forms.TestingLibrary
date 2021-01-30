@@ -190,7 +190,7 @@ namespace Xamarin.Forms.TestingLibrary.Tests.Specs
                 Action act = () => screen.GetAllByText("Non-existant text");
 
                 act.Should().ThrowExactly<InvalidOperationException>()
-                    .WithMessage("Sequence contains no elements");
+                    .WithMessage("Sequence contains no matching element");
             }
 
             [Test]
@@ -201,7 +201,7 @@ namespace Xamarin.Forms.TestingLibrary.Tests.Specs
                 Action act = () => screen.GetAllByText("Non-existant text");
 
                 act.Should().ThrowExactly<InvalidOperationException>()
-                    .WithMessage("Sequence contains no elements");
+                    .WithMessage("Sequence contains no matching element");
             }
 
             [Test]
@@ -311,6 +311,93 @@ namespace Xamarin.Forms.TestingLibrary.Tests.Specs
                 var screen = new Renderer<App>().Render<MainPage>();
 
                 screen.QueryAllByType<StackLayout>().Should().ContainItemsAssignableTo<StackLayout>()
+                    .And.HaveCount(2);
+            }
+        }
+
+        public class GetByType
+        {
+            [Test]
+            public void ShouldThrowInvalidOperationExceptionWhenPageHasNoElements()
+            {
+                var screen = new Renderer<App>().Render<EmptyPage>();
+
+                Action act = () => screen.GetByType<Picker>();
+
+                act.Should().ThrowExactly<InvalidOperationException>()
+                    .WithMessage("Sequence contains no elements");
+            }
+
+            [Test]
+            public void ShouldThrowInvalidOperationExceptionWhenNoElementWithTheGivenTypeIsFoundInPageHierarchy()
+            {
+                var screen = new Renderer<App>().Render<MainPage>();
+
+                Action act = () => screen.GetByType<Picker>();
+
+                act.Should().ThrowExactly<InvalidOperationException>()
+                    .WithMessage("Sequence contains no elements");
+            }
+
+            [Test]
+            public void ShouldReturnViewWithSameTypeFoundInPageHierarchy()
+            {
+                var screen = new Renderer<App>().Render<MainPage>();
+
+                screen.GetByType<Image>().Should().BeOfType<Image>();
+            }
+
+            [Test]
+            public void ShouldThrowInvalidOperationExceptionWhenMoreThanOneTypeIsFoundInPageHierarchy()
+            {
+                var screen = new Renderer<App>().Render<MainPage>();
+
+                Action act = () => screen.GetByType<Label>();
+
+                act.Should().ThrowExactly<InvalidOperationException>()
+                    .WithMessage("Sequence contains more than one element");
+            }
+        }
+
+        public class GetAllByType
+        {
+            [Test]
+            public void ShouldThrowInvalidOperationExceptionWhenPageHasNoElements()
+            {
+                var screen = new Renderer<App>().Render<EmptyPage>();
+
+                Action act = () => screen.GetAllByType<Picker>();
+
+                act.Should().ThrowExactly<InvalidOperationException>()
+                    .WithMessage("Sequence contains no elements");
+            }
+
+            [Test]
+            public void ShouldThrowInvalidOperationExceptionWhenNoElementWithTheGivenTypeIsFoundInPageHierarchy()
+            {
+                var screen = new Renderer<App>().Render<MainPage>();
+
+                Action act = () => screen.GetAllByType<Picker>();
+
+                act.Should().ThrowExactly<InvalidOperationException>()
+                    .WithMessage("Sequence contains no elements");
+            }
+
+            [Test]
+            public void ShouldReturnCollectionWithViewWhenOneViewWithTypeIsFoundInPageHierarchy()
+            {
+                var screen = new Renderer<App>().Render<MainPage>();
+
+                screen.GetAllByType<Image>().Should().ContainItemsAssignableTo<Image>()
+                    .And.HaveCount(1);
+            }
+
+            [Test]
+            public void ShouldReturnCollectionWithViewsWhenMoreThanOneTypeIsFoundInPageHierarchy()
+            {
+                var screen = new Renderer<App>().Render<MainPage>();
+
+                screen.GetAllByType<StackLayout>().Should().ContainItemsAssignableTo<StackLayout>()
                     .And.HaveCount(2);
             }
         }
