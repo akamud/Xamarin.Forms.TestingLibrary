@@ -23,6 +23,8 @@
             <Label Text="{Binding Tapped}" />
         </StackLayout>
 
+        <Image />
+
         <Label Text="Other Label" />
         <Button Text="Other Label" />
     </StackLayout>

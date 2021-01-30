@@ -16,54 +16,46 @@ namespace Xamarin.Forms.TestingLibrary
 
         public void ProvideBingingContext<T>(T viewModel) => Container.BindingContext = viewModel;
 
-        private IEnumerable<T> FindByText<T>(string text) where T : View
-        {
-            var foundViews = new List<T>();
+        public T? QueryByText<T>(string text) where T : View =>
+            Container.GetPageHierarchy<T>().SingleOrDefault(x => x.HasTextValueWith(text));
 
-            foreach (var child in Container.LogicalChildren.OfType<View>())
-            {
-                foundViews.AddRange(FindByText<T>(child, text));
-            }
-
-            return foundViews;
-        }
-
-        private static IEnumerable<T> FindByText<T>(View view, string text) where T : View
-        {
-            var foundViews = new List<T>();
-
-            if (view is T typedView && typedView.HasTextValueWith(text))
-            {
-                foundViews.Add(typedView);
-            }
-
-            foreach (var child in view.LogicalChildren.OfType<View>())
-            {
-                foundViews.AddRange(FindByText<T>(child, text));
-            }
-
-            return foundViews;
-        }
-
-        public T? QueryByText<T>(string text) where T : View => FindByText<T>(text).SingleOrDefault();
         public View? QueryByText(string text) => QueryByText<View>(text);
 
         public IReadOnlyCollection<T> QueryAllByText<T>(string text) where T : View =>
-            FindByText<T>(text).ToList().AsReadOnly();
+            Container.GetPageHierarchy<T>().Where(x => x.HasTextValueWith(text)).ToList().AsReadOnly();
 
         public IReadOnlyCollection<View> QueryAllByText(string text) => QueryAllByText<View>(text);
-        public T GetByText<T>(string text) where T : View => FindByText<T>(text).Single();
+
+        public T GetByText<T>(string text) where T : View =>
+            Container.GetPageHierarchy<T>().Single(x => x.HasTextValueWith(text));
+
         public View GetByText(string text) => GetByText<View>(text);
 
         public IReadOnlyCollection<T> GetAllByText<T>(string text) where T : View
         {
-            var foundViews = FindByText<T>(text).ToList();
+            var foundViews = Container.GetPageHierarchy<T>().Where(x => x.HasTextValueWith(text)).ToList();
+
+            return foundViews.Count > 0
+                ? foundViews.AsReadOnly()
+                : throw new InvalidOperationException("Sequence contains no matching element");
+        }
+
+        public IReadOnlyCollection<View> GetAllByText(string text) => GetAllByText<View>(text);
+
+        public T? QueryByType<T>() where T : View => Container.GetPageHierarchy<T>().SingleOrDefault();
+
+        public IReadOnlyCollection<T> QueryAllByType<T>() where T : View =>
+            Container.GetPageHierarchy<T>().ToList().AsReadOnly();
+
+        public T GetByType<T>() where T : View => Container.GetPageHierarchy<T>().Single();
+
+        public IReadOnlyCollection<T> GetAllByType<T>() where T : View
+        {
+            var foundViews = Container.GetPageHierarchy<T>().ToList();
 
             return foundViews.Count > 0
                 ? foundViews.AsReadOnly()
                 : throw new InvalidOperationException("Sequence contains no elements");
         }
-
-        public IReadOnlyCollection<View> GetAllByText(string text) => GetAllByText<View>(text);
     }
 }

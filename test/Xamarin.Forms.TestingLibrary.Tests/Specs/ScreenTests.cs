@@ -12,220 +12,394 @@ namespace Xamarin.Forms.TestingLibrary.Tests.Specs
         private const string singleLabelText = "My Label";
         private const string multipleLabelText = "Name Label";
 
-        [Test]
-        public void QueryByTextShouldReturnNullWhenPageHasNoElements()
+        public class QueryByText
         {
-            var screen = new Renderer<App>().Render<EmptyPage>();
+            [Test]
+            public void ShouldReturnNullWhenPageHasNoElements()
+            {
+                var screen = new Renderer<App>().Render<EmptyPage>();
 
-            screen.QueryByText("Non-existant text").Should().BeNull();
+                screen.QueryByText("Non-existant text").Should().BeNull();
+            }
+
+            [Test]
+            public void ShouldReturnNullWhenNoElementWithTheGivenTextIsFoundInPageHierarchy()
+            {
+                var screen = new Renderer<App>().Render<MainPage>();
+
+                screen.QueryByText("Non-existant text").Should().BeNull();
+            }
+
+            [Test]
+            public void ShouldReturnViewWithSameTextFoundInPageHierarchy()
+            {
+                var screen = new Renderer<App>().Render<MainPage>();
+
+                screen.QueryByText(singleLabelText).Should().BeOfType<Label>();
+            }
+
+            [Test]
+            public void ShouldThrowInvalidOperationExceptionWhenMoreThanOneTextIsFoundInPageHierarchy()
+            {
+                var screen = new Renderer<App>().Render<MainPage>();
+
+                Action act = () => screen.QueryByText(multipleLabelText);
+
+                act.Should().ThrowExactly<InvalidOperationException>()
+                    .WithMessage("Sequence contains more than one matching element");
+            }
+
+            [Test]
+            public void ShouldReturnTypedViewWithSameTextFoundInPageHierarchy()
+            {
+                var screen = new Renderer<App>().Render<MainPage>();
+
+                screen.QueryByText<Label>(singleLabelText)!.Text.Should().Be(singleLabelText);
+            }
+
+            [Test]
+            public void ShouldFilterElementsWithSameTextButDifferentTypesFoundInPageHierarchy()
+            {
+                var screen = new Renderer<App>().Render<MainPage>();
+
+                screen.QueryByText<Label>("Other Label")!.Text.Should().Be("Other Label");
+            }
         }
 
-        [Test]
-        public void QueryByTextShouldReturnNullWhenNoElementWithTheGivenTextIsFoundInPageHierarchy()
+        public class GetByText
         {
-            var screen = new Renderer<App>().Render<MainPage>();
+            [Test]
+            public void ShouldThrowInvalidOperationExceptionWhenPageHasNoElements()
+            {
+                var screen = new Renderer<App>().Render<EmptyPage>();
 
-            screen.QueryByText("Non-existant text").Should().BeNull();
+                Action act = () => screen.GetByText("Non-existant text");
+
+                act.Should().ThrowExactly<InvalidOperationException>()
+                    .WithMessage("Sequence contains no matching element");
+            }
+
+            [Test]
+            public void ShouldThrowInvalidOperationExceptionWhenNoElementWithTheGivenTextIsFoundInPageHierarchy()
+            {
+                var screen = new Renderer<App>().Render<MainPage>();
+
+                Action act = () => screen.GetByText("Non-existant text");
+
+                act.Should().ThrowExactly<InvalidOperationException>()
+                    .WithMessage("Sequence contains no matching element");
+            }
+
+            [Test]
+            public void ShouldReturnViewWithSameTextFoundInPageHierarchy()
+            {
+                var screen = new Renderer<App>().Render<MainPage>();
+
+                screen.GetByText(singleLabelText).Should().BeOfType<Label>();
+            }
+
+            [Test]
+            public void ShouldThrowInvalidOperationExceptionWhenMoreThanOneTextIsFoundInPageHierarchy()
+            {
+                var screen = new Renderer<App>().Render<MainPage>();
+
+                Action act = () => screen.GetByText(multipleLabelText);
+
+                act.Should().ThrowExactly<InvalidOperationException>()
+                    .WithMessage("Sequence contains more than one matching element");
+            }
+
+            [Test]
+            public void ShouldReturnTypedViewWithSameTextFoundInPageHierarchy()
+            {
+                var screen = new Renderer<App>().Render<MainPage>();
+
+                screen.GetByText<Label>(singleLabelText)!.Text.Should().Be(singleLabelText);
+            }
+
+            [Test]
+            public void ShouldFilterElementsWithSameTextButDifferentTypesFoundInPageHierarchy()
+            {
+                var screen = new Renderer<App>().Render<MainPage>();
+
+                screen.GetByText<Label>("Other Label")!.Text.Should().Be("Other Label");
+            }
         }
 
-        [Test]
-        public void QueryByTextShouldReturnViewWithSameTextFoundInPageHierarchy()
+        public class QueryAllByText
         {
-            var screen = new Renderer<App>().Render<MainPage>();
+            [Test]
+            public void ShouldReturnEmptyCollectionWhenPageHasNoElements()
+            {
+                var screen = new Renderer<App>().Render<EmptyPage>();
 
-            screen.QueryByText(singleLabelText).Should().BeOfType<Label>();
+                screen.QueryAllByText("Non-existant text").Should().BeEmpty();
+            }
+
+            [Test]
+            public void ShouldReturnEmptyCollectionWhenNoElementWithTheGivenTextIsFoundInPageHierarchy()
+            {
+                var screen = new Renderer<App>().Render<MainPage>();
+
+                screen.QueryAllByText("Non-existant text").Should().BeEmpty();
+            }
+
+            [Test]
+            public void ShouldReturnCollectionWithViewWhenOneViewWithTextIsFoundInPageHierarchy()
+            {
+                var screen = new Renderer<App>().Render<MainPage>();
+
+                screen.QueryAllByText(singleLabelText).Should().ContainItemsAssignableTo<Label>()
+                    .And.HaveCount(1);
+            }
+
+            [Test]
+            public void ShouldReturnCollectionWithViewsWhenMoreThanOneTextIsFoundInPageHierarchy()
+            {
+                var screen = new Renderer<App>().Render<MainPage>();
+
+                screen.QueryAllByText(multipleLabelText).Should().ContainItemsAssignableTo<Label>()
+                    .And.HaveCount(2);
+            }
+
+            [Test]
+            public void ShouldReturnCollectionWithTypedViewsWithSameTextFoundInPageHierarchy()
+            {
+                var screen = new Renderer<App>().Render<MainPage>();
+
+                screen.QueryAllByText<Label>(singleLabelText).Should().OnlyContain(x => x.Text == singleLabelText);
+            }
+
+            [Test]
+            public void ShouldFilterElementsWithSameTextButDifferentTypesFoundInPageHierarchy()
+            {
+                var screen = new Renderer<App>().Render<MainPage>();
+
+                screen.QueryAllByText<Label>("Other Label").Should().OnlyContain(x => x.Text == "Other Label")
+                    .And.HaveCount(1);
+            }
         }
 
-        [Test]
-        public void QueryByTextShouldThrowInvalidOperationExceptionWhenMoreThanOneTextIsFoundInPageHierarchy()
+        public class GetAllByText
         {
-            var screen = new Renderer<App>().Render<MainPage>();
+            [Test]
+            public void ShouldThrowInvalidOperationExceptionWhenPageHasNoElements()
+            {
+                var screen = new Renderer<App>().Render<EmptyPage>();
 
-            Action act = () => screen.QueryByText(multipleLabelText);
+                Action act = () => screen.GetAllByText("Non-existant text");
 
-            act.Should().ThrowExactly<InvalidOperationException>()
-                .WithMessage("Sequence contains more than one element");
+                act.Should().ThrowExactly<InvalidOperationException>()
+                    .WithMessage("Sequence contains no matching element");
+            }
+
+            [Test]
+            public void ShouldThrowInvalidOperationExceptionWhenNoElementWithTheGivenTextIsFoundInPageHierarchy()
+            {
+                var screen = new Renderer<App>().Render<MainPage>();
+
+                Action act = () => screen.GetAllByText("Non-existant text");
+
+                act.Should().ThrowExactly<InvalidOperationException>()
+                    .WithMessage("Sequence contains no matching element");
+            }
+
+            [Test]
+            public void ShouldReturnCollectionWithViewWhenOneViewWithTextIsFoundInPageHierarchy()
+            {
+                var screen = new Renderer<App>().Render<MainPage>();
+
+                screen.GetAllByText(singleLabelText).Should().ContainItemsAssignableTo<Label>()
+                    .And.HaveCount(1);
+            }
+
+            [Test]
+            public void ShouldReturnCollectionWithViewsWhenMoreThanOneTextIsFoundInPageHierarchy()
+            {
+                var screen = new Renderer<App>().Render<MainPage>();
+
+                screen.GetAllByText(multipleLabelText).Should().ContainItemsAssignableTo<Label>()
+                    .And.HaveCount(2);
+            }
+
+            [Test]
+            public void ShouldReturnCollectionWithTypedViewsWithSameTextFoundInPageHierarchy()
+            {
+                var screen = new Renderer<App>().Render<MainPage>();
+
+                screen.GetAllByText<Label>(singleLabelText).Should().OnlyContain(x => x.Text == singleLabelText);
+            }
+
+            [Test]
+            public void ShouldFilterElementsWithSameTextButDifferentTypesFoundInPageHierarchy()
+            {
+                var screen = new Renderer<App>().Render<MainPage>();
+
+                screen.GetAllByText<Label>("Other Label").Should().OnlyContain(x => x.Text == "Other Label")
+                    .And.HaveCount(1);
+            }
         }
 
-        [Test]
-        public void QueryByTextShouldReturnTypedViewWithSameTextFoundInPageHierarchy()
+        public class QueryByType
         {
-            var screen = new Renderer<App>().Render<MainPage>();
+            [Test]
+            public void ShouldReturnNullWhenPageHasNoElements()
+            {
+                var screen = new Renderer<App>().Render<EmptyPage>();
 
-            screen.QueryByText<Label>(singleLabelText)!.Text.Should().Be(singleLabelText);
+                screen.QueryByType<Image>().Should().BeNull();
+            }
+
+            [Test]
+            public void ShouldReturnNullWhenNoElementWithTheGivenTypeIsFoundInPageHierarchy()
+            {
+                var screen = new Renderer<App>().Render<MainPage>();
+
+                screen.QueryByType<Picker>().Should().BeNull();
+            }
+
+            [Test]
+            public void ShouldReturnViewWithSameTypeFoundInPageHierarchy()
+            {
+                var screen = new Renderer<App>().Render<MainPage>();
+
+                screen.QueryByType<Image>().Should().BeOfType<Image>();
+            }
+
+            [Test]
+            public void ShouldThrowInvalidOperationExceptionWhenMoreThanOneTypeIsFoundInPageHierarchy()
+            {
+                var screen = new Renderer<App>().Render<MainPage>();
+
+                Action act = () => screen.QueryByType<Label>();
+
+                act.Should().ThrowExactly<InvalidOperationException>()
+                    .WithMessage("Sequence contains more than one element");
+            }
         }
 
-        [Test]
-        public void QueryByTextShouldFilterElementsWithSameTextButDifferentTypesFoundInPageHierarchy()
+        public class QueryAllByType
         {
-            var screen = new Renderer<App>().Render<MainPage>();
+            [Test]
+            public void ShouldReturnEmptyCollectionWhenPageHasNoElements()
+            {
+                var screen = new Renderer<App>().Render<EmptyPage>();
 
-            screen.QueryByText<Label>("Other Label")!.Text.Should().Be("Other Label");
+                screen.QueryAllByType<Picker>().Should().BeEmpty();
+            }
+
+            [Test]
+            public void ShouldReturnEmptyCollectionWhenNoElementWithTheGivenTypeIsFoundInPageHierarchy()
+            {
+                var screen = new Renderer<App>().Render<MainPage>();
+
+                screen.QueryAllByType<Picker>().Should().BeEmpty();
+            }
+
+            [Test]
+            public void ShouldReturnCollectionWithViewWhenOneViewWithTypeIsFoundInPageHierarchy()
+            {
+                var screen = new Renderer<App>().Render<MainPage>();
+
+                screen.QueryAllByType<Image>().Should().ContainItemsAssignableTo<Image>()
+                    .And.HaveCount(1);
+            }
+
+            [Test]
+            public void ShouldReturnCollectionWithViewsWhenMoreThanOneElementWithGivenTypeIsFoundInPageHierarchy()
+            {
+                var screen = new Renderer<App>().Render<MainPage>();
+
+                screen.QueryAllByType<StackLayout>().Should().ContainItemsAssignableTo<StackLayout>()
+                    .And.HaveCount(2);
+            }
         }
 
-        [Test]
-        public void GetByTextShouldThrowInvalidOperationExceptionWhenPageHasNoElements()
+        public class GetByType
         {
-            var screen = new Renderer<App>().Render<EmptyPage>();
+            [Test]
+            public void ShouldThrowInvalidOperationExceptionWhenPageHasNoElements()
+            {
+                var screen = new Renderer<App>().Render<EmptyPage>();
 
-            Action act = () => screen.GetByText("Non-existant text");
+                Action act = () => screen.GetByType<Picker>();
 
-            act.Should().ThrowExactly<InvalidOperationException>()
-                .WithMessage("Sequence contains no elements");
+                act.Should().ThrowExactly<InvalidOperationException>()
+                    .WithMessage("Sequence contains no elements");
+            }
+
+            [Test]
+            public void ShouldThrowInvalidOperationExceptionWhenNoElementWithTheGivenTypeIsFoundInPageHierarchy()
+            {
+                var screen = new Renderer<App>().Render<MainPage>();
+
+                Action act = () => screen.GetByType<Picker>();
+
+                act.Should().ThrowExactly<InvalidOperationException>()
+                    .WithMessage("Sequence contains no elements");
+            }
+
+            [Test]
+            public void ShouldReturnViewWithSameTypeFoundInPageHierarchy()
+            {
+                var screen = new Renderer<App>().Render<MainPage>();
+
+                screen.GetByType<Image>().Should().BeOfType<Image>();
+            }
+
+            [Test]
+            public void ShouldThrowInvalidOperationExceptionWhenMoreThanOneTypeIsFoundInPageHierarchy()
+            {
+                var screen = new Renderer<App>().Render<MainPage>();
+
+                Action act = () => screen.GetByType<Label>();
+
+                act.Should().ThrowExactly<InvalidOperationException>()
+                    .WithMessage("Sequence contains more than one element");
+            }
         }
 
-        [Test]
-        public void GetByTextShouldThrowInvalidOperationExceptionWhenNoElementWithTheGivenTextIsFoundInPageHierarchy()
+        public class GetAllByType
         {
-            var screen = new Renderer<App>().Render<MainPage>();
+            [Test]
+            public void ShouldThrowInvalidOperationExceptionWhenPageHasNoElements()
+            {
+                var screen = new Renderer<App>().Render<EmptyPage>();
 
-            Action act = () => screen.GetByText("Non-existant text");
+                Action act = () => screen.GetAllByType<Picker>();
 
-            act.Should().ThrowExactly<InvalidOperationException>()
-                .WithMessage("Sequence contains no elements");
-        }
+                act.Should().ThrowExactly<InvalidOperationException>()
+                    .WithMessage("Sequence contains no elements");
+            }
 
-        [Test]
-        public void GetByTextShouldReturnViewWithSameTextFoundInPageHierarchy()
-        {
-            var screen = new Renderer<App>().Render<MainPage>();
+            [Test]
+            public void ShouldThrowInvalidOperationExceptionWhenNoElementWithTheGivenTypeIsFoundInPageHierarchy()
+            {
+                var screen = new Renderer<App>().Render<MainPage>();
 
-            screen.GetByText(singleLabelText).Should().BeOfType<Label>();
-        }
+                Action act = () => screen.GetAllByType<Picker>();
 
-        [Test]
-        public void GetByTextShouldThrowInvalidOperationExceptionWhenMoreThanOneTextIsFoundInPageHierarchy()
-        {
-            var screen = new Renderer<App>().Render<MainPage>();
+                act.Should().ThrowExactly<InvalidOperationException>()
+                    .WithMessage("Sequence contains no elements");
+            }
 
-            Action act = () => screen.GetByText(multipleLabelText);
+            [Test]
+            public void ShouldReturnCollectionWithViewWhenOneViewWithTypeIsFoundInPageHierarchy()
+            {
+                var screen = new Renderer<App>().Render<MainPage>();
 
-            act.Should().ThrowExactly<InvalidOperationException>()
-                .WithMessage("Sequence contains more than one element");
-        }
+                screen.GetAllByType<Image>().Should().ContainItemsAssignableTo<Image>()
+                    .And.HaveCount(1);
+            }
 
-        [Test]
-        public void GetByTextShouldReturnTypedViewWithSameTextFoundInPageHierarchy()
-        {
-            var screen = new Renderer<App>().Render<MainPage>();
+            [Test]
+            public void ShouldReturnCollectionWithViewsWhenMoreThanOneTypeIsFoundInPageHierarchy()
+            {
+                var screen = new Renderer<App>().Render<MainPage>();
 
-            screen.GetByText<Label>(singleLabelText)!.Text.Should().Be(singleLabelText);
-        }
-
-        [Test]
-        public void GetByTextShouldFilterElementsWithSameTextButDifferentTypesFoundInPageHierarchy()
-        {
-            var screen = new Renderer<App>().Render<MainPage>();
-
-            screen.GetByText<Label>("Other Label")!.Text.Should().Be("Other Label");
-        }
-
-        [Test]
-        public void QueryAllByTextShouldReturnEmptyCollectionWhenPageHasNoElements()
-        {
-            var screen = new Renderer<App>().Render<EmptyPage>();
-
-            screen.QueryAllByText("Non-existant text").Should().BeEmpty();
-        }
-
-        [Test]
-        public void QueryAllByTextShouldReturnEmptyCollectionWhenNoElementWithTheGivenTextIsFoundInPageHierarchy()
-        {
-            var screen = new Renderer<App>().Render<MainPage>();
-
-            screen.QueryAllByText("Non-existant text").Should().BeEmpty();
-        }
-
-        [Test]
-        public void QueryAllByTextShouldReturnCollectionWithViewWhenOneViewWithTextIsFoundInPageHierarchy()
-        {
-            var screen = new Renderer<App>().Render<MainPage>();
-
-            screen.QueryAllByText(singleLabelText).Should().ContainItemsAssignableTo<Label>()
-                .And.HaveCount(1);
-        }
-
-        [Test]
-        public void QueryAllByTextShouldReturnCollectionWithViewsWhenMoreThanOneTextIsFoundInPageHierarchy()
-        {
-            var screen = new Renderer<App>().Render<MainPage>();
-
-            screen.QueryAllByText(multipleLabelText).Should().ContainItemsAssignableTo<Label>()
-                .And.HaveCount(2);
-        }
-
-        [Test]
-        public void QueryAllByTextShouldReturnCollectionWithTypedViewsWithSameTextFoundInPageHierarchy()
-        {
-            var screen = new Renderer<App>().Render<MainPage>();
-
-            screen.QueryAllByText<Label>(singleLabelText).Should().OnlyContain(x => x.Text == singleLabelText);
-        }
-
-        [Test]
-        public void QueryAllByTextShouldFilterElementsWithSameTextButDifferentTypesFoundInPageHierarchy()
-        {
-            var screen = new Renderer<App>().Render<MainPage>();
-
-            screen.QueryAllByText<Label>("Other Label").Should().OnlyContain(x => x.Text == "Other Label")
-                .And.HaveCount(1);
-        }
-
-        [Test]
-        public void GetAllByTextShouldThrowInvalidOperationExceptionWhenPageHasNoElements()
-        {
-            var screen = new Renderer<App>().Render<EmptyPage>();
-
-            Action act = () => screen.GetAllByText("Non-existant text");
-
-            act.Should().ThrowExactly<InvalidOperationException>()
-                .WithMessage("Sequence contains no elements");
-        }
-
-        [Test]
-        public void GetAllByTextShouldThrowInvalidOperationExceptionWhenNoElementWithTheGivenTextIsFoundInPageHierarchy()
-        {
-            var screen = new Renderer<App>().Render<MainPage>();
-
-            Action act = () => screen.GetAllByText("Non-existant text");
-
-            act.Should().ThrowExactly<InvalidOperationException>()
-                .WithMessage("Sequence contains no elements");
-        }
-
-        [Test]
-        public void GetAllByTextShouldReturnCollectionWithViewWhenOneViewWithTextIsFoundInPageHierarchy()
-        {
-            var screen = new Renderer<App>().Render<MainPage>();
-
-            screen.GetAllByText(singleLabelText).Should().ContainItemsAssignableTo<Label>()
-                .And.HaveCount(1);
-        }
-
-        [Test]
-        public void GetAllByTextShouldReturnCollectionWithViewsWhenMoreThanOneTextIsFoundInPageHierarchy()
-        {
-            var screen = new Renderer<App>().Render<MainPage>();
-
-            screen.GetAllByText(multipleLabelText).Should().ContainItemsAssignableTo<Label>()
-                .And.HaveCount(2);
-        }
-
-        [Test]
-        public void GetAllByTextShouldReturnCollectionWithTypedViewsWithSameTextFoundInPageHierarchy()
-        {
-            var screen = new Renderer<App>().Render<MainPage>();
-
-            screen.GetAllByText<Label>(singleLabelText).Should().OnlyContain(x => x.Text == singleLabelText);
-        }
-
-        [Test]
-        public void GetAllByTextShouldFilterElementsWithSameTextButDifferentTypesFoundInPageHierarchy()
-        {
-            var screen = new Renderer<App>().Render<MainPage>();
-
-            screen.GetAllByText<Label>("Other Label").Should().OnlyContain(x => x.Text == "Other Label")
-                .And.HaveCount(1);
+                screen.GetAllByType<StackLayout>().Should().ContainItemsAssignableTo<StackLayout>()
+                    .And.HaveCount(2);
+            }
         }
 
         [Test]
