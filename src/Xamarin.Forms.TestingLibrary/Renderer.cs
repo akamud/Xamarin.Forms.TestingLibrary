@@ -15,8 +15,7 @@ namespace Xamarin.Forms.TestingLibrary
             _app = Activator.CreateInstance<TApp>();
         }
 
-        public Screen<TPage> Render<TPage>() where TPage : Page
-            => new Screen<TPage>(Activator.CreateInstance<TPage>());
+        public Screen<TPage> Render<TPage>() where TPage : Page => Render(Activator.CreateInstance<TPage>());
 
         public Screen<TPage> Render<TPage>(TPage page)
             where TPage : Page

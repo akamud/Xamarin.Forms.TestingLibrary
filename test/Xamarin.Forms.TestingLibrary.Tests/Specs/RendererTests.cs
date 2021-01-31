@@ -18,6 +18,16 @@ namespace Xamarin.Forms.TestingLibrary.Tests.Specs
         }
 
         [Test]
+        public void RenderWithGenericParameterShouldSetAppMainPageToPagePassed()
+        {
+            var renderer = new Renderer<App>();
+            renderer.Render<MainPage>();
+
+            renderer._app.MainPage.Should().BeOfType<MainPage>();
+        }
+
+
+        [Test]
         public void RenderShouldSetAppMainPageToPagePassed()
         {
             var renderer = new Renderer<App>();
