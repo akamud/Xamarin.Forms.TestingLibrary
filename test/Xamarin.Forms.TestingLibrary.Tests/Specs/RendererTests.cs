@@ -26,7 +26,6 @@ namespace Xamarin.Forms.TestingLibrary.Tests.Specs
             renderer._app.MainPage.Should().BeOfType<MainPage>();
         }
 
-
         [Test]
         public void RenderShouldSetAppMainPageToPagePassed()
         {
