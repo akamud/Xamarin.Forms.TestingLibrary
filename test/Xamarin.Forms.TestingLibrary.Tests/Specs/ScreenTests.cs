@@ -247,7 +247,7 @@ namespace Xamarin.Forms.TestingLibrary.Tests.Specs
             {
                 var screen = new Renderer<App>().Render<EmptyPage>();
 
-                screen.QueryByType<Image>().Should().BeNull();
+                screen.QueryByType<ImageButton>().Should().BeNull();
             }
 
             [Test]
@@ -263,7 +263,7 @@ namespace Xamarin.Forms.TestingLibrary.Tests.Specs
             {
                 var screen = new Renderer<App>().Render<MainPage>();
 
-                screen.QueryByType<Image>().Should().BeOfType<Image>();
+                screen.QueryByType<ImageButton>().Should().BeOfType<ImageButton>();
             }
 
             [Test]
@@ -301,7 +301,7 @@ namespace Xamarin.Forms.TestingLibrary.Tests.Specs
             {
                 var screen = new Renderer<App>().Render<MainPage>();
 
-                screen.QueryAllByType<Image>().Should().ContainItemsAssignableTo<Image>()
+                screen.QueryAllByType<ImageButton>().Should().ContainItemsAssignableTo<ImageButton>()
                     .And.HaveCount(1);
             }
 
@@ -312,6 +312,15 @@ namespace Xamarin.Forms.TestingLibrary.Tests.Specs
 
                 screen.QueryAllByType<StackLayout>().Should().ContainItemsAssignableTo<StackLayout>()
                     .And.HaveCount(2);
+            }
+
+            [Test]
+            public void ShouldReturnCollectionWithViewsNestedInsideListView()
+            {
+                var screen = new Renderer<App>().Render<MainPage>();
+
+                screen.QueryAllByType<Image>().Should().ContainItemsAssignableTo<Image>()
+                    .And.HaveCount(3);
             }
         }
 
@@ -344,7 +353,7 @@ namespace Xamarin.Forms.TestingLibrary.Tests.Specs
             {
                 var screen = new Renderer<App>().Render<MainPage>();
 
-                screen.GetByType<Image>().Should().BeOfType<Image>();
+                screen.GetByType<ImageButton>().Should().BeOfType<ImageButton>();
             }
 
             [Test]
@@ -388,7 +397,7 @@ namespace Xamarin.Forms.TestingLibrary.Tests.Specs
             {
                 var screen = new Renderer<App>().Render<MainPage>();
 
-                screen.GetAllByType<Image>().Should().ContainItemsAssignableTo<Image>()
+                screen.GetAllByType<ImageButton>().Should().ContainItemsAssignableTo<ImageButton>()
                     .And.HaveCount(1);
             }
 
@@ -399,6 +408,15 @@ namespace Xamarin.Forms.TestingLibrary.Tests.Specs
 
                 screen.GetAllByType<StackLayout>().Should().ContainItemsAssignableTo<StackLayout>()
                     .And.HaveCount(2);
+            }
+
+            [Test]
+            public void ShouldReturnCollectionWithViewsNestedInsideListView()
+            {
+                var screen = new Renderer<App>().Render<MainPage>();
+
+                screen.GetAllByType<Image>().Should().ContainItemsAssignableTo<Image>()
+                    .And.HaveCount(3);
             }
         }
 

@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -11,17 +10,31 @@ namespace Xamarin.Forms.TestingLibrary.Extensions
 
         private static IEnumerable<T> GetViewHierarchy<T>(View view) where T : View
         {
-            if (view is T typedView)
-                yield return typedView;
-
-            foreach (var child in view.LogicalChildren.OfType<View>())
+            if (view is ListView listView)
             {
-                foreach (var nestedChild in GetViewHierarchy<View>(child))
+                foreach (var child in listView.TemplatedItems.SelectMany(x => x.LogicalChildren).OfType<View>())
                 {
-                    if (nestedChild is T typedChild)
-                        yield return typedChild;
+                    foreach (var nestedChild in GetViewHierarchy<View>(child))
+                    {
+                        if (nestedChild is T typedChild)
+                            yield return typedChild;
+                    }
                 }
             }
+            else
+            {
+                foreach (var child in view.LogicalChildren.OfType<View>())
+                {
+                    foreach (var nestedChild in GetViewHierarchy<View>(child))
+                    {
+                        if (nestedChild is T typedChild)
+                            yield return typedChild;
+                    }
+                }
+            }
+
+            if (view is T typedView)
+                yield return typedView;
         }
     }
 }
