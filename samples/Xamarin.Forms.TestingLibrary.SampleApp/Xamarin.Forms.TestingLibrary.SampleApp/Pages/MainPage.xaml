@@ -23,7 +23,17 @@
             <Label Text="{Binding Tapped}" />
         </StackLayout>
 
-        <Image />
+        <ImageButton />
+
+        <ListView ItemsSource="{Binding Images}">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <ViewCell>
+                        <Image Source="{Binding .}" />
+                    </ViewCell>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
 
         <Label Text="Other Label" />
         <Button Text="Other Label" />
