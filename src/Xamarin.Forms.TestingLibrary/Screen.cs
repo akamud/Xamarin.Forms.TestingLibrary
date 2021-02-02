@@ -62,5 +62,10 @@ namespace Xamarin.Forms.TestingLibrary
             Container.GetPageHierarchy<T>().SingleOrDefault(x => x.HasAutomationIdValueWith(automationId));
 
         public View? QueryByAutomationId(string automationId) => QueryByAutomationId<View>(automationId);
+
+        public IReadOnlyCollection<T> QueryAllByAutomationId<T>(string automationId) where T : View =>
+            Container.GetPageHierarchy<T>().Where(x => x.HasAutomationIdValueWith(automationId)).ToList().AsReadOnly();
+
+        public IReadOnlyCollection<View> QueryAllByAutomationId(string automationId) => QueryAllByAutomationId<View>(automationId);
     }
 }
