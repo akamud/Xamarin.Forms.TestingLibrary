@@ -88,5 +88,11 @@ namespace Xamarin.Forms.TestingLibrary
             => GetBy<T>(x => x.HasAutomationIdValueWith(automationId));
 
         public View GetByAutomationId(string automationId) => GetByAutomationId<View>(automationId);
+
+        public IReadOnlyCollection<T> GetAllByAutomationId<T>(string automationId) where T : View
+            => GetAllBy<T>(x => x.HasAutomationIdValueWith(automationId));
+
+        public IReadOnlyCollection<View> GetAllByAutomationId(string automationId)
+            => GetAllByAutomationId<View>(automationId);
     }
 }

@@ -592,6 +592,67 @@ namespace Xamarin.Forms.TestingLibrary.Tests.Specs
             }
         }
 
+        public class GetAllByAutomationId
+        {
+            [Test]
+            public void ShouldThrowInvalidOperationExceptionWhenPageHasNoElements()
+            {
+                var screen = new Renderer<App>().Render<EmptyPage>();
+
+                Action act = () => screen.GetAllByAutomationId("Non-existant automationId");
+
+                act.Should().ThrowExactly<InvalidOperationException>()
+                    .WithMessage("Sequence contains no matching element");
+            }
+
+            [Test]
+            public void ShouldThrowInvalidOperationExceptionWhenNoElementWithTheGivenAutomationIdIsFoundInPageHierarchy()
+            {
+                var screen = new Renderer<App>().Render<MainPage>();
+
+                Action act = () => screen.GetAllByAutomationId("Non-existant automationId");
+
+                act.Should().ThrowExactly<InvalidOperationException>()
+                    .WithMessage("Sequence contains no matching element");
+            }
+
+            [Test]
+            public void ShouldReturnCollectionWithViewWhenOneViewWithAutomationIdIsFoundInPageHierarchy()
+            {
+                var screen = new Renderer<App>().Render<MainPage>();
+
+                screen.GetAllByAutomationId(singleLabelAutomationId).Should().ContainItemsAssignableTo<Label>()
+                    .And.HaveCount(1);
+            }
+
+            [Test]
+            public void ShouldReturnCollectionWithViewsWhenMoreThanOneAutomationIdIsFoundInPageHierarchy()
+            {
+                var screen = new Renderer<App>().Render<MainPage>();
+
+                screen.GetAllByAutomationId(multipleLabelAutomationId).Should().ContainItemsAssignableTo<Label>()
+                    .And.HaveCount(2);
+            }
+
+            [Test]
+            public void ShouldReturnCollectionWithTypedViewsWithSameAutomationIdFoundInPageHierarchy()
+            {
+                var screen = new Renderer<App>().Render<MainPage>();
+
+                screen.GetAllByAutomationId<Label>(singleLabelAutomationId).Should().OnlyContain(x => x.AutomationId == singleLabelAutomationId);
+            }
+
+            [Test]
+            public void ShouldFilterElementsWithSameAutomationIdButDifferentTypesFoundInPageHierarchy()
+            {
+                var screen = new Renderer<App>().Render<MainPage>();
+
+                screen.GetAllByAutomationId<Label>("Other Label Automation").Should()
+                    .OnlyContain(x => x.AutomationId == "Other Label Automation")
+                    .And.HaveCount(1);
+            }
+        }
+
         [Test]
         public void ProvideBindingContextShouldSetContainersBindingContextWithPassedObject()
         {
