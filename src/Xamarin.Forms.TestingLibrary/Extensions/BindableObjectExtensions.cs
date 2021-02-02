@@ -33,5 +33,9 @@ namespace Xamarin.Forms.TestingLibrary.Extensions
         internal static bool HasTextValueWith(this BindableObject bindableObject, string text) =>
             bindableObject.GetLocalValueEntries()
                 .Any(x => x.Property.PropertyName == "Text" && (string)x.Value == text);
+
+        internal static bool HasAutomationIdValueWith(this BindableObject bindableObject, string automationId) =>
+            bindableObject.GetLocalValueEntries()
+                .Any(x => x.Property.PropertyName == "AutomationId" && (string)x.Value == automationId);
     }
 }

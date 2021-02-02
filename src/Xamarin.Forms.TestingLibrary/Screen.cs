@@ -57,5 +57,10 @@ namespace Xamarin.Forms.TestingLibrary
                 ? foundViews.AsReadOnly()
                 : throw new InvalidOperationException("Sequence contains no elements");
         }
+
+        public T? QueryByAutomationId<T>(string automationId) where T : View =>
+            Container.GetPageHierarchy<T>().SingleOrDefault(x => x.HasAutomationIdValueWith(automationId));
+
+        public View? QueryByAutomationId(string automationId) => QueryByAutomationId<View>(automationId);
     }
 }

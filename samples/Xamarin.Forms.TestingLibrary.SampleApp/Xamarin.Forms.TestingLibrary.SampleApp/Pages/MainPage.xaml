@@ -3,10 +3,13 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Xamarin.Forms.TestingLibrary.SampleApp.Pages.MainPage">
     <StackLayout>
-        <Label Text="Name Label" />
-        <Label Text="Name Label" />
+        <Label Text="Name Label"
+               AutomationId="Multiple AutomationId"/>
+        <Label Text="Name Label"
+               AutomationId="Multiple AutomationId"/>
 
         <Label Text="My Label"
+               AutomationId="Single AutomationId"
                HorizontalOptions="Center"
                VerticalOptions="CenterAndExpand" />
 
@@ -35,7 +38,9 @@
             </ListView.ItemTemplate>
         </ListView>
 
-        <Label Text="Other Label" />
-        <Button Text="Other Label" />
+        <Label Text="Other Label"
+               AutomationId="Other Label Automation"/>
+        <Button Text="Other Label"
+                AutomationId="Other Label Automation"/>
     </StackLayout>
 </ContentPage>
