@@ -23,6 +23,17 @@ namespace Xamarin.Forms.TestingLibrary.Extensions
             }
             else
             {
+                var custom = Custom.Teste.FirstOrDefault(x => x.Type == view.GetType());
+                if (custom != null)
+                {
+                    custom.Init(view);
+
+                    var customView = custom.Visitor(view);
+
+                    if (customView is T typedCustomView)
+                        yield return typedCustomView;
+                }
+
                 foreach (var child in view.LogicalChildren.OfType<View>())
                 {
                     foreach (var nestedChild in GetViewHierarchy<View>(child))

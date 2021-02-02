@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using Xamarin.Forms.Mocks;
 
 namespace Xamarin.Forms.TestingLibrary
@@ -30,5 +31,17 @@ namespace Xamarin.Forms.TestingLibrary
 
             return new Screen<TPage>(page);
         }
+
+        public void Provide(Config config)
+        {
+            Custom.Teste = new List<Config>();
+
+            Custom.Teste.Add(config);
+        }
+    }
+
+    public static class Custom
+    {
+        public static List<Config> Teste { get; set; }
     }
 }
