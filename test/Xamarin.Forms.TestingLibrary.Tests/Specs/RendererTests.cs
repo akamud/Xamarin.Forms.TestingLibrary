@@ -75,5 +75,38 @@ namespace Xamarin.Forms.TestingLibrary.Tests.Specs
                 .WithInnerException<InvalidOperationException>()
                 .WithMessage("You must call Xamarin.Forms.Forms.Init(); prior to using this property.");
         }
+
+        [Test]
+        public void TapShouldThrowArgumentNullExceptionWhenViewPassedIsNull()
+        {
+            var renderer = new Renderer<App>();
+            var screen = renderer.Render<MainPage>();
+
+            Action act = () => renderer.Tap(screen.QueryByText("non-existant text")!);
+
+            act.Should().Throw<ArgumentNullException>();
+        }
+
+        [Test]
+        public void TapShouldTriggerTapGestureRecognizerWhenAvailableAndMatchesRequiredNumberOfTaps()
+        {
+            var renderer = new Renderer<App>();
+            var screen = renderer.Render<MainPage>();
+
+            renderer.Tap(screen.GetByText("Tappable Label"), 2);
+
+            screen.GetByText<Label>("True").Should().NotBeNull();
+        }
+
+        [Test]
+        public void TapShouldNotTriggerTapGestureRecognizerWhenRequiredNumberOfTypesIsNotMatched()
+        {
+            var renderer = new Renderer<App>();
+            var screen = renderer.Render<MainPage>();
+
+            renderer.Tap(screen.GetByText("My Label"));
+
+            screen.GetByText<Label>("False").Should().NotBeNull();
+        }
     }
 }
