@@ -313,7 +313,7 @@ namespace Xamarin.Forms.TestingLibrary.Tests.Specs
                 var screen = new Renderer<App>().Render<MainPage>();
 
                 screen.QueryAllByType<StackLayout>().Should().ContainItemsAssignableTo<StackLayout>()
-                    .And.HaveCount(2);
+                    .And.HaveCount(5);
             }
 
             [Test]
@@ -409,7 +409,7 @@ namespace Xamarin.Forms.TestingLibrary.Tests.Specs
                 var screen = new Renderer<App>().Render<MainPage>();
 
                 screen.GetAllByType<StackLayout>().Should().ContainItemsAssignableTo<StackLayout>()
-                    .And.HaveCount(2);
+                    .And.HaveCount(5);
             }
 
             [Test]

@@ -38,6 +38,35 @@
             </ListView.ItemTemplate>
         </ListView>
 
+        <StackLayout AutomationId="emptyStack" />
+
+        <StackLayout AutomationId="textContentStack">
+            <Label Text="Hello nested"></Label>
+
+            <AbsoluteLayout>
+                <Label Text=" labels"
+                       AbsoluteLayout.LayoutFlags="All"
+                       AbsoluteLayout.LayoutBounds="0,0,1,1"/>
+            </AbsoluteLayout>
+        </StackLayout>
+
+        <StackLayout AutomationId="formattedTextContentStack">
+            <Label FormattedText="Hello nested"></Label>
+
+            <AbsoluteLayout>
+                <Label AbsoluteLayout.LayoutFlags="All"
+                       AbsoluteLayout.LayoutBounds="0,0,1,1"
+                       Text="">
+                    <Label.FormattedText>
+                        <FormattedString>
+                            <Span Text=" formatted" />
+                            <Span Text=" Texts" />
+                        </FormattedString>
+                    </Label.FormattedText>
+                </Label>
+            </AbsoluteLayout>
+        </StackLayout>
+
         <Label Text="Other Label"
                AutomationId="Other Label Automation"/>
         <Button Text="Other Label"

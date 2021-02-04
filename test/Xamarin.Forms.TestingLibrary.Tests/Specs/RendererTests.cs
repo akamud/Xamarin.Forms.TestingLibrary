@@ -69,6 +69,9 @@ namespace Xamarin.Forms.TestingLibrary.Tests.Specs
         [Test]
         public void ConstructorShouldNotCallMockFormsInitWhenSkipIsTrue()
         {
+            Device.PlatformServices = null;
+            Device.Info = null;
+
             Action act = () => new Renderer<App>(true);
 
             act.Should().Throw<Exception>()
