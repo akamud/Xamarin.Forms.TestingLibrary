@@ -26,9 +26,13 @@ namespace Xamarin.Forms.TestingLibrary.Extensions
             }
         }
 
-        internal static LocalValueEntry? GetTextValueWith(this BindableObject bindableObject, string text) =>
-            bindableObject.GetLocalValueEntries()
-                .FirstOrDefault(x => x.Property.PropertyName == "Text" && (string)x.Value == text);
+        internal static string? GetTextContentValue(this BindableObject bindableObject)
+        {
+            var localValueEntries = bindableObject.GetLocalValueEntries().ToArray();
+
+            return localValueEntries.FirstOrDefault(x => x.Property.PropertyName == "Text")?.Value?.ToString() ??
+                   localValueEntries.FirstOrDefault(x => x.Property.PropertyName == "FormattedText")?.Value?.ToString();
+        }
 
         internal static bool HasTextValueWith(this BindableObject bindableObject, string text) =>
             bindableObject.GetLocalValueEntries()

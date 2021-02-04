@@ -5,6 +5,9 @@ namespace Xamarin.Forms.TestingLibrary.Extensions
 {
     public static class PageExtensions
     {
+        public static string GetTextContent(this View view) =>
+            string.Join("", GetViewHierarchy<View>(view).Select(x => x.GetTextContentValue()).Where(x => x != null));
+
         public static IEnumerable<T> GetPageHierarchy<T>(this Page page) where T : View =>
             page.LogicalChildren.OfType<View>().SelectMany(GetViewHierarchy<T>);
 
