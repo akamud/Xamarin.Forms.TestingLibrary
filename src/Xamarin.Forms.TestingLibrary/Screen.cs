@@ -1,8 +1,12 @@
+using Spectre.Console;
+using Spectre.Console.Rendering;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
+using Xamarin.Forms.Internals;
 using Xamarin.Forms.TestingLibrary.Extensions;
+using Xamarin.Forms.TestingLibrary.FormsProxies;
 
 namespace Xamarin.Forms.TestingLibrary
 {
@@ -12,7 +16,11 @@ namespace Xamarin.Forms.TestingLibrary
     {
         public TPage Container { get; }
 
-        internal Screen(TPage page) => Container = page;
+        internal Screen(TPage page)
+        {
+            Container = page;
+            debugTree = new Tree($"[yellow]{Container.GetType().Name}[/]");
+        }
 
         private T? QueryBy<T>(Func<T, bool>? predicate = null) where T : View
             => predicate != null
@@ -94,5 +102,90 @@ namespace Xamarin.Forms.TestingLibrary
 
         public IReadOnlyCollection<View> GetAllByAutomationId(string automationId)
             => GetAllByAutomationId<View>(automationId);
+
+        private Tree debugTree;
+        private Tree currentNode = null;
+
+        private void AddView(View view)
+        {
+            // if (currentNode == null)
+            //     AddDebugTreeNode(debugTree, view);
+            // else
+            //     AddDebugTreeNode(currentNode, view);
+        }
+
+        private void AddChild(View view)
+        {
+            // if (currentNode == null)
+            //     AddDebugTreeNode(debugTree, view);
+            // else
+            //     AddDebugTreeNode(currentNode, view);
+        }
+
+        private void AddDebugTreeNode(Tree viewTree, View view)
+        {
+            var values = view.GetLocalValueEntries()
+                .Where(x => x.Attributes.HasFlag(BindableContextAttributes.IsManuallySet) ||
+                            x.Attributes.HasFlag(BindableContextAttributes.IsSetFromStyle));
+
+            values.ForEach(x =>
+            {
+                switch (x.Value)
+                {
+                    case Thickness t:
+                        viewTree.AddNode(
+                            $"{x.Property.PropertyName}: Left={t.Left}, Top={t.Top}, Right={t.Right}, Bottom={t.Bottom}");
+                        break;
+                    case LayoutOptions l:
+                        viewTree.AddNode($"{x.Property.PropertyName}: {l.Alignment}{(l.Expands ? "AndExpands" : "")}");
+                        break;
+                    case Color c:
+                        viewTree.AddNode($"{x.Property.PropertyName}: {c.ToHex()}");
+                        break;
+                    default:
+                        viewTree.AddNode($"{x.Property.PropertyName}: {x.Value}");
+                        break;
+                }
+            });
+        }
+
+        public void Debug()
+        {
+            var views = Container.GetPageHierarchy<View>();
+            var tree = new Tree($"[yellow]{Container.GetType().Name}[/]");
+
+            foreach (var view in views)
+            {
+                var viewTree = new Tree($"[blue]{view.GetType().Name}[/]");
+
+                var values = view.GetLocalValueEntries()
+                    .Where(x => x.Attributes.HasFlag(BindableContextAttributes.IsManuallySet) ||
+                                x.Attributes.HasFlag(BindableContextAttributes.IsSetFromStyle));
+
+                values.ForEach(x =>
+                {
+                    switch (x.Value)
+                    {
+                        case Thickness t:
+                            viewTree.AddNode(
+                                $"{x.Property.PropertyName}: Left={t.Left}, Top={t.Top}, Right={t.Right}, Bottom={t.Bottom}");
+                            break;
+                        case LayoutOptions l:
+                            viewTree.AddNode($"{x.Property.PropertyName}: {l.Alignment}{(l.Expands ? "AndExpands" : "")}");
+                            break;
+                        case Color c:
+                            viewTree.AddNode($"{x.Property.PropertyName}: {c.ToHex()}");
+                            break;
+                        default:
+                            viewTree.AddNode($"{x.Property.PropertyName}: {x.Value}");
+                            break;
+                    }
+                });
+
+                tree.AddNode(viewTree);
+            }
+
+            AnsiConsole.Render(tree);
+        }
     }
 }
