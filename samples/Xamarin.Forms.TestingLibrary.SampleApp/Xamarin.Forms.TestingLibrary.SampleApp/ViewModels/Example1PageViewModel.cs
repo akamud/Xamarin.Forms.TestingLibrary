@@ -14,7 +14,7 @@ namespace Xamarin.Forms.TestingLibrary.SampleApp.ViewModels
 
         public Example1PageViewModel()
         {
-            UserName = "Dan";
+            UserName = "Marvin";
         }
     }
 }

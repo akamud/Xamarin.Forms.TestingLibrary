@@ -50,7 +50,47 @@ We could easily write a unit test that guarantees that our ViewModel is loading 
 
 While the unit tests can still guarantee lots of important aspects, by itself it can't guarantee that the view is working as intended because it never tests the way we connected the converters, triggers and binding expressions we declared.
 
-That's where **Xamarin.Forms.TestingLibrary** comes in, it provides an API focused on the user interaction: it doesn't matter how you did it, what matters is that the user should be seeing the correct message, and it does this by running a mocked Xamarin.Forms engine to make sure everything is behaving correctly. [Xamarin.Forms.Mocks](https://github.com/jonathanpeppers/Xamarin.Forms.Mocks/).
+That's where **Xamarin.Forms.TestingLibrary** comes in, it provides an API focused on the user interaction: it doesn't matter how you did it, what matters is that the user should be seeing the correct message, and it does this by running a mocked Xamarin.Forms engine to make sure everything is behaving correctly. 
+
+We could write these tests for the example above that would make our automated tests much more close to what the user actually sees, and provide a more confident test suite.
+
+```csharp
+public class Tests
+{
+    private Renderer<App> _renderer;
+
+    [SetUp]
+    public void Setup() => _renderer = new Renderer<App>();
+
+    [Test]
+    public void ShouldShowLoginMessageWhenUserNameIsNull()
+    {
+        var viewModel = new Example1PageViewModel
+        {
+            UserName = null
+        };
+        var screen = _renderer.Render<Example1Page>();
+        screen.ProvideBingingContext(viewModel);
+
+        screen.GetByType<StackLayout>().GetTextContent().Should().Be("Login");
+    }
+
+    [Test]
+    public void ShouldShowWelcomeMessageWhenUserNameIsNotNull()
+    {
+        var viewModel = new Example1PageViewModel
+        {
+            UserName = "Marvin"
+        };
+        var screen = _renderer.Render<Example1Page>();
+        screen.ProvideBingingContext(viewModel);
+
+        screen.GetByType<StackLayout>().GetTextContent().Should().Be("Welcome back, Marvin!");
+    }
+}
+```
+
+As you can see, it is very focused on the user's perspective, so we load the page and get the visible text from the screen.
 
 ## Getting Started
 

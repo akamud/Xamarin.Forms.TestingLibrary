@@ -1,17 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
+             xmlns:local="clr-namespace:Xamarin.Forms.TestingLibrary.SampleApp.Converters"
              xmlns:viewModels="clr-namespace:Xamarin.Forms.TestingLibrary.SampleApp.ViewModels"
              x:DataType="viewModels:Example1PageViewModel"
              x:Class="Xamarin.Forms.TestingLibrary.SampleApp.Pages.Example1Page">
     <ContentPage.Resources>
         <ResourceDictionary>
-            <xct:IsNullOrEmptyConverter x:Key="IsNullOrEmptyConverter" />
+            <local:IsNullOrEmptyConverter x:Key="IsNullOrEmptyConverter" />
         </ResourceDictionary>
     </ContentPage.Resources>
     <StackLayout>
         <Label Text="Login"
+               VerticalOptions="CenterAndExpand"
+               HorizontalOptions="CenterAndExpand"
                IsVisible="False">
             <Label.Triggers>
                 <DataTrigger Binding="{Binding UserName, Converter={StaticResource IsNullOrEmptyConverter}}"
@@ -22,7 +24,9 @@
             </Label.Triggers>
         </Label>
 
-        <Label IsVisible="False">
+        <Label IsVisible="False"
+               VerticalOptions="CenterAndExpand"
+               HorizontalOptions="CenterAndExpand">
             <Label.Triggers>
                 <DataTrigger Binding="{Binding UserName, Converter={StaticResource IsNullOrEmptyConverter}}"
                              Value="False"
