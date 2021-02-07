@@ -1,6 +1,8 @@
 using FluentAssertions;
+using FluentAssertions.Formatting;
 using NUnit.Framework;
 using System;
+using System.Linq;
 using Xamarin.Forms.TestingLibrary.SampleApp;
 using Xamarin.Forms.TestingLibrary.SampleApp.Pages;
 using Xamarin.Forms.TestingLibrary.Tests.Stubs;
@@ -66,6 +68,15 @@ namespace Xamarin.Forms.TestingLibrary.Tests.Specs
 
                 screen.QueryByText<Label>("Other Label")!.Text.Should().Be("Other Label");
             }
+
+            [Test]
+            public void ShouldFilterElementsWithIsVisibleFalse()
+            {
+                var testView = new ContentPage {Content = new Label {IsVisible = false, Text = "NotVisible"}};
+                var screen = new Renderer<App>().Render(testView);
+
+                screen.QueryByText("NotVisible").Should().BeNull();
+            }
         }
 
         public class GetByText
@@ -126,6 +137,18 @@ namespace Xamarin.Forms.TestingLibrary.Tests.Specs
 
                 screen.GetByText<Label>("Other Label")!.Text.Should().Be("Other Label");
             }
+
+            [Test]
+            public void ShouldFilterElementsWithIsVisibleFalse()
+            {
+                var testView = new ContentPage {Content = new Label {IsVisible = false, Text = "NotVisible"}};
+                var screen = new Renderer<App>().Render(testView);
+
+                Action act = () => screen.GetByText("NotVisible");
+
+                act.Should().ThrowExactly<InvalidOperationException>()
+                    .WithMessage("Sequence contains no matching element");
+            }
         }
 
         public class QueryAllByText
@@ -179,6 +202,15 @@ namespace Xamarin.Forms.TestingLibrary.Tests.Specs
 
                 screen.QueryAllByText<Label>("Other Label").Should().OnlyContain(x => x.Text == "Other Label")
                     .And.HaveCount(1);
+            }
+
+            [Test]
+            public void ShouldFilterElementsWithIsVisibleFalse()
+            {
+                var testView = new ContentPage {Content = new Label {IsVisible = false, Text = "NotVisible"}};
+                var screen = new Renderer<App>().Render(testView);
+
+                screen.QueryAllByText("NotVisible").Should().BeEmpty();
             }
         }
 
@@ -240,6 +272,18 @@ namespace Xamarin.Forms.TestingLibrary.Tests.Specs
                 screen.GetAllByText<Label>("Other Label").Should().OnlyContain(x => x.Text == "Other Label")
                     .And.HaveCount(1);
             }
+
+            [Test]
+            public void ShouldFilterElementsWithIsVisibleFalse()
+            {
+                var testPage = new ContentPage {Content = new Label {IsVisible = false, Text = "NotVisible"}};
+                var screen = new Renderer<App>().Render(testPage);
+
+                Action act = () => screen.GetAllByText<Label>("NotVisible");
+
+                act.Should().ThrowExactly<InvalidOperationException>()
+                    .WithMessage("Sequence contains no matching element");
+            }
         }
 
         public class QueryByType
@@ -277,6 +321,15 @@ namespace Xamarin.Forms.TestingLibrary.Tests.Specs
 
                 act.Should().ThrowExactly<InvalidOperationException>()
                     .WithMessage("Sequence contains more than one element");
+            }
+
+            [Test]
+            public void ShouldFilterElementsWithIsVisibleFalse()
+            {
+                var testView = new ContentPage {Content = new Label {IsVisible = false}};
+                var screen = new Renderer<App>().Render(testView);
+
+                screen.QueryByType<Label>().Should().BeNull();
             }
         }
 
@@ -324,6 +377,15 @@ namespace Xamarin.Forms.TestingLibrary.Tests.Specs
                 screen.QueryAllByType<Image>().Should().ContainItemsAssignableTo<Image>()
                     .And.HaveCount(3);
             }
+
+            [Test]
+            public void ShouldFilterElementsWithIsVisibleFalse()
+            {
+                var testView = new ContentPage {Content = new Label {IsVisible = false}};
+                var screen = new Renderer<App>().Render(testView);
+
+                screen.QueryAllByType<Label>().Should().BeEmpty();
+            }
         }
 
         public class GetByType
@@ -367,6 +429,18 @@ namespace Xamarin.Forms.TestingLibrary.Tests.Specs
 
                 act.Should().ThrowExactly<InvalidOperationException>()
                     .WithMessage("Sequence contains more than one element");
+            }
+
+            [Test]
+            public void ShouldFilterElementsWithIsVisibleFalse()
+            {
+                var testView = new ContentPage {Content = new Label {IsVisible = false}};
+                var screen = new Renderer<App>().Render(testView);
+
+                Action act = () => screen.GetByType<Label>();
+
+                act.Should().ThrowExactly<InvalidOperationException>()
+                    .WithMessage("Sequence contains no elements");
             }
         }
 
@@ -419,6 +493,18 @@ namespace Xamarin.Forms.TestingLibrary.Tests.Specs
 
                 screen.GetAllByType<Image>().Should().ContainItemsAssignableTo<Image>()
                     .And.HaveCount(3);
+            }
+
+            [Test]
+            public void ShouldFilterElementsWithIsVisibleFalse()
+            {
+                var testView = new ContentPage {Content = new Label {IsVisible = false}};
+                var screen = new Renderer<App>().Render(testView);
+
+                Action act = () => screen.GetAllByType<Label>();
+
+                act.Should().ThrowExactly<InvalidOperationException>()
+                    .WithMessage("Sequence contains no elements");
             }
         }
 
@@ -474,6 +560,15 @@ namespace Xamarin.Forms.TestingLibrary.Tests.Specs
 
                 screen.QueryByAutomationId<Label>("Other Label Automation")!.AutomationId.Should().Be("Other Label Automation");
             }
+
+            [Test]
+            public void ShouldFilterElementsWithIsVisibleFalse()
+            {
+                var testView = new ContentPage {Content = new Label {IsVisible = false, AutomationId = "AutomationId"}};
+                var screen = new Renderer<App>().Render(testView);
+
+                screen.QueryByAutomationId("AutomationId").Should().BeNull();
+            }
         }
 
         public class QueryAllByAutomationId
@@ -528,6 +623,15 @@ namespace Xamarin.Forms.TestingLibrary.Tests.Specs
 
                 screen.QueryAllByAutomationId<Label>("Other Label Automation").Should()
                     .OnlyContain(x => x.AutomationId == "Other Label Automation").And.HaveCount(1);
+            }
+
+            [Test]
+            public void ShouldFilterElementsWithIsVisibleFalse()
+            {
+                var testView = new ContentPage {Content = new Label {IsVisible = false, AutomationId = "AutomationId"}};
+                var screen = new Renderer<App>().Render(testView);
+
+                screen.QueryAllByAutomationId("AutomationId").Should().BeEmpty();
             }
         }
 
@@ -590,6 +694,18 @@ namespace Xamarin.Forms.TestingLibrary.Tests.Specs
 
                 screen.GetByAutomationId<Label>("Other Label Automation")!.AutomationId.Should().Be("Other Label Automation");
             }
+
+            [Test]
+            public void ShouldFilterElementsWithIsVisibleFalse()
+            {
+                var testView = new ContentPage {Content = new Label {IsVisible = false, AutomationId = "NotVisibleAutomationId"}};
+                var screen = new Renderer<App>().Render(testView);
+
+                Action act = () => screen.GetByAutomationId("NotVisibleAutomationId");
+
+                act.Should().ThrowExactly<InvalidOperationException>()
+                    .WithMessage("Sequence contains no matching element");
+            }
         }
 
         public class GetAllByAutomationId
@@ -650,6 +766,18 @@ namespace Xamarin.Forms.TestingLibrary.Tests.Specs
                 screen.GetAllByAutomationId<Label>("Other Label Automation").Should()
                     .OnlyContain(x => x.AutomationId == "Other Label Automation")
                     .And.HaveCount(1);
+            }
+
+            [Test]
+            public void ShouldFilterElementsWithIsVisibleFalse()
+            {
+                var testPage = new ContentPage {Content = new Label {IsVisible = false, AutomationId = "AutomationId"}};
+                var screen = new Renderer<App>().Render(testPage);
+
+                Action act = () => screen.GetAllByAutomationId("AutomationId");
+
+                act.Should().ThrowExactly<InvalidOperationException>()
+                    .WithMessage("Sequence contains no matching element");
             }
         }
 
