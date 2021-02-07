@@ -1,8 +1,6 @@
 using FluentAssertions;
-using FluentAssertions.Formatting;
 using NUnit.Framework;
 using System;
-using System.Linq;
 using Xamarin.Forms.TestingLibrary.SampleApp;
 using Xamarin.Forms.TestingLibrary.SampleApp.Pages;
 using Xamarin.Forms.TestingLibrary.Tests.Stubs;
