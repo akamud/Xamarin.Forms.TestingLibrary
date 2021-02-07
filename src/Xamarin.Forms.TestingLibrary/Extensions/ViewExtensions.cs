@@ -19,7 +19,7 @@ namespace Xamarin.Forms.TestingLibrary.Extensions
                 {
                     foreach (var nestedChild in GetViewHierarchy<View>(child))
                     {
-                        if (nestedChild is T typedChild)
+                        if (nestedChild.IsVisible && nestedChild is T typedChild)
                             yield return typedChild;
                     }
                 }
@@ -30,13 +30,13 @@ namespace Xamarin.Forms.TestingLibrary.Extensions
                 {
                     foreach (var nestedChild in GetViewHierarchy<View>(child))
                     {
-                        if (nestedChild is T typedChild)
+                        if (nestedChild.IsVisible && nestedChild is T typedChild)
                             yield return typedChild;
                     }
                 }
             }
 
-            if (view is T typedView)
+            if (view.IsVisible && view is T typedView)
                 yield return typedView;
         }
     }
