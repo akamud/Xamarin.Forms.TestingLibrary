@@ -6,6 +6,10 @@
         <Nullable>enable</Nullable>
     </PropertyGroup>
 
+    <PropertyGroup>
+      <DocumentationFile>bin\$(Configuration)\Xamarin.Forms.TestingLibrary.xml</DocumentationFile>
+    </PropertyGroup>
+
     <ItemGroup>
       <PackageReference Include="Xamarin.Forms" Version="5.0.0.1931" />
       <PackageReference Include="Xamarin.Forms.Mocks" Version="4.7.0.1" />

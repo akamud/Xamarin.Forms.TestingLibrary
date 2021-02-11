@@ -49,7 +49,7 @@
         <Reference Include="System.Xml" />
     </ItemGroup>
     <ItemGroup>
-        <PackageReference Include="Xamarin.Forms" Version="5.0.0.1874" />
+        <PackageReference Include="Xamarin.Forms" Version="5.0.0.1931" />
     </ItemGroup>
     <ItemGroup>
       <ProjectReference Include="..\..\..\src\Xamarin.Forms.TestingLibrary\Xamarin.Forms.TestingLibrary.csproj">

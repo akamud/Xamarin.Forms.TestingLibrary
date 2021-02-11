@@ -5,6 +5,10 @@ using Xamarin.Forms.Mocks;
 
 namespace Xamarin.Forms.TestingLibrary
 {
+    /// <summary>
+    /// The renderer class that is the entrypoint for the Testing Library.
+    /// </summary>
+    /// <typeparam name="TApp">The app class that represents your Xamarin.Forms application.</typeparam>
     public class Renderer<TApp>
         where TApp : Application
     {
