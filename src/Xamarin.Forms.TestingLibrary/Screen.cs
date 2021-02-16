@@ -231,25 +231,124 @@ namespace Xamarin.Forms.TestingLibrary
         public IReadOnlyCollection<T> GetAllByType<T>() where T : View
             => GetAllBy<T>(exceptionMessage: "Sequence contains no elements");
 
+        /// <summary>
+        /// Returns the only <typeparamref name="T"/> on the screen matching the given <paramref name="automationId"/>
+        /// or null if there are no matching elements.
+        /// Throws an exception if there is more than one matching element on the screen.
+        /// </summary>
+        /// <typeparam name="T">The type of the expected view.</typeparam>
+        /// <param name="automationId">The AutomationId that the view should have on the screen.</param>
+        /// <returns>The single <typeparamref name="T"/> matching the <paramref name="automationId"/>.</returns>
+        /// <exception cref="System.ArgumentNullException">
+        /// Screen does not have a valid view hierarchy.
+        /// </exception>
+        /// <exception cref="System.InvalidOperationException">
+        /// The screen contains more than one matching element.
+        /// </exception>
         public T? QueryByAutomationId<T>(string automationId) where T : View =>
             QueryBy<T>(x => x.HasAutomationIdValueWith(automationId));
 
+        /// <summary>
+        /// Returns the only view on the screen matching the given <paramref name="automationId"/>
+        /// or null if there are no matching elements.
+        /// Throws an exception if there is more than one matching element on the screen.
+        /// </summary>
+        /// <param name="automationId">The AutomationId that the view should have on the screen.</param>
+        /// <returns>The single view matching the <paramref name="automationId"/>.</returns>
+        /// <para>For a typed version, use <see cref="QueryByAutomationId{T}(string)"/></para>
+        /// <exception cref="System.ArgumentNullException">
+        /// Screen does not have a valid view hierarchy.
+        /// </exception>
+        /// <exception cref="System.InvalidOperationException">
+        /// The screen contains more than one matching element.
+        /// </exception>
         public View? QueryByAutomationId(string automationId) => QueryByAutomationId<View>(automationId);
 
+        /// <summary>
+        /// Returns all <typeparamref name="T"/> on the screen matching the given <paramref name="automationId"/>
+        /// or an empty collection if there are no matching elements.
+        /// </summary>
+        /// <typeparam name="T">The type of the expected views.</typeparam>
+        /// <param name="automationId">The AutomationId that the views should have on the screen.</param>
+        /// <returns>A IReadOnlyCollection of views matching the <paramref name="automationId"/>.</returns>
+        /// <exception cref="System.ArgumentNullException">
+        /// Screen does not have a valid view hierarchy.
+        /// </exception>
         public IReadOnlyCollection<T> QueryAllByAutomationId<T>(string automationId) where T : View
             => QueryAllBy<T>(x => x.HasAutomationIdValueWith(automationId));
 
+        /// <summary>
+        /// Returns all views on the screen matching the given <paramref name="automationId"/>
+        /// or an empty collection if there are no matching elements.
+        /// </summary>
+        /// <param name="automationId">The AutomationId that the views should have on the screen.</param>
+        /// <returns>A IReadOnlyCollection of views matching the <paramref name="automationId"/>.</returns>
+        /// <para>For a typed version, use <see cref="QueryAllByAutomationId{T}(string)"/></para>
+        /// <exception cref="System.ArgumentNullException">
+        /// Screen does not have a valid view hierarchy.
+        /// </exception>
         public IReadOnlyCollection<View> QueryAllByAutomationId(string automationId)
             => QueryAllByAutomationId<View>(automationId);
 
+        /// <summary>
+        /// Returns the only <typeparamref name="T"/> on the screen matching the given <paramref name="automationId"/>.
+        /// Throws an exception if there is not exactly one matching element on the screen.
+        /// </summary>
+        /// <typeparam name="T">The type of the expected view.</typeparam>
+        /// <param name="automationId">The AutomationId that the view should have on the screen.</param>
+        /// <returns>The single <typeparamref name="T"/> matching the <paramref name="automationId"/>.</returns>
+        /// <exception cref="System.ArgumentNullException">
+        /// Screen does not have a valid view hierarchy.
+        /// </exception>
+        /// <exception cref="System.InvalidOperationException">
+        /// The screen contains more than one matching element. -or- There are no matching elements.
+        /// </exception>
         public T GetByAutomationId<T>(string automationId) where T : View
             => GetBy<T>(x => x.HasAutomationIdValueWith(automationId));
 
+        /// <summary>
+        /// Returns the only view on the screen matching the given <paramref name="automationId"/>.
+        /// Throws an exception if there is not exactly one matching element on the screen.
+        /// </summary>
+        /// <param name="automationId">The AutomationId that the view should have on the screen.</param>
+        /// <returns>The single view matching the <paramref name="automationId"/>.</returns>
+        /// <para>For a typed version, use <see cref="GetByAutomationId{T}(string)"/></para>
+        /// <exception cref="System.ArgumentNullException">
+        /// Screen does not have a valid view hierarchy.
+        /// </exception>
+        /// <exception cref="System.InvalidOperationException">
+        /// The screen contains more than one matching element. -or- There are no matching elements.
+        /// </exception>
         public View GetByAutomationId(string automationId) => GetByAutomationId<View>(automationId);
 
+        /// <summary>
+        /// Returns all <typeparamref name="T"/> on the screen matching the given <paramref name="automationId"/>.
+        /// Throws an exception if there is not at least one matching element on the screen.
+        /// </summary>
+        /// <param name="automationId">The AutomationId that the views should have on the screen.</param>
+        /// <returns>A IReadOnlyCollection of views matching the <paramref name="automationId"/>.</returns>
+        /// <exception cref="System.ArgumentNullException">
+        /// Screen does not have a valid view hierarchy.
+        /// </exception>
+        /// <exception cref="System.InvalidOperationException">
+        /// The screen does not contain at least one matching element.
+        /// </exception>
         public IReadOnlyCollection<T> GetAllByAutomationId<T>(string automationId) where T : View
             => GetAllBy<T>(x => x.HasAutomationIdValueWith(automationId));
 
+        /// <summary>
+        /// Returns all views on the screen matching the given <paramref name="automationId"/>.
+        /// Throws an exception if there is not at least one matching element on the screen.
+        /// </summary>
+        /// <param name="automationId">The AutomationId that the views should have on the screen.</param>
+        /// <returns>A IReadOnlyCollection of views matching the <paramref name="automationId"/>.</returns>
+        /// <para>For a typed version, use <see cref="GetAllByAutomationId{T}(string)"/></para>
+        /// <exception cref="System.ArgumentNullException">
+        /// Screen does not have a valid view hierarchy.
+        /// </exception>
+        /// <exception cref="System.InvalidOperationException">
+        /// The screen does not contain at least one matching element.
+        /// </exception>
         public IReadOnlyCollection<View> GetAllByAutomationId(string automationId)
             => GetAllByAutomationId<View>(automationId);
     }

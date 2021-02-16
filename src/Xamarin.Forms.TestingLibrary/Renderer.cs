@@ -10,19 +10,38 @@ namespace Xamarin.Forms.TestingLibrary
     /// </summary>
     /// <typeparam name="TApp">The app class that represents your Xamarin.Forms application.</typeparam>
     public class Renderer<TApp>
-        where TApp : Application
+        where TApp : Application, new()
     {
         internal readonly TApp _app;
 
+        /// <summary>
+        /// Constructor for a Renderer that allows skipping the auto <see cref="MockForms"/>.Init() call.
+        /// <para>Use this if you are calling <see cref="MockForms"/>.Init() by yourself.</para>
+        /// </summary>
+        /// <param name="skipMockFormsInit">True if you want to skip the MockForms.Init() call. False if you want the Renderer to call the MockForms.Init() automatically.</param>
         public Renderer(bool skipMockFormsInit = false)
         {
             if (!skipMockFormsInit)
                 MockForms.Init();
-            _app = Activator.CreateInstance<TApp>();
+            _app = new TApp();
         }
 
-        public Screen<TPage> Render<TPage>() where TPage : Page => Render(Activator.CreateInstance<TPage>());
+        /// <summary>
+        /// Renders the <typeparamref name="TPage"/> passed and returns a Screen representing its result.
+        /// The Screen is the class that will serve as the entry point for all query methods.
+        /// <para>Works only for Pages with an empty public constructor. If your page does not have an empty public constructor, use <see cref="Render{TPage}(TPage)"/> instead.</para>
+        /// </summary>
+        /// <typeparam name="TPage">The Xamarin.Forms Page that you wish to render.</typeparam>
+        /// <returns>A Screen representing the rendering result.</returns>
+        public Screen<TPage> Render<TPage>() where TPage : Page, new() => Render(new TPage());
 
+        /// <summary>
+        /// Renders the page object passed and returns a Screen representing its result.
+        /// The Screen is the class that will serve as the entry point for all query methods.
+        /// </summary>
+        /// <typeparam name="TPage">The type of the Xamarin.Forms Page that you wish to render.</typeparam>
+        /// <param name="page">The page object that you wish to render.</param>
+        /// <returns>A Screen representing the rendering result.</returns>
         public Screen<TPage> Render<TPage>(TPage page)
             where TPage : Page
         {
@@ -37,13 +56,18 @@ namespace Xamarin.Forms.TestingLibrary
             return new Screen<TPage>(page);
         }
 
-        public void Tap(View view, int numberOfTapsRequired = 1)
+        /// <summary>
+        /// Emulates a tap gesture in the passed View. This will trigger any associated commands and events with the tap gesture.
+        /// </summary>
+        /// <param name="view">The view on which the Tap will be emulated.</param>
+        /// <param name="numberOfTapsToSend">The number of Taps that you wish to send to the view.</param>
+        public void Tap(View view, int numberOfTapsToSend = 1)
         {
             if (view == null)
                 throw new ArgumentNullException(nameof(view));
 
             view.GestureRecognizers.OfType<TapGestureRecognizer>()
-                .Where(x => x.NumberOfTapsRequired == numberOfTapsRequired)
+                .Where(x => x.NumberOfTapsRequired == numberOfTapsToSend)
                 .ForEach(x => x.SendTapped(view));
         }
     }
