@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:Xamarin.Forms.TestingLibrary.SampleApp.Converters"
+             xmlns:viewModels="clr-namespace:Xamarin.Forms.TestingLibrary.SampleApp.ViewModels"
+             x:DataType="viewModels:Example1PageViewModel"
+             x:Class="Xamarin.Forms.TestingLibrary.SampleApp.Pages.Example1Page">
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <local:IsNullOrEmptyConverter x:Key="IsNullOrEmptyConverter" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
+    <StackLayout>
+        <Label Text="Login"
+               VerticalOptions="CenterAndExpand"
+               HorizontalOptions="CenterAndExpand"
+               IsVisible="False">
+            <Label.Triggers>
+                <DataTrigger Binding="{Binding UserName, Converter={StaticResource IsNullOrEmptyConverter}}"
+                             Value="True"
+                             TargetType="Label">
+                    <Setter Property="IsVisible" Value="True" />
+                </DataTrigger>
+            </Label.Triggers>
+        </Label>
+
+        <Label IsVisible="False"
+               VerticalOptions="CenterAndExpand"
+               HorizontalOptions="CenterAndExpand">
+            <Label.Triggers>
+                <DataTrigger Binding="{Binding UserName, Converter={StaticResource IsNullOrEmptyConverter}}"
+                             Value="False"
+                             TargetType="Label">
+                    <Setter Property="IsVisible" Value="True" />
+                </DataTrigger>
+            </Label.Triggers>
+            <Label.FormattedText>
+                <FormattedString>
+                    <Span Text="Welcome back, " />
+                    <Span Text="{Binding UserName}" />
+                    <Span Text="!" />
+                </FormattedString>
+            </Label.FormattedText>
+        </Label>
+    </StackLayout>
+</ContentPage>
