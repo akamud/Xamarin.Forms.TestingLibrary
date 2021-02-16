@@ -35,7 +35,7 @@ public void MyFirstTestingLibraryTest()
 }
 ```
 
-If you need to provide a ViewModel specific for a test - so you can control the page's behavior or to provide a dependency - you can use the helper `ProvideBingingContext` for the `Screen`:
+If you need to provide a ViewModel specific for a test - so you can control the page's behavior or to provide a dependency - you can use the helper `ProvideBingingContext` on the `Screen`:
 
 ```csharp
 [Test]
@@ -58,9 +58,9 @@ You can write tests to make sure your screen is rendered depending on the ViewMo
 
 ## Why isn't unit testing enough?
 
-You surely can do a very complete test suite for your Xamarin.Forms app, but I feel like there is room for improvement. Unit testing your ViewModels can cover your code and run very fast, but don't touch your user interfaces. UI Tests can cover your user interfaces, but are very flaky and slow to run.
+You surely can do a very complete test suite for your Xamarin.Forms app, but I feel like there is room for improvement. Unit testing your ViewModels can cover your code and run very fast, but they don't touch your user interfaces. UI Tests, on the other hand, can cover your user interfaces, but are very flaky and slow to run.
 
-**Xamarin.Forms.TestingLibrary** aims to cover more ground than a simple ViewModel unit test while keeping its speed, and not having all the flakiness of a UI test. 
+**Xamarin.Forms.TestingLibrary** sits in the middle. It aims to cover more ground than a simple ViewModel unit test, by handling your View code too, while keeping its speed and not having all the flakiness of a UI test. 
 
 Take this scenario, we have an app with this XAML:
 
@@ -142,7 +142,7 @@ public class Tests
         var screen = _renderer.Render<Example1Page>();
         screen.ProvideBingingContext(viewModel);
 
-        // It doesn't matter *HOW* we did it, what matters is that my user 
+        // It doesn't matter *HOW* we did it, what matters is that the user 
         // will see the correct message when logged in.
         Assert.AreEqual("Welcome back, Marvin!", screen.GetByType<StackLayout>().GetTextContent());
     }
@@ -217,7 +217,7 @@ Other than that, most of the public APIs are using the same strategy: loading al
 
 Xamarin.Forms.TestingLibrary certainly **does not** substitute UI tests. There are a lot of scenarios where using Xamarin.Forms.TestingLibrary is not the best fit. I do believe using this project will help you reduce your UI tests, and that is a good thing, because UI tests, by its nature, are slow, flaky and expensive to run.
 
-All the rendering in Xamarin.Forms.TestingLibrary is emulated, and while all the Xamarin.Forms engine is running, no actual [Renderer](https://docs.microsoft.com/en-us/xamarin/xamarin-forms/app-fundamentals/custom-renderer/) is doing any work. This means that your control can behave correctly, but your platform renderer might be broken for a variety of reasons, and the only way to make sure everything is working is having at least a few UI tests running on a real device for your platforms (iOS, Android, Tizen, etc.).
+All the rendering in Xamarin.Forms.TestingLibrary is emulated, and while all the Xamarin.Forms engine is running, no actual [Platform Renderer](https://docs.microsoft.com/en-us/xamarin/xamarin-forms/app-fundamentals/custom-renderer/) is doing any work. This means that your control can behave correctly, but your platform renderer might be broken for a variety of reasons, and the only way to make sure everything is working is having at least a few UI tests running on a real device for your platforms (iOS, Android, Tizen, etc.).
 
 ## Roadmap
 
@@ -226,6 +226,9 @@ This is a very initial release, I've been doing a bunch of proof-of-concepts for
 - Debugging the rendered screen - While I have a working example of this, I decided to put it in the next release because I wanted more time to think of how this will work.
 - .NET MAUI support - while MAUI is still in its early stages, I'm studying how this could work with MAUI and I plan on having .NET MAUI support on day 1.
 - Assertions APIs - Create an assertion library on top of [FluentAssertions](https://fluentassertions.com/) to provide more readable assertions.
-- See what's missing compared to [Flutter's Widget Testing](https://flutter.dev/docs/cookbook/testing/widget/introduction), [React Testing Library](https://testing-library.com/docs/react-testing-library/intro/), [iOS KIF](https://github.com/kif-framework/KIF) and [Android Robolectric](http://robolectric.org/). All these frameworks have similar philosophies that could work in Xamarin.Forms.TestingLibrary.
+- How does this behave with MVVM frameworks? - I did some tests with Prism, but I still have to investigate if there are any limitations on working with all the other frameworks out there. If you find any, please open an issue.
+- See what's missing compared to [Flutter's Widget Testing](https://flutter.dev/docs/cookbook/testing/widget/introduction), [React Testing Library](https://testing-library.com/docs/react-testing-library/intro/), [iOS KIF](https://github.com/kif-framework/KIF) and [Android Robolectric](http://robolectric.org/). All these frameworks have similar philosophy, so we can borrow some ideas that could work in Xamarin.Forms.TestingLibrary.
 
-If you find any shortcomings or you have any idea on how to expand this project, please open an issue so we can discuss.
+## Wanna help?
+
+If you find any shortcomings or you have any idea on how to expand this project, please open an issue so we can discuss its evolution :)
