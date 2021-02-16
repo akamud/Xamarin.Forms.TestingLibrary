@@ -6,7 +6,7 @@ using Xamarin.Forms.TestingLibrary.FormsProxies;
 
 namespace Xamarin.Forms.TestingLibrary.Extensions
 {
-    public static class BindableObjectExtensions
+    internal static class BindableObjectExtensions
     {
         private static IEnumerable<LocalValueEntry> GetLocalValueEntries(this BindableObject bindableObject)
         {
