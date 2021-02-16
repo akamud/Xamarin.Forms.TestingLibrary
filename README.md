@@ -6,6 +6,8 @@
 
 A testing library to make components testing for Xamarin.Forms easier, inspired by [Testing Library](https://testing-library.com/), [Flutter's Widget Testing](https://flutter.dev/docs/cookbook/testing/widget/introduction) and others.
 
+**This is in pre-release, the public APIs *may* change until the first 1.0 release.**
+
 ## Getting Started
 
 You must add this **only** to your Test project. It does not depend on any testing framework, so it doesn't matter if you are using nUnit, xUnit, or any other framework.
