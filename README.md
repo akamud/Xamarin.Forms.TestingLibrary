@@ -12,7 +12,7 @@ A testing library to make components testing for Xamarin.Forms easier, inspired 
 
 You must add this **only** to your Test project. It does not depend on any testing framework, so it doesn't matter if you are using nUnit, xUnit, or any other framework.
 
-![](https://img.shields.io/nuget/v/Xamarin.Forms.TestingLibrary.svg?style=flat)  
+[![NuGet](https://img.shields.io/nuget/v/Xamarin.Forms.TestingLibrary.svg?style=flat)](https://img.shields.io/nuget/v/Xamarin.Forms.TestingLibrary.svg?style=flat)
 [NuGet package](https://www.nuget.org/packages/Xamarin.Forms.TestingLibrary/) available:
 ```
 PM> Install-Package Xamarin.Forms.TestingLibrary
