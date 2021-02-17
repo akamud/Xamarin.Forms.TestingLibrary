@@ -16,7 +16,7 @@ You must add this **only** to your Test project. It does not depend on any testi
 
 [NuGet package](https://www.nuget.org/packages/Xamarin.Forms.TestingLibrary/) available:
 ```
-PM> Install-Package Xamarin.Forms.TestingLibrary
+PM> Install-Package Xamarin.Forms.TestingLibrary -Version 0.1.0-pre
 ```
 
 Writing your first test is easy, you just need to create a `Renderer` for your Xamarin.Forms App and render a Xamarin.Forms Page:
