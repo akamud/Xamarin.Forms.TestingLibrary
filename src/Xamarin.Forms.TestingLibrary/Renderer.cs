@@ -74,7 +74,6 @@ namespace Xamarin.Forms.TestingLibrary
         /// <param name="view">The view on which the Tap will be emulated.</param>
         /// <param name="numberOfTapsToSend">The number of Taps that you wish to send to the view.</param>
         public void Tap(View view, int numberOfTapsToSend = 1)
-        public void Tap(View view, int numberOfTapsRequired = 1)
         {
             if (view == null)
                 throw new ArgumentNullException(nameof(view));
