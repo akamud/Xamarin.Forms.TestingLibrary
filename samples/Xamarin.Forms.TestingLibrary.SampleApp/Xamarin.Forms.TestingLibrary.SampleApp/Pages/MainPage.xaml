@@ -1,16 +1,12 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:panCardView="clr-namespace:PanCardView;assembly=PanCardView"
-             xmlns:xalendar="clr-namespace:Xalendar.View.Controls;assembly=Xalendar.View"
              x:Class="Xamarin.Forms.TestingLibrary.SampleApp.Pages.MainPage">
     <StackLayout>
         <Label Text="Name Label"
                AutomationId="Multiple AutomationId"/>
         <Label Text="Name Label"
                AutomationId="Multiple AutomationId"/>
-
-        <xalendar:CalendarView Events="{Binding Events}" />
 
         <Label Text="My Label"
                AutomationId="Single AutomationId"

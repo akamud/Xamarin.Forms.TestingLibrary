@@ -2,7 +2,6 @@ using System;
 using System.Linq;
 using Xamarin.Forms.Internals;
 using Xamarin.Forms.Mocks;
-using Xamarin.Forms.Xaml.Diagnostics;
 
 namespace Xamarin.Forms.TestingLibrary
 {
@@ -22,8 +21,6 @@ namespace Xamarin.Forms.TestingLibrary
         /// <param name="skipMockFormsInit">True if you want to skip the MockForms.Init() call. False if you want the Renderer to call the MockForms.Init() automatically.</param>
         public Renderer(bool skipMockFormsInit = false)
         {
-            VisualDiagnostics.VisualTreeChanged += VisualDiagnosticsOnVisualTreeChanged;
-
             if (!skipMockFormsInit)
                 MockForms.Init();
             _app = new TApp();
@@ -54,15 +51,17 @@ namespace Xamarin.Forms.TestingLibrary
                     "Page cannot be null. Did you forget to pass a valid Page to your Renderer?");
             }
 
+            // Many controls depend on a "Renderer" property being set to "initialize" itself.
+            // We do this so every control that depends on this will be initialized as soon as the page is
+            // added to the view hierarchy.
+            foreach (var element in page.Descendants())
+            {
+                element.SetValue(RendererProperty, "TestingLibraryRenderer");
+            }
+
             _app.MainPage = page;
 
             return new Screen<TPage>(page);
-        }
-
-        private void VisualDiagnosticsOnVisualTreeChanged(object sender, VisualTreeChangeEventArgs e)
-        {
-            if (e.ChangeType == VisualTreeChangeType.Add)
-                (e.Child as Element)?.SetValue(RendererProperty, "TestingLibraryRenderer");
         }
 
         private static readonly BindableProperty RendererProperty = BindableProperty.CreateAttached("Renderer",
@@ -82,10 +81,5 @@ namespace Xamarin.Forms.TestingLibrary
                 .Where(x => x.NumberOfTapsRequired == numberOfTapsToSend)
                 .ForEach(x => x.SendTapped(view));
         }
-
-        /// <summary>
-        /// Disposes any events we subscribed to mock the Xamarin.Forms engine
-        /// </summary>
-        public void Dispose() => VisualDiagnostics.VisualTreeChanged -= VisualDiagnosticsOnVisualTreeChanged;
     }
 }

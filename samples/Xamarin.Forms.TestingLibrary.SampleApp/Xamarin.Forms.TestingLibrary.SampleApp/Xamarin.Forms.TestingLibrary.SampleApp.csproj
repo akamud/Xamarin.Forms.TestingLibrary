@@ -10,10 +10,8 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="CardsView" Version="2.7.0" />
         <PackageReference Include="Refractored.MvvmHelpers" Version="1.6.2" />
         <PackageReference Include="Xamarin.Forms" Version="5.0.0.1931" />
-        <PackageReference Include="Xalendar" Version="0.0.1-pre" />
     </ItemGroup>
 
     <ItemGroup>

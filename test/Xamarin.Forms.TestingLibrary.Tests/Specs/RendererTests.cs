@@ -2,6 +2,7 @@ using FluentAssertions;
 using NUnit.Framework;
 using System;
 using Xamarin.Forms.TestingLibrary.SampleApp;
+using Xamarin.Forms.TestingLibrary.SampleApp.Controls;
 using Xamarin.Forms.TestingLibrary.SampleApp.Pages;
 
 namespace Xamarin.Forms.TestingLibrary.Tests.Specs
@@ -11,7 +12,7 @@ namespace Xamarin.Forms.TestingLibrary.Tests.Specs
         [Test]
         public void RenderShouldSetAppMainPageToGenericTypePassed()
         {
-            var renderer = new Renderer<App>();
+            using var renderer = new Renderer<App>();
             renderer.Render<MainPage>();
 
             renderer._app.MainPage.Should().NotBeNull();
@@ -20,7 +21,7 @@ namespace Xamarin.Forms.TestingLibrary.Tests.Specs
         [Test]
         public void RenderWithGenericParameterShouldSetAppMainPageToPagePassed()
         {
-            var renderer = new Renderer<App>();
+            using var renderer = new Renderer<App>();
             renderer.Render<MainPage>();
 
             renderer._app.MainPage.Should().BeOfType<MainPage>();
@@ -29,7 +30,7 @@ namespace Xamarin.Forms.TestingLibrary.Tests.Specs
         [Test]
         public void RenderShouldSetAppMainPageToPagePassed()
         {
-            var renderer = new Renderer<App>();
+            using var renderer = new Renderer<App>();
             var mainPage = new MainPage();
             renderer.Render(mainPage);
 
@@ -39,7 +40,7 @@ namespace Xamarin.Forms.TestingLibrary.Tests.Specs
         [Test]
         public void RenderShouldReturnScreenWithPageInstanceAsContainerWhenPageTypeIsPassedAsGenericType()
         {
-            var renderer = new Renderer<App>();
+            using var renderer = new Renderer<App>();
             var screen = renderer.Render<MainPage>();
 
             screen.Container.Should().NotBeNull();
@@ -48,7 +49,7 @@ namespace Xamarin.Forms.TestingLibrary.Tests.Specs
         [Test]
         public void RenderShouldReturnScreenWithPageInstanceAsContainerWhenPageIsPassedAsParameter()
         {
-            var renderer = new Renderer<App>();
+            using var renderer = new Renderer<App>();
             var mainPage = new MainPage();
             var screen = renderer.Render(mainPage);
 
@@ -58,7 +59,7 @@ namespace Xamarin.Forms.TestingLibrary.Tests.Specs
         [Test]
         public void RenderShouldThrowExceptionIfPassedPageIsNull()
         {
-            var renderer = new Renderer<App>();
+            using var renderer = new Renderer<App>();
 
             Action act = () => renderer.Render<MainPage>(null);
 
@@ -82,7 +83,7 @@ namespace Xamarin.Forms.TestingLibrary.Tests.Specs
         [Test]
         public void TapShouldThrowArgumentNullExceptionWhenViewPassedIsNull()
         {
-            var renderer = new Renderer<App>();
+            using var renderer = new Renderer<App>();
             var screen = renderer.Render<MainPage>();
 
             Action act = () => renderer.Tap(screen.QueryByText("non-existant text")!);
@@ -93,7 +94,7 @@ namespace Xamarin.Forms.TestingLibrary.Tests.Specs
         [Test]
         public void TapShouldTriggerTapGestureRecognizerWhenAvailableAndMatchesRequiredNumberOfTaps()
         {
-            var renderer = new Renderer<App>();
+            using var renderer = new Renderer<App>();
             var screen = renderer.Render<MainPage>();
 
             renderer.Tap(screen.GetByText("Tappable Label"), 2);
@@ -104,12 +105,25 @@ namespace Xamarin.Forms.TestingLibrary.Tests.Specs
         [Test]
         public void TapShouldNotTriggerTapGestureRecognizerWhenRequiredNumberOfTypesIsNotMatched()
         {
-            var renderer = new Renderer<App>();
+            using var renderer = new Renderer<App>();
             var screen = renderer.Render<MainPage>();
 
             renderer.Tap(screen.GetByText("My Label"));
 
             screen.GetByText<Label>("False").Should().NotBeNull();
+        }
+
+        [Test]
+        public void RenderShouldCorrectlyRenderViewsThatDependOnRendererProperty()
+        {
+            using var renderer = new Renderer<App>();
+            var testPage = new ContentPage
+            {
+                Content = new CustomStackLayout()
+            };
+            var screen = renderer.Render(testPage);
+
+            screen.GetByText<Label>("CustomControlText").Should().NotBeNull();
         }
     }
 }

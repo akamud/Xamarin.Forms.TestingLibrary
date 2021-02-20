@@ -1,6 +1,5 @@
 using FluentAssertions;
 using NUnit.Framework;
-using System.Linq;
 using Xamarin.Forms.TestingLibrary.Extensions;
 using Xamarin.Forms.TestingLibrary.SampleApp.Pages;
 using Xamarin.Forms.TestingLibrary.SampleApp.ViewModels;
@@ -14,25 +13,10 @@ namespace Xamarin.Forms.TestingLibrary.SampleApp.Tests
         [SetUp]
         public void Setup() => _renderer = new Renderer<App>();
 
-        [TearDown]
-        public void TearDown() => _renderer.Dispose();
-
-        [Test]
-        public void Should()
-        {
-            var screen = _renderer.Render<MainPage>();
-            screen.ProvideBingingContext(new MainPageViewModel());
-
-            screen.GetByText<Label>("February 2021").Should().NotBeNull();
-        }
-
         [Test]
         public void ShouldShowLoginMessageWhenUserNameIsNull()
         {
-            var viewModel = new Example1PageViewModel
-            {
-                UserName = null
-            };
+            var viewModel = new Example1PageViewModel {UserName = null};
             var screen = _renderer.Render<Example1Page>();
             screen.ProvideBingingContext(viewModel);
 
@@ -42,10 +26,7 @@ namespace Xamarin.Forms.TestingLibrary.SampleApp.Tests
         [Test]
         public void ShouldShowWelcomeMessageWhenUserNameIsNotNull()
         {
-            var viewModel = new Example1PageViewModel
-            {
-                UserName = "Marvin"
-            };
+            var viewModel = new Example1PageViewModel {UserName = "Marvin"};
             var screen = _renderer.Render<Example1Page>();
             screen.ProvideBingingContext(viewModel);
 
