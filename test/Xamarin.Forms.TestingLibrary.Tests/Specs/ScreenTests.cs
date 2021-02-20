@@ -243,6 +243,8 @@ namespace Xamarin.Forms.TestingLibrary.Tests.Specs
 
                 screen.GetAllByText(singleLabelText).Should().ContainItemsAssignableTo<Label>()
                     .And.HaveCount(1);
+
+                screen.Debug();
             }
 
             [Test]
