@@ -83,6 +83,9 @@ namespace Xamarin.Forms.TestingLibrary
                 .ForEach(x => x.SendTapped(view));
         }
 
+        /// <summary>
+        /// Disposes any events we subscribed to mock the Xamarin.Forms engine
+        /// </summary>
         public void Dispose() => VisualDiagnostics.VisualTreeChanged -= VisualDiagnosticsOnVisualTreeChanged;
     }
 }
