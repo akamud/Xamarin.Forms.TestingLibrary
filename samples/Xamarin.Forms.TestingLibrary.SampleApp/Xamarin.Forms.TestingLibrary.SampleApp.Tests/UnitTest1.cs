@@ -16,10 +16,7 @@ namespace Xamarin.Forms.TestingLibrary.SampleApp.Tests
         [Test]
         public void ShouldShowLoginMessageWhenUserNameIsNull()
         {
-            var viewModel = new Example1PageViewModel
-            {
-                UserName = null
-            };
+            var viewModel = new Example1PageViewModel {UserName = null};
             var screen = _renderer.Render<Example1Page>();
             screen.ProvideBingingContext(viewModel);
 
@@ -29,10 +26,7 @@ namespace Xamarin.Forms.TestingLibrary.SampleApp.Tests
         [Test]
         public void ShouldShowWelcomeMessageWhenUserNameIsNotNull()
         {
-            var viewModel = new Example1PageViewModel
-            {
-                UserName = "Marvin"
-            };
+            var viewModel = new Example1PageViewModel {UserName = "Marvin"};
             var screen = _renderer.Render<Example1Page>();
             screen.ProvideBingingContext(viewModel);
 

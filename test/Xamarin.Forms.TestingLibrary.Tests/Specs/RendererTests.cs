@@ -2,6 +2,7 @@ using FluentAssertions;
 using NUnit.Framework;
 using System;
 using Xamarin.Forms.TestingLibrary.SampleApp;
+using Xamarin.Forms.TestingLibrary.SampleApp.Controls;
 using Xamarin.Forms.TestingLibrary.SampleApp.Pages;
 
 namespace Xamarin.Forms.TestingLibrary.Tests.Specs
@@ -110,6 +111,19 @@ namespace Xamarin.Forms.TestingLibrary.Tests.Specs
             renderer.Tap(screen.GetByText("My Label"));
 
             screen.GetByText<Label>("False").Should().NotBeNull();
+        }
+
+        [Test]
+        public void RenderShouldCorrectlyRenderViewsThatDependOnRendererProperty()
+        {
+            var renderer = new Renderer<App>();
+            var testPage = new ContentPage
+            {
+                Content = new CustomStackLayout()
+            };
+            var screen = renderer.Render(testPage);
+
+            screen.GetByText<Label>("CustomControlText").Should().NotBeNull();
         }
     }
 }
