@@ -5,6 +5,6 @@ namespace Xamarin.Forms.TestingLibrary.Diagnostics
     public interface IDebugElement
     {
         Element Element { get; set; }
-        IDictionary<string, string> PrintableProperties { get; set; }
+        IDictionary<string, object> PrintableProperties { get; }
     }
 }

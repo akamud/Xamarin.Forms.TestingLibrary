@@ -8,7 +8,7 @@ namespace Xamarin.Forms.TestingLibrary.Extensions
 {
     internal static class BindableObjectExtensions
     {
-        private static IEnumerable<LocalValueEntry> GetLocalValueEntries(this BindableObject bindableObject)
+        internal static IEnumerable<LocalValueEntry> GetLocalValueEntries(this BindableObject bindableObject)
         {
             var localValueEnumerator = bindableObject.GetType().GetMethod("GetLocalValueEnumerator",
                 BindingFlags.Instance | BindingFlags.NonPublic)?.Invoke(bindableObject, new object[0]) as IEnumerator;

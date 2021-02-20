@@ -1,9 +1,10 @@
+using Spectre.Console;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
-using Xamarin.Forms.TestingLibrary.Diagnostics;
 using Xamarin.Forms.TestingLibrary.Extensions;
+using Tree = Xamarin.Forms.TestingLibrary.Diagnostics.Tree;
 
 namespace Xamarin.Forms.TestingLibrary
 {
@@ -361,17 +362,8 @@ namespace Xamarin.Forms.TestingLibrary
             var renderedHierarchy = new Tree(Container);
             Container.GetPageHierarchy<View>(renderedHierarchy).ToList();
 
-            PrintNode(renderedHierarchy._root);
-        }
-
-        private void PrintNode(TreeNode treeNode)
-        {
-            Console.WriteLine(treeNode.DebugElement.Element.GetType().Name);
-
-            foreach (var childNode in treeNode.Nodes)
-            {
-                PrintNode(childNode);
-            }
+            var debugText = TestingLibraryOptions.DebugOptions.TreeFormatter.FormatTree(renderedHierarchy);
+            TestingLibraryOptions.DebugOptions.OutputTextWriter.Write(debugText);
         }
     }
 }
