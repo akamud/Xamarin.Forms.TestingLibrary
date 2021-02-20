@@ -9,14 +9,6 @@ namespace Xamarin.Forms.TestingLibrary.Tests.Specs
 {
     public class ScreenTests
     {
-        private Renderer<App> _renderer;
-
-        [SetUp]
-        public void SetUp() => _renderer = new Renderer<App>();
-
-        [TearDown]
-        public void TearDown() => _renderer.Dispose();
-
         private const string singleLabelText = "My Label";
         private const string multipleLabelText = "Name Label";
         private const string singleLabelAutomationId = "Single AutomationId";
@@ -24,18 +16,10 @@ namespace Xamarin.Forms.TestingLibrary.Tests.Specs
 
         public class QueryByText
         {
-            private Renderer<App> _renderer;
-
-            [SetUp]
-            public void SetUp() => _renderer = new Renderer<App>();
-
-            [TearDown]
-            public void TearDown() => _renderer.Dispose();
-
             [Test]
             public void ShouldReturnNullWhenPageHasNoElements()
             {
-                var screen = _renderer.Render<EmptyPage>();
+                var screen = new Renderer<App>().Render<EmptyPage>();
 
                 screen.QueryByText("Non-existant text").Should().BeNull();
             }
@@ -43,7 +27,7 @@ namespace Xamarin.Forms.TestingLibrary.Tests.Specs
             [Test]
             public void ShouldReturnNullWhenNoElementWithTheGivenTextIsFoundInPageHierarchy()
             {
-                var screen = _renderer.Render<MainPage>();
+                var screen = new Renderer<App>().Render<MainPage>();
 
                 screen.QueryByText("Non-existant text").Should().BeNull();
             }
@@ -51,7 +35,7 @@ namespace Xamarin.Forms.TestingLibrary.Tests.Specs
             [Test]
             public void ShouldReturnViewWithSameTextFoundInPageHierarchy()
             {
-                var screen = _renderer.Render<MainPage>();
+                var screen = new Renderer<App>().Render<MainPage>();
 
                 screen.QueryByText(singleLabelText).Should().BeOfType<Label>();
             }
@@ -59,7 +43,7 @@ namespace Xamarin.Forms.TestingLibrary.Tests.Specs
             [Test]
             public void ShouldThrowInvalidOperationExceptionWhenMoreThanOneTextIsFoundInPageHierarchy()
             {
-                var screen = _renderer.Render<MainPage>();
+                var screen = new Renderer<App>().Render<MainPage>();
 
                 Action act = () => screen.QueryByText(multipleLabelText);
 
@@ -70,7 +54,7 @@ namespace Xamarin.Forms.TestingLibrary.Tests.Specs
             [Test]
             public void ShouldReturnTypedViewWithSameTextFoundInPageHierarchy()
             {
-                var screen = _renderer.Render<MainPage>();
+                var screen = new Renderer<App>().Render<MainPage>();
 
                 screen.QueryByText<Label>(singleLabelText)!.Text.Should().Be(singleLabelText);
             }
@@ -78,7 +62,7 @@ namespace Xamarin.Forms.TestingLibrary.Tests.Specs
             [Test]
             public void ShouldFilterElementsWithSameTextButDifferentTypesFoundInPageHierarchy()
             {
-                var screen = _renderer.Render<MainPage>();
+                var screen = new Renderer<App>().Render<MainPage>();
 
                 screen.QueryByText<Label>("Other Label")!.Text.Should().Be("Other Label");
             }
@@ -87,7 +71,7 @@ namespace Xamarin.Forms.TestingLibrary.Tests.Specs
             public void ShouldFilterElementsWithIsVisibleFalse()
             {
                 var testView = new ContentPage {Content = new Label {IsVisible = false, Text = "NotVisible"}};
-                var screen = _renderer.Render(testView);
+                var screen = new Renderer<App>().Render(testView);
 
                 screen.QueryByText("NotVisible").Should().BeNull();
             }
@@ -95,18 +79,10 @@ namespace Xamarin.Forms.TestingLibrary.Tests.Specs
 
         public class GetByText
         {
-            private Renderer<App> _renderer;
-
-            [SetUp]
-            public void SetUp() => _renderer = new Renderer<App>();
-
-            [TearDown]
-            public void TearDown() => _renderer.Dispose();
-
             [Test]
             public void ShouldThrowInvalidOperationExceptionWhenPageHasNoElements()
             {
-                var screen = _renderer.Render<EmptyPage>();
+                var screen = new Renderer<App>().Render<EmptyPage>();
 
                 Action act = () => screen.GetByText("Non-existant text");
 
@@ -117,7 +93,7 @@ namespace Xamarin.Forms.TestingLibrary.Tests.Specs
             [Test]
             public void ShouldThrowInvalidOperationExceptionWhenNoElementWithTheGivenTextIsFoundInPageHierarchy()
             {
-                var screen = _renderer.Render<MainPage>();
+                var screen = new Renderer<App>().Render<MainPage>();
 
                 Action act = () => screen.GetByText("Non-existant text");
 
@@ -128,7 +104,7 @@ namespace Xamarin.Forms.TestingLibrary.Tests.Specs
             [Test]
             public void ShouldReturnViewWithSameTextFoundInPageHierarchy()
             {
-                var screen = _renderer.Render<MainPage>();
+                var screen = new Renderer<App>().Render<MainPage>();
 
                 screen.GetByText(singleLabelText).Should().BeOfType<Label>();
             }
@@ -136,7 +112,7 @@ namespace Xamarin.Forms.TestingLibrary.Tests.Specs
             [Test]
             public void ShouldThrowInvalidOperationExceptionWhenMoreThanOneTextIsFoundInPageHierarchy()
             {
-                var screen = _renderer.Render<MainPage>();
+                var screen = new Renderer<App>().Render<MainPage>();
 
                 Action act = () => screen.GetByText(multipleLabelText);
 
@@ -147,7 +123,7 @@ namespace Xamarin.Forms.TestingLibrary.Tests.Specs
             [Test]
             public void ShouldReturnTypedViewWithSameTextFoundInPageHierarchy()
             {
-                var screen = _renderer.Render<MainPage>();
+                var screen = new Renderer<App>().Render<MainPage>();
 
                 screen.GetByText<Label>(singleLabelText)!.Text.Should().Be(singleLabelText);
             }
@@ -155,7 +131,7 @@ namespace Xamarin.Forms.TestingLibrary.Tests.Specs
             [Test]
             public void ShouldFilterElementsWithSameTextButDifferentTypesFoundInPageHierarchy()
             {
-                var screen = _renderer.Render<MainPage>();
+                var screen = new Renderer<App>().Render<MainPage>();
 
                 screen.GetByText<Label>("Other Label")!.Text.Should().Be("Other Label");
             }
@@ -164,7 +140,7 @@ namespace Xamarin.Forms.TestingLibrary.Tests.Specs
             public void ShouldFilterElementsWithIsVisibleFalse()
             {
                 var testView = new ContentPage {Content = new Label {IsVisible = false, Text = "NotVisible"}};
-                var screen = _renderer.Render(testView);
+                var screen = new Renderer<App>().Render(testView);
 
                 Action act = () => screen.GetByText("NotVisible");
 
@@ -175,18 +151,10 @@ namespace Xamarin.Forms.TestingLibrary.Tests.Specs
 
         public class QueryAllByText
         {
-            private Renderer<App> _renderer;
-
-            [SetUp]
-            public void SetUp() => _renderer = new Renderer<App>();
-
-            [TearDown]
-            public void TearDown() => _renderer.Dispose();
-
             [Test]
             public void ShouldReturnEmptyCollectionWhenPageHasNoElements()
             {
-                var screen = _renderer.Render<EmptyPage>();
+                var screen = new Renderer<App>().Render<EmptyPage>();
 
                 screen.QueryAllByText("Non-existant text").Should().BeEmpty();
             }
@@ -194,7 +162,7 @@ namespace Xamarin.Forms.TestingLibrary.Tests.Specs
             [Test]
             public void ShouldReturnEmptyCollectionWhenNoElementWithTheGivenTextIsFoundInPageHierarchy()
             {
-                var screen = _renderer.Render<MainPage>();
+                var screen = new Renderer<App>().Render<MainPage>();
 
                 screen.QueryAllByText("Non-existant text").Should().BeEmpty();
             }
@@ -202,7 +170,7 @@ namespace Xamarin.Forms.TestingLibrary.Tests.Specs
             [Test]
             public void ShouldReturnCollectionWithViewWhenOneViewWithTextIsFoundInPageHierarchy()
             {
-                var screen = _renderer.Render<MainPage>();
+                var screen = new Renderer<App>().Render<MainPage>();
 
                 screen.QueryAllByText(singleLabelText).Should().ContainItemsAssignableTo<Label>()
                     .And.HaveCount(1);
@@ -211,7 +179,7 @@ namespace Xamarin.Forms.TestingLibrary.Tests.Specs
             [Test]
             public void ShouldReturnCollectionWithViewsWhenMoreThanOneTextIsFoundInPageHierarchy()
             {
-                var screen = _renderer.Render<MainPage>();
+                var screen = new Renderer<App>().Render<MainPage>();
 
                 screen.QueryAllByText(multipleLabelText).Should().ContainItemsAssignableTo<Label>()
                     .And.HaveCount(2);
@@ -220,7 +188,7 @@ namespace Xamarin.Forms.TestingLibrary.Tests.Specs
             [Test]
             public void ShouldReturnCollectionWithTypedViewsWithSameTextFoundInPageHierarchy()
             {
-                var screen = _renderer.Render<MainPage>();
+                var screen = new Renderer<App>().Render<MainPage>();
 
                 screen.QueryAllByText<Label>(singleLabelText).Should().OnlyContain(x => x.Text == singleLabelText);
             }
@@ -228,7 +196,7 @@ namespace Xamarin.Forms.TestingLibrary.Tests.Specs
             [Test]
             public void ShouldFilterElementsWithSameTextButDifferentTypesFoundInPageHierarchy()
             {
-                var screen = _renderer.Render<MainPage>();
+                var screen = new Renderer<App>().Render<MainPage>();
 
                 screen.QueryAllByText<Label>("Other Label").Should().OnlyContain(x => x.Text == "Other Label")
                     .And.HaveCount(1);
@@ -238,7 +206,7 @@ namespace Xamarin.Forms.TestingLibrary.Tests.Specs
             public void ShouldFilterElementsWithIsVisibleFalse()
             {
                 var testView = new ContentPage {Content = new Label {IsVisible = false, Text = "NotVisible"}};
-                var screen = _renderer.Render(testView);
+                var screen = new Renderer<App>().Render(testView);
 
                 screen.QueryAllByText("NotVisible").Should().BeEmpty();
             }
@@ -246,17 +214,10 @@ namespace Xamarin.Forms.TestingLibrary.Tests.Specs
 
         public class GetAllByText
         {
-            private Renderer<App> _renderer;
-
-            [SetUp]
-            public void SetUp() => _renderer = new Renderer<App>();
-
-            [TearDown]
-            public void TearDown() => _renderer.Dispose();
             [Test]
             public void ShouldThrowInvalidOperationExceptionWhenPageHasNoElements()
             {
-                var screen = _renderer.Render<EmptyPage>();
+                var screen = new Renderer<App>().Render<EmptyPage>();
 
                 Action act = () => screen.GetAllByText("Non-existant text");
 
@@ -267,7 +228,7 @@ namespace Xamarin.Forms.TestingLibrary.Tests.Specs
             [Test]
             public void ShouldThrowInvalidOperationExceptionWhenNoElementWithTheGivenTextIsFoundInPageHierarchy()
             {
-                var screen = _renderer.Render<MainPage>();
+                var screen = new Renderer<App>().Render<MainPage>();
 
                 Action act = () => screen.GetAllByText("Non-existant text");
 
@@ -278,7 +239,7 @@ namespace Xamarin.Forms.TestingLibrary.Tests.Specs
             [Test]
             public void ShouldReturnCollectionWithViewWhenOneViewWithTextIsFoundInPageHierarchy()
             {
-                var screen = _renderer.Render<MainPage>();
+                var screen = new Renderer<App>().Render<MainPage>();
 
                 screen.GetAllByText(singleLabelText).Should().ContainItemsAssignableTo<Label>()
                     .And.HaveCount(1);
@@ -287,7 +248,7 @@ namespace Xamarin.Forms.TestingLibrary.Tests.Specs
             [Test]
             public void ShouldReturnCollectionWithViewsWhenMoreThanOneTextIsFoundInPageHierarchy()
             {
-                var screen = _renderer.Render<MainPage>();
+                var screen = new Renderer<App>().Render<MainPage>();
 
                 screen.GetAllByText(multipleLabelText).Should().ContainItemsAssignableTo<Label>()
                     .And.HaveCount(2);
@@ -296,7 +257,7 @@ namespace Xamarin.Forms.TestingLibrary.Tests.Specs
             [Test]
             public void ShouldReturnCollectionWithTypedViewsWithSameTextFoundInPageHierarchy()
             {
-                var screen = _renderer.Render<MainPage>();
+                var screen = new Renderer<App>().Render<MainPage>();
 
                 screen.GetAllByText<Label>(singleLabelText).Should().OnlyContain(x => x.Text == singleLabelText);
             }
@@ -304,7 +265,7 @@ namespace Xamarin.Forms.TestingLibrary.Tests.Specs
             [Test]
             public void ShouldFilterElementsWithSameTextButDifferentTypesFoundInPageHierarchy()
             {
-                var screen = _renderer.Render<MainPage>();
+                var screen = new Renderer<App>().Render<MainPage>();
 
                 screen.GetAllByText<Label>("Other Label").Should().OnlyContain(x => x.Text == "Other Label")
                     .And.HaveCount(1);
@@ -314,7 +275,7 @@ namespace Xamarin.Forms.TestingLibrary.Tests.Specs
             public void ShouldFilterElementsWithIsVisibleFalse()
             {
                 var testPage = new ContentPage {Content = new Label {IsVisible = false, Text = "NotVisible"}};
-                var screen = _renderer.Render(testPage);
+                var screen = new Renderer<App>().Render(testPage);
 
                 Action act = () => screen.GetAllByText<Label>("NotVisible");
 
@@ -325,17 +286,10 @@ namespace Xamarin.Forms.TestingLibrary.Tests.Specs
 
         public class QueryByType
         {
-            private Renderer<App> _renderer;
-
-            [SetUp]
-            public void SetUp() => _renderer = new Renderer<App>();
-
-            [TearDown]
-            public void TearDown() => _renderer.Dispose();
             [Test]
             public void ShouldReturnNullWhenPageHasNoElements()
             {
-                var screen = _renderer.Render<EmptyPage>();
+                var screen = new Renderer<App>().Render<EmptyPage>();
 
                 screen.QueryByType<ImageButton>().Should().BeNull();
             }
@@ -343,7 +297,7 @@ namespace Xamarin.Forms.TestingLibrary.Tests.Specs
             [Test]
             public void ShouldReturnNullWhenNoElementWithTheGivenTypeIsFoundInPageHierarchy()
             {
-                var screen = _renderer.Render<MainPage>();
+                var screen = new Renderer<App>().Render<MainPage>();
 
                 screen.QueryByType<Picker>().Should().BeNull();
             }
@@ -351,7 +305,7 @@ namespace Xamarin.Forms.TestingLibrary.Tests.Specs
             [Test]
             public void ShouldReturnViewWithSameTypeFoundInPageHierarchy()
             {
-                var screen = _renderer.Render<MainPage>();
+                var screen = new Renderer<App>().Render<MainPage>();
 
                 screen.QueryByType<ImageButton>().Should().BeOfType<ImageButton>();
             }
@@ -359,7 +313,7 @@ namespace Xamarin.Forms.TestingLibrary.Tests.Specs
             [Test]
             public void ShouldThrowInvalidOperationExceptionWhenMoreThanOneTypeIsFoundInPageHierarchy()
             {
-                var screen = _renderer.Render<MainPage>();
+                var screen = new Renderer<App>().Render<MainPage>();
 
                 Action act = () => screen.QueryByType<Label>();
 
@@ -371,7 +325,7 @@ namespace Xamarin.Forms.TestingLibrary.Tests.Specs
             public void ShouldFilterElementsWithIsVisibleFalse()
             {
                 var testView = new ContentPage {Content = new Label {IsVisible = false}};
-                var screen = _renderer.Render(testView);
+                var screen = new Renderer<App>().Render(testView);
 
                 screen.QueryByType<Label>().Should().BeNull();
             }
@@ -379,17 +333,10 @@ namespace Xamarin.Forms.TestingLibrary.Tests.Specs
 
         public class QueryAllByType
         {
-            private Renderer<App> _renderer;
-
-            [SetUp]
-            public void SetUp() => _renderer = new Renderer<App>();
-
-            [TearDown]
-            public void TearDown() => _renderer.Dispose();
             [Test]
             public void ShouldReturnEmptyCollectionWhenPageHasNoElements()
             {
-                var screen = _renderer.Render<EmptyPage>();
+                var screen = new Renderer<App>().Render<EmptyPage>();
 
                 screen.QueryAllByType<Picker>().Should().BeEmpty();
             }
@@ -397,7 +344,7 @@ namespace Xamarin.Forms.TestingLibrary.Tests.Specs
             [Test]
             public void ShouldReturnEmptyCollectionWhenNoElementWithTheGivenTypeIsFoundInPageHierarchy()
             {
-                var screen = _renderer.Render<MainPage>();
+                var screen = new Renderer<App>().Render<MainPage>();
 
                 screen.QueryAllByType<Picker>().Should().BeEmpty();
             }
@@ -405,7 +352,7 @@ namespace Xamarin.Forms.TestingLibrary.Tests.Specs
             [Test]
             public void ShouldReturnCollectionWithViewWhenOneViewWithTypeIsFoundInPageHierarchy()
             {
-                var screen = _renderer.Render<MainPage>();
+                var screen = new Renderer<App>().Render<MainPage>();
 
                 screen.QueryAllByType<ImageButton>().Should().ContainItemsAssignableTo<ImageButton>()
                     .And.HaveCount(1);
@@ -414,7 +361,7 @@ namespace Xamarin.Forms.TestingLibrary.Tests.Specs
             [Test]
             public void ShouldReturnCollectionWithViewsWhenMoreThanOneElementWithGivenTypeIsFoundInPageHierarchy()
             {
-                var screen = _renderer.Render<MainPage>();
+                var screen = new Renderer<App>().Render<MainPage>();
 
                 screen.QueryAllByType<StackLayout>().Should().ContainItemsAssignableTo<StackLayout>()
                     .And.HaveCount(5);
@@ -423,7 +370,7 @@ namespace Xamarin.Forms.TestingLibrary.Tests.Specs
             [Test]
             public void ShouldReturnCollectionWithViewsNestedInsideListView()
             {
-                var screen = _renderer.Render<MainPage>();
+                var screen = new Renderer<App>().Render<MainPage>();
 
                 screen.QueryAllByType<Image>().Should().ContainItemsAssignableTo<Image>()
                     .And.HaveCount(3);
@@ -433,7 +380,7 @@ namespace Xamarin.Forms.TestingLibrary.Tests.Specs
             public void ShouldFilterElementsWithIsVisibleFalse()
             {
                 var testView = new ContentPage {Content = new Label {IsVisible = false}};
-                var screen = _renderer.Render(testView);
+                var screen = new Renderer<App>().Render(testView);
 
                 screen.QueryAllByType<Label>().Should().BeEmpty();
             }
@@ -441,17 +388,10 @@ namespace Xamarin.Forms.TestingLibrary.Tests.Specs
 
         public class GetByType
         {
-            private Renderer<App> _renderer;
-
-            [SetUp]
-            public void SetUp() => _renderer = new Renderer<App>();
-
-            [TearDown]
-            public void TearDown() => _renderer.Dispose();
             [Test]
             public void ShouldThrowInvalidOperationExceptionWhenPageHasNoElements()
             {
-                var screen = _renderer.Render<EmptyPage>();
+                var screen = new Renderer<App>().Render<EmptyPage>();
 
                 Action act = () => screen.GetByType<Picker>();
 
@@ -462,7 +402,7 @@ namespace Xamarin.Forms.TestingLibrary.Tests.Specs
             [Test]
             public void ShouldThrowInvalidOperationExceptionWhenNoElementWithTheGivenTypeIsFoundInPageHierarchy()
             {
-                var screen = _renderer.Render<MainPage>();
+                var screen = new Renderer<App>().Render<MainPage>();
 
                 Action act = () => screen.GetByType<Picker>();
 
@@ -473,7 +413,7 @@ namespace Xamarin.Forms.TestingLibrary.Tests.Specs
             [Test]
             public void ShouldReturnViewWithSameTypeFoundInPageHierarchy()
             {
-                var screen = _renderer.Render<MainPage>();
+                var screen = new Renderer<App>().Render<MainPage>();
 
                 screen.GetByType<ImageButton>().Should().BeOfType<ImageButton>();
             }
@@ -481,7 +421,7 @@ namespace Xamarin.Forms.TestingLibrary.Tests.Specs
             [Test]
             public void ShouldThrowInvalidOperationExceptionWhenMoreThanOneTypeIsFoundInPageHierarchy()
             {
-                var screen = _renderer.Render<MainPage>();
+                var screen = new Renderer<App>().Render<MainPage>();
 
                 Action act = () => screen.GetByType<Label>();
 
@@ -493,7 +433,7 @@ namespace Xamarin.Forms.TestingLibrary.Tests.Specs
             public void ShouldFilterElementsWithIsVisibleFalse()
             {
                 var testView = new ContentPage {Content = new Label {IsVisible = false}};
-                var screen = _renderer.Render(testView);
+                var screen = new Renderer<App>().Render(testView);
 
                 Action act = () => screen.GetByType<Label>();
 
@@ -504,17 +444,10 @@ namespace Xamarin.Forms.TestingLibrary.Tests.Specs
 
         public class GetAllByType
         {
-            private Renderer<App> _renderer;
-
-            [SetUp]
-            public void SetUp() => _renderer = new Renderer<App>();
-
-            [TearDown]
-            public void TearDown() => _renderer.Dispose();
             [Test]
             public void ShouldThrowInvalidOperationExceptionWhenPageHasNoElements()
             {
-                var screen = _renderer.Render<EmptyPage>();
+                var screen = new Renderer<App>().Render<EmptyPage>();
 
                 Action act = () => screen.GetAllByType<Picker>();
 
@@ -525,7 +458,7 @@ namespace Xamarin.Forms.TestingLibrary.Tests.Specs
             [Test]
             public void ShouldThrowInvalidOperationExceptionWhenNoElementWithTheGivenTypeIsFoundInPageHierarchy()
             {
-                var screen = _renderer.Render<MainPage>();
+                var screen = new Renderer<App>().Render<MainPage>();
 
                 Action act = () => screen.GetAllByType<Picker>();
 
@@ -536,7 +469,7 @@ namespace Xamarin.Forms.TestingLibrary.Tests.Specs
             [Test]
             public void ShouldReturnCollectionWithViewWhenOneViewWithTypeIsFoundInPageHierarchy()
             {
-                var screen = _renderer.Render<MainPage>();
+                var screen = new Renderer<App>().Render<MainPage>();
 
                 screen.GetAllByType<ImageButton>().Should().ContainItemsAssignableTo<ImageButton>()
                     .And.HaveCount(1);
@@ -545,7 +478,7 @@ namespace Xamarin.Forms.TestingLibrary.Tests.Specs
             [Test]
             public void ShouldReturnCollectionWithViewsWhenMoreThanOneTypeIsFoundInPageHierarchy()
             {
-                var screen = _renderer.Render<MainPage>();
+                var screen = new Renderer<App>().Render<MainPage>();
 
                 screen.GetAllByType<StackLayout>().Should().ContainItemsAssignableTo<StackLayout>()
                     .And.HaveCount(5);
@@ -554,7 +487,7 @@ namespace Xamarin.Forms.TestingLibrary.Tests.Specs
             [Test]
             public void ShouldReturnCollectionWithViewsNestedInsideListView()
             {
-                var screen = _renderer.Render<MainPage>();
+                var screen = new Renderer<App>().Render<MainPage>();
 
                 screen.GetAllByType<Image>().Should().ContainItemsAssignableTo<Image>()
                     .And.HaveCount(3);
@@ -564,7 +497,7 @@ namespace Xamarin.Forms.TestingLibrary.Tests.Specs
             public void ShouldFilterElementsWithIsVisibleFalse()
             {
                 var testView = new ContentPage {Content = new Label {IsVisible = false}};
-                var screen = _renderer.Render(testView);
+                var screen = new Renderer<App>().Render(testView);
 
                 Action act = () => screen.GetAllByType<Label>();
 
@@ -575,17 +508,10 @@ namespace Xamarin.Forms.TestingLibrary.Tests.Specs
 
         public class QueryByAutomationId
         {
-            private Renderer<App> _renderer;
-
-            [SetUp]
-            public void SetUp() => _renderer = new Renderer<App>();
-
-            [TearDown]
-            public void TearDown() => _renderer.Dispose();
             [Test]
             public void ShouldReturnNullWhenPageHasNoElements()
             {
-                var screen = _renderer.Render<EmptyPage>();
+                var screen = new Renderer<App>().Render<EmptyPage>();
 
                 screen.QueryByAutomationId("Non-existant automation id").Should().BeNull();
             }
@@ -593,7 +519,7 @@ namespace Xamarin.Forms.TestingLibrary.Tests.Specs
             [Test]
             public void ShouldReturnNullWhenNoElementWithTheGivenAutomationIdIsFoundInPageHierarchy()
             {
-                var screen = _renderer.Render<MainPage>();
+                var screen = new Renderer<App>().Render<MainPage>();
 
                 screen.QueryByAutomationId("Non-existant automation id").Should().BeNull();
             }
@@ -601,7 +527,7 @@ namespace Xamarin.Forms.TestingLibrary.Tests.Specs
             [Test]
             public void ShouldReturnViewWithSameAutomationIdFoundInPageHierarchy()
             {
-                var screen = _renderer.Render<MainPage>();
+                var screen = new Renderer<App>().Render<MainPage>();
 
                 screen.QueryByAutomationId(singleLabelAutomationId).Should().BeOfType<Label>();
             }
@@ -609,7 +535,7 @@ namespace Xamarin.Forms.TestingLibrary.Tests.Specs
             [Test]
             public void ShouldThrowInvalidOperationExceptionWhenMoreThanOneAutomationIdIsFoundInPageHierarchy()
             {
-                var screen = _renderer.Render<MainPage>();
+                var screen = new Renderer<App>().Render<MainPage>();
 
                 Action act = () => screen.QueryByAutomationId(multipleLabelAutomationId);
 
@@ -620,7 +546,7 @@ namespace Xamarin.Forms.TestingLibrary.Tests.Specs
             [Test]
             public void ShouldReturnTypedViewWithSameAutomationIdFoundInPageHierarchy()
             {
-                var screen = _renderer.Render<MainPage>();
+                var screen = new Renderer<App>().Render<MainPage>();
 
                 screen.QueryByAutomationId<Label>(singleLabelAutomationId)!.AutomationId.Should().Be(singleLabelAutomationId);
             }
@@ -628,7 +554,7 @@ namespace Xamarin.Forms.TestingLibrary.Tests.Specs
             [Test]
             public void ShouldFilterElementsWithSameAutomationIdButDifferentTypesFoundInPageHierarchy()
             {
-                var screen = _renderer.Render<MainPage>();
+                var screen = new Renderer<App>().Render<MainPage>();
 
                 screen.QueryByAutomationId<Label>("Other Label Automation")!.AutomationId.Should().Be("Other Label Automation");
             }
@@ -637,7 +563,7 @@ namespace Xamarin.Forms.TestingLibrary.Tests.Specs
             public void ShouldFilterElementsWithIsVisibleFalse()
             {
                 var testView = new ContentPage {Content = new Label {IsVisible = false, AutomationId = "AutomationId"}};
-                var screen = _renderer.Render(testView);
+                var screen = new Renderer<App>().Render(testView);
 
                 screen.QueryByAutomationId("AutomationId").Should().BeNull();
             }
@@ -645,17 +571,10 @@ namespace Xamarin.Forms.TestingLibrary.Tests.Specs
 
         public class QueryAllByAutomationId
         {
-            private Renderer<App> _renderer;
-
-            [SetUp]
-            public void SetUp() => _renderer = new Renderer<App>();
-
-            [TearDown]
-            public void TearDown() => _renderer.Dispose();
             [Test]
             public void ShouldReturnEmptyCollectionWhenPageHasNoElements()
             {
-                var screen = _renderer.Render<EmptyPage>();
+                var screen = new Renderer<App>().Render<EmptyPage>();
 
                 screen.QueryAllByAutomationId("Non-existant automationId").Should().BeEmpty();
             }
@@ -663,7 +582,7 @@ namespace Xamarin.Forms.TestingLibrary.Tests.Specs
             [Test]
             public void ShouldReturnEmptyCollectionWhenNoElementWithTheGivenAutomationIdIsFoundInPageHierarchy()
             {
-                var screen = _renderer.Render<MainPage>();
+                var screen = new Renderer<App>().Render<MainPage>();
 
                 screen.QueryAllByAutomationId("Non-existant automationId").Should().BeEmpty();
             }
@@ -671,7 +590,7 @@ namespace Xamarin.Forms.TestingLibrary.Tests.Specs
             [Test]
             public void ShouldReturnCollectionWithViewWhenOneViewWithAutomationIdIsFoundInPageHierarchy()
             {
-                var screen = _renderer.Render<MainPage>();
+                var screen = new Renderer<App>().Render<MainPage>();
 
                 screen.QueryAllByAutomationId(singleLabelAutomationId).Should().ContainItemsAssignableTo<Label>()
                     .And.HaveCount(1);
@@ -680,7 +599,7 @@ namespace Xamarin.Forms.TestingLibrary.Tests.Specs
             [Test]
             public void ShouldReturnCollectionWithViewsWhenMoreThanOneAutomationIdIsFoundInPageHierarchy()
             {
-                var screen = _renderer.Render<MainPage>();
+                var screen = new Renderer<App>().Render<MainPage>();
 
                 screen.QueryAllByAutomationId(multipleLabelAutomationId).Should().ContainItemsAssignableTo<Label>()
                     .And.HaveCount(2);
@@ -689,7 +608,7 @@ namespace Xamarin.Forms.TestingLibrary.Tests.Specs
             [Test]
             public void ShouldReturnCollectionWithTypedViewsWithSameAutomationIdFoundInPageHierarchy()
             {
-                var screen = _renderer.Render<MainPage>();
+                var screen = new Renderer<App>().Render<MainPage>();
 
                 screen.QueryAllByAutomationId<Label>(singleLabelAutomationId).Should()
                     .OnlyContain(x => x.AutomationId == singleLabelAutomationId);
@@ -698,7 +617,7 @@ namespace Xamarin.Forms.TestingLibrary.Tests.Specs
             [Test]
             public void ShouldFilterElementsWithSameAutomationIdButDifferentTypesFoundInPageHierarchy()
             {
-                var screen = _renderer.Render<MainPage>();
+                var screen = new Renderer<App>().Render<MainPage>();
 
                 screen.QueryAllByAutomationId<Label>("Other Label Automation").Should()
                     .OnlyContain(x => x.AutomationId == "Other Label Automation").And.HaveCount(1);
@@ -708,7 +627,7 @@ namespace Xamarin.Forms.TestingLibrary.Tests.Specs
             public void ShouldFilterElementsWithIsVisibleFalse()
             {
                 var testView = new ContentPage {Content = new Label {IsVisible = false, AutomationId = "AutomationId"}};
-                var screen = _renderer.Render(testView);
+                var screen = new Renderer<App>().Render(testView);
 
                 screen.QueryAllByAutomationId("AutomationId").Should().BeEmpty();
             }
@@ -716,17 +635,10 @@ namespace Xamarin.Forms.TestingLibrary.Tests.Specs
 
         public class GetByAutomationId
         {
-            private Renderer<App> _renderer;
-
-            [SetUp]
-            public void SetUp() => _renderer = new Renderer<App>();
-
-            [TearDown]
-            public void TearDown() => _renderer.Dispose();
             [Test]
             public void ShouldThrowInvalidOperationExceptionWhenPageHasNoElements()
             {
-                var screen = _renderer.Render<EmptyPage>();
+                var screen = new Renderer<App>().Render<EmptyPage>();
 
                 Action act = () => screen.GetByAutomationId("Non-existant automationId");
 
@@ -737,7 +649,7 @@ namespace Xamarin.Forms.TestingLibrary.Tests.Specs
             [Test]
             public void ShouldThrowInvalidOperationExceptionWhenNoElementWithTheGivenAutomationIdIsFoundInPageHierarchy()
             {
-                var screen = _renderer.Render<MainPage>();
+                var screen = new Renderer<App>().Render<MainPage>();
 
                 Action act = () => screen.GetByAutomationId("Non-existant automationId");
 
@@ -748,7 +660,7 @@ namespace Xamarin.Forms.TestingLibrary.Tests.Specs
             [Test]
             public void ShouldReturnViewWithSameAutomationIdFoundInPageHierarchy()
             {
-                var screen = _renderer.Render<MainPage>();
+                var screen = new Renderer<App>().Render<MainPage>();
 
                 screen.GetByAutomationId(singleLabelAutomationId).Should().BeOfType<Label>();
             }
@@ -756,7 +668,7 @@ namespace Xamarin.Forms.TestingLibrary.Tests.Specs
             [Test]
             public void ShouldThrowInvalidOperationExceptionWhenMoreThanOneAutomationIdIsFoundInPageHierarchy()
             {
-                var screen = _renderer.Render<MainPage>();
+                var screen = new Renderer<App>().Render<MainPage>();
 
                 Action act = () => screen.GetByAutomationId(multipleLabelAutomationId);
 
@@ -767,7 +679,7 @@ namespace Xamarin.Forms.TestingLibrary.Tests.Specs
             [Test]
             public void ShouldReturnTypedViewWithSameAutomationIdFoundInPageHierarchy()
             {
-                var screen = _renderer.Render<MainPage>();
+                var screen = new Renderer<App>().Render<MainPage>();
 
                 screen.GetByAutomationId<Label>(singleLabelAutomationId)!.AutomationId.Should()
                     .Be(singleLabelAutomationId);
@@ -776,7 +688,7 @@ namespace Xamarin.Forms.TestingLibrary.Tests.Specs
             [Test]
             public void ShouldFilterElementsWithSameAutomationIdButDifferentTypesFoundInPageHierarchy()
             {
-                var screen = _renderer.Render<MainPage>();
+                var screen = new Renderer<App>().Render<MainPage>();
 
                 screen.GetByAutomationId<Label>("Other Label Automation")!.AutomationId.Should().Be("Other Label Automation");
             }
@@ -785,7 +697,7 @@ namespace Xamarin.Forms.TestingLibrary.Tests.Specs
             public void ShouldFilterElementsWithIsVisibleFalse()
             {
                 var testView = new ContentPage {Content = new Label {IsVisible = false, AutomationId = "NotVisibleAutomationId"}};
-                var screen = _renderer.Render(testView);
+                var screen = new Renderer<App>().Render(testView);
 
                 Action act = () => screen.GetByAutomationId("NotVisibleAutomationId");
 
@@ -796,17 +708,10 @@ namespace Xamarin.Forms.TestingLibrary.Tests.Specs
 
         public class GetAllByAutomationId
         {
-            private Renderer<App> _renderer;
-
-            [SetUp]
-            public void SetUp() => _renderer = new Renderer<App>();
-
-            [TearDown]
-            public void TearDown() => _renderer.Dispose();
             [Test]
             public void ShouldThrowInvalidOperationExceptionWhenPageHasNoElements()
             {
-                var screen = _renderer.Render<EmptyPage>();
+                var screen = new Renderer<App>().Render<EmptyPage>();
 
                 Action act = () => screen.GetAllByAutomationId("Non-existant automationId");
 
@@ -817,7 +722,7 @@ namespace Xamarin.Forms.TestingLibrary.Tests.Specs
             [Test]
             public void ShouldThrowInvalidOperationExceptionWhenNoElementWithTheGivenAutomationIdIsFoundInPageHierarchy()
             {
-                var screen = _renderer.Render<MainPage>();
+                var screen = new Renderer<App>().Render<MainPage>();
 
                 Action act = () => screen.GetAllByAutomationId("Non-existant automationId");
 
@@ -828,7 +733,7 @@ namespace Xamarin.Forms.TestingLibrary.Tests.Specs
             [Test]
             public void ShouldReturnCollectionWithViewWhenOneViewWithAutomationIdIsFoundInPageHierarchy()
             {
-                var screen = _renderer.Render<MainPage>();
+                var screen = new Renderer<App>().Render<MainPage>();
 
                 screen.GetAllByAutomationId(singleLabelAutomationId).Should().ContainItemsAssignableTo<Label>()
                     .And.HaveCount(1);
@@ -837,7 +742,7 @@ namespace Xamarin.Forms.TestingLibrary.Tests.Specs
             [Test]
             public void ShouldReturnCollectionWithViewsWhenMoreThanOneAutomationIdIsFoundInPageHierarchy()
             {
-                var screen = _renderer.Render<MainPage>();
+                var screen = new Renderer<App>().Render<MainPage>();
 
                 screen.GetAllByAutomationId(multipleLabelAutomationId).Should().ContainItemsAssignableTo<Label>()
                     .And.HaveCount(2);
@@ -846,7 +751,7 @@ namespace Xamarin.Forms.TestingLibrary.Tests.Specs
             [Test]
             public void ShouldReturnCollectionWithTypedViewsWithSameAutomationIdFoundInPageHierarchy()
             {
-                var screen = _renderer.Render<MainPage>();
+                var screen = new Renderer<App>().Render<MainPage>();
 
                 screen.GetAllByAutomationId<Label>(singleLabelAutomationId).Should().OnlyContain(x => x.AutomationId == singleLabelAutomationId);
             }
@@ -854,7 +759,7 @@ namespace Xamarin.Forms.TestingLibrary.Tests.Specs
             [Test]
             public void ShouldFilterElementsWithSameAutomationIdButDifferentTypesFoundInPageHierarchy()
             {
-                var screen = _renderer.Render<MainPage>();
+                var screen = new Renderer<App>().Render<MainPage>();
 
                 screen.GetAllByAutomationId<Label>("Other Label Automation").Should()
                     .OnlyContain(x => x.AutomationId == "Other Label Automation")
@@ -865,7 +770,7 @@ namespace Xamarin.Forms.TestingLibrary.Tests.Specs
             public void ShouldFilterElementsWithIsVisibleFalse()
             {
                 var testPage = new ContentPage {Content = new Label {IsVisible = false, AutomationId = "AutomationId"}};
-                var screen = _renderer.Render(testPage);
+                var screen = new Renderer<App>().Render(testPage);
 
                 Action act = () => screen.GetAllByAutomationId("AutomationId");
 
@@ -877,7 +782,7 @@ namespace Xamarin.Forms.TestingLibrary.Tests.Specs
         [Test]
         public void ProvideBindingContextShouldSetContainersBindingContextWithPassedObject()
         {
-            var screen = _renderer.Render<MainPage>();
+            var screen = new Renderer<App>().Render<MainPage>();
             var vm = new TestViewModel();
 
             screen.ProvideBingingContext(vm);

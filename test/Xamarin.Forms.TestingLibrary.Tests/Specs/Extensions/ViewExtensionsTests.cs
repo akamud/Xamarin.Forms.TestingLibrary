@@ -8,18 +8,10 @@ namespace Xamarin.Forms.TestingLibrary.Tests.Specs.Extensions
 {
     public class ViewExtensionsTests
     {
-        private Renderer<App> _renderer;
-
-        [SetUp]
-        public void SetUp() => _renderer = new Renderer<App>();
-
-        [TearDown]
-        public void TearDown() => _renderer.Dispose();
-
         [Test]
         public void GetTextContentShouldReturnEmptyStringWhenNoChildrenHaveTexts()
         {
-            var screen = _renderer.Render<MainPage>();
+            var screen = new Renderer<App>().Render<MainPage>();
             var stackLayout = screen.GetByAutomationId<StackLayout>("emptyStack");
 
             var textContent = stackLayout.GetTextContent();
@@ -30,7 +22,7 @@ namespace Xamarin.Forms.TestingLibrary.Tests.Specs.Extensions
         [Test]
         public void GetTextContentShouldReturnAllTextsByItsChildren()
         {
-            var screen = _renderer.Render<MainPage>();
+            var screen = new Renderer<App>().Render<MainPage>();
             var stackLayout = screen.GetByAutomationId<StackLayout>("textContentStack");
 
             var textContent = stackLayout.GetTextContent();
@@ -41,7 +33,7 @@ namespace Xamarin.Forms.TestingLibrary.Tests.Specs.Extensions
         [Test]
         public void GetTextContentShouldReturnAllFormattedTextsByItsChildren()
         {
-            var screen = _renderer.Render<MainPage>();
+            var screen = new Renderer<App>().Render<MainPage>();
             var stackLayout = screen.GetByAutomationId<StackLayout>("formattedTextContentStack");
 
             var textContent = stackLayout.GetTextContent();
