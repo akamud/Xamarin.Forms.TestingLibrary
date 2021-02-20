@@ -2,6 +2,7 @@ using System;
 using System.Linq;
 using Xamarin.Forms.Internals;
 using Xamarin.Forms.Mocks;
+using Xamarin.Forms.TestingLibrary.Extensions;
 
 namespace Xamarin.Forms.TestingLibrary
 {
@@ -54,7 +55,7 @@ namespace Xamarin.Forms.TestingLibrary
             // Many controls depend on a "Renderer" property being set to "initialize" itself.
             // We do this so every control that depends on this will be initialized as soon as the page is
             // added to the view hierarchy.
-            foreach (var element in page.Descendants())
+            foreach (var element in page.GetPageHierarchy<View>())
             {
                 element.SetValue(RendererProperty, "TestingLibraryRenderer");
             }
