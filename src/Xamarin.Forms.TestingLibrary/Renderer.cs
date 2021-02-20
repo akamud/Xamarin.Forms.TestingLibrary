@@ -2,6 +2,7 @@ using System;
 using System.Linq;
 using Xamarin.Forms.Internals;
 using Xamarin.Forms.Mocks;
+using Xamarin.Forms.Xaml.Diagnostics;
 
 namespace Xamarin.Forms.TestingLibrary
 {
@@ -21,6 +22,8 @@ namespace Xamarin.Forms.TestingLibrary
         /// <param name="skipMockFormsInit">True if you want to skip the MockForms.Init() call. False if you want the Renderer to call the MockForms.Init() automatically.</param>
         public Renderer(bool skipMockFormsInit = false)
         {
+            VisualDiagnostics.VisualTreeChanged += VisualDiagnosticsOnVisualTreeChanged;
+
             if (!skipMockFormsInit)
                 MockForms.Init();
             _app = new TApp();
@@ -56,12 +59,22 @@ namespace Xamarin.Forms.TestingLibrary
             return new Screen<TPage>(page);
         }
 
-        /// <summary>
+        private void VisualDiagnosticsOnVisualTreeChanged(object sender, VisualTreeChangeEventArgs e)
+        {
+            if (e.ChangeType == VisualTreeChangeType.Add)
+                (e.Child as Element)?.SetValue(RendererProperty, "TestingLibraryRenderer");
+        }
+
+        private static readonly BindableProperty RendererProperty = BindableProperty.CreateAttached("Renderer",
+            typeof(string), typeof(string), default(string));
+
+		/// <summary>
         /// Emulates a tap gesture in the passed View. This will trigger any associated commands and events with the tap gesture.
         /// </summary>
         /// <param name="view">The view on which the Tap will be emulated.</param>
         /// <param name="numberOfTapsToSend">The number of Taps that you wish to send to the view.</param>
         public void Tap(View view, int numberOfTapsToSend = 1)
+        public void Tap(View view, int numberOfTapsRequired = 1)
         {
             if (view == null)
                 throw new ArgumentNullException(nameof(view));
@@ -70,5 +83,7 @@ namespace Xamarin.Forms.TestingLibrary
                 .Where(x => x.NumberOfTapsRequired == numberOfTapsToSend)
                 .ForEach(x => x.SendTapped(view));
         }
+
+        public void Dispose() => VisualDiagnostics.VisualTreeChanged -= VisualDiagnosticsOnVisualTreeChanged;
     }
 }

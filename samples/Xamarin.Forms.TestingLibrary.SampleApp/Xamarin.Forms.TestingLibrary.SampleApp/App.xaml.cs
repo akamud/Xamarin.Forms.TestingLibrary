@@ -13,7 +13,7 @@ namespace Xamarin.Forms.TestingLibrary.SampleApp
         {
             InitializeComponent();
 
-            MainPage = new Example1Page();
+            MainPage = new MainPage();
         }
 
         protected override void OnStart()
