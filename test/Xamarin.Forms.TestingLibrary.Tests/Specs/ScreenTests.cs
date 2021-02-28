@@ -2,7 +2,6 @@ using FluentAssertions;
 using NUnit.Framework;
 using System;
 using System.IO;
-using System.Text;
 using Xamarin.Forms.TestingLibrary.SampleApp;
 using Xamarin.Forms.TestingLibrary.SampleApp.Pages;
 using Xamarin.Forms.TestingLibrary.Tests.Stubs;
@@ -783,25 +782,11 @@ namespace Xamarin.Forms.TestingLibrary.Tests.Specs
 
         public class Debug
         {
-            private StringWriter _stringWriter;
-
-            [SetUp]
-            public void SetUp()
-            {
-                _stringWriter = new StringWriter();
-                TestingLibraryOptions.DebugOptions.OutputTextWriter = _stringWriter;
-            }
-
-            [TearDown]
-            public void TearDown()
-            {
-                _stringWriter.Dispose();
-                TestingLibraryOptions.DebugOptions.OutputTextWriter = Console.Out;
-            }
-
             [Test]
             public void ShouldPrintTheVisualTreeWithItsElements()
             {
+                var stringWriter = new StringWriter();
+                TestingLibraryOptions.DebugOptions.OutputTextWriter = stringWriter;
                 var testPage = new ContentPage
                 {
                     Content = new StackLayout
@@ -813,11 +798,13 @@ namespace Xamarin.Forms.TestingLibrary.Tests.Specs
 
                 screen.Debug();
 
-                var debugText = _stringWriter.ToString();
+                var debugText = stringWriter.ToString();
                 var br = Environment.NewLine;
                 var expectedDebugText =
                     $"ContentPage{br}`-- StackLayout{br}    |-- AutomationId: aut{br}    |-- HeightRequest: 50{br}    `-- Label{br}        |-- Text: LabelText{br}        `-- FormattedText: <null>{br}";
                 debugText.Should().BeEquivalentTo(expectedDebugText);
+
+                TestingLibraryOptions.DebugOptions.OutputTextWriter = Console.Out;
             }
 
             [Test]
@@ -832,9 +819,8 @@ namespace Xamarin.Forms.TestingLibrary.Tests.Specs
                 };
                 var screen = new Renderer<App>().Render(testPage);
 
-                screen.Debug();
+                var debugText = screen.Debug();
 
-                var debugText = _stringWriter.ToString();
                 debugText.Should().Contain("Margin: Left=1, Top=2, Right=3, Bottom=4");
             }
 
@@ -850,9 +836,8 @@ namespace Xamarin.Forms.TestingLibrary.Tests.Specs
                 };
                 var screen = new Renderer<App>().Render(testPage);
 
-                screen.Debug();
+                var debugText = screen.Debug();
 
-                var debugText = _stringWriter.ToString();
                 debugText.Should().Contain("BackgroundColor: #7F19334C");
             }
 
@@ -868,9 +853,8 @@ namespace Xamarin.Forms.TestingLibrary.Tests.Specs
                 };
                 var screen = new Renderer<App>().Render(testPage);
 
-                screen.Debug();
+                var debugText = screen.Debug();
 
-                var debugText = _stringWriter.ToString();
                 debugText.Should().Contain("HorizontalOptions: EndAndExpand");
             }
 
@@ -886,9 +870,8 @@ namespace Xamarin.Forms.TestingLibrary.Tests.Specs
                 };
                 var screen = new Renderer<App>().Render(testPage);
 
-                screen.Debug();
+                var debugText = screen.Debug();
 
-                var debugText = _stringWriter.ToString();
                 debugText.Should().Contain("Text: LabelText");
             }
 
@@ -905,9 +888,8 @@ namespace Xamarin.Forms.TestingLibrary.Tests.Specs
                 };
                 var screen = renderer.Render(testPage);
 
-                screen.Debug();
+                var debugText = screen.Debug();
 
-                var debugText = _stringWriter.ToString();
                 debugText.Should().Contain("ItemsSource: {image1, image2, image3}");
             }
 
@@ -920,9 +902,8 @@ namespace Xamarin.Forms.TestingLibrary.Tests.Specs
                 };
                 var screen = new Renderer<App>().Render(testPage);
 
-                screen.Debug();
+                var debugText = screen.Debug();
 
-                var debugText = _stringWriter.ToString();
                 debugText.Should().Contain("HeightRequest: 20");
             }
         }

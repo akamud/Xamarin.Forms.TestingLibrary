@@ -357,13 +357,15 @@ namespace Xamarin.Forms.TestingLibrary
         public IReadOnlyCollection<View> GetAllByAutomationId(string automationId)
             => GetAllByAutomationId<View>(automationId);
 
-        public void Debug()
+        public string Debug()
         {
             var renderedHierarchy = new Tree(Container);
             Container.GetPageHierarchy<View>(renderedHierarchy).ToList();
 
             var debugText = TestingLibraryOptions.DebugOptions.TreeFormatter.FormatTree(renderedHierarchy);
             TestingLibraryOptions.DebugOptions.OutputTextWriter.Write(debugText);
+
+            return debugText;
         }
     }
 }
