@@ -2,6 +2,10 @@ using Xamarin.Forms.TestingLibrary.Options;
 
 namespace Xamarin.Forms.TestingLibrary
 {
+    /// <summary>
+    /// Controls how the TestingLibrary behaves.
+    /// <remarks>You can customize some behaviors in the TestingLibrary using this static configuration.</remarks>
+    /// </summary>
     public static class TestingLibraryOptions
     {
         /// <summary>
