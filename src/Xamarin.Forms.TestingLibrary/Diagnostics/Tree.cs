@@ -8,6 +8,9 @@ namespace Xamarin.Forms.TestingLibrary.Diagnostics
     /// </summary>
     public class Tree
     {
+        /// <summary>
+        /// Gets the tree's root. Usually the Page serving as the container for the Screen.
+        /// </summary>
         public TreeNode Root { get; }
 
         /// <summary>

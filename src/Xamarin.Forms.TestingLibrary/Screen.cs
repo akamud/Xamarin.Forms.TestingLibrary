@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using Xamarin.Forms.TestingLibrary.Extensions;
+using Xamarin.Forms.TestingLibrary.Options;
 using Tree = Xamarin.Forms.TestingLibrary.Diagnostics.Tree;
 
 namespace Xamarin.Forms.TestingLibrary
