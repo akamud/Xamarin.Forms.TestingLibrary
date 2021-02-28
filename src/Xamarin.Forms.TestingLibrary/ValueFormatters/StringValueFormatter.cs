@@ -7,9 +7,9 @@ namespace Xamarin.Forms.TestingLibrary.ValueFormatters
 
         /// <inheritdoc />
         /// <summary>
-        /// Formats a String property showing its value or <null>.
+        /// Formats a String property showing its value or &lt;null&gt;.
         /// </summary>
-        /// <returns>A string representing the object or <null> when the property is null.</returns>
+        /// <returns>A string representing the object or &lt;null&gt; when the property is null.</returns>
         public string Format(object value) => !string.IsNullOrEmpty((string)value) ? value.ToString() : "<null>";
     }
 }
