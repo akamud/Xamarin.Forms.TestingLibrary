@@ -358,10 +358,16 @@ namespace Xamarin.Forms.TestingLibrary
         public IReadOnlyCollection<View> GetAllByAutomationId(string automationId)
             => GetAllByAutomationId<View>(automationId);
 
+        /// <summary>
+        /// Provides a way of seeing what got "rendered" on the Screen. Use this when you want
+        /// to understand which elements and properties are present at the screen.
+        /// </summary>
+        /// <remarks>If you want to customize how this method works, check <see cref="DebugOptions"/>.</remarks>
+        /// <returns>A string representing the screen's elements and its properties.</returns>
         public string Debug()
         {
             var renderedHierarchy = new Tree(Container);
-            Container.GetPageHierarchy<View>(renderedHierarchy).ToList();
+            var _ =Container.GetPageHierarchy<View>(renderedHierarchy).ToList();
 
             var debugText = TestingLibraryOptions.DebugOptions.TreeFormatter.FormatTree(renderedHierarchy);
             TestingLibraryOptions.DebugOptions.OutputTextWriter.Write(debugText);
