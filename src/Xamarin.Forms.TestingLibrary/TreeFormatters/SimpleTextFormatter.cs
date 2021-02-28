@@ -10,8 +10,6 @@ namespace Xamarin.Forms.TestingLibrary.TreeFormatters
 {
     public class SimpleTextFormatter : ITreeFormatter
     {
-        private readonly StringWriter stringBuffer = new StringWriter();
-
         private readonly AnsiConsoleSettings _ansiConsoleSettings = new AnsiConsoleSettings
         {
             Ansi = AnsiSupport.Detect,
@@ -20,10 +18,10 @@ namespace Xamarin.Forms.TestingLibrary.TreeFormatters
             Enrichment = {UseDefaultEnrichers = false},
         };
 
-        public SimpleTextFormatter() => _ansiConsoleSettings.Out = stringBuffer;
-
         public string FormatTree(Tree debugTree)
         {
+            using var stringBuffer = new StringWriter();
+            _ansiConsoleSettings.Out = stringBuffer;
             var ansiConsole = AnsiConsole.Create(_ansiConsoleSettings);
 
             var consoleTree = new SpectreTree(debugTree.Root.DebugElement.Element.GetType().Name);
