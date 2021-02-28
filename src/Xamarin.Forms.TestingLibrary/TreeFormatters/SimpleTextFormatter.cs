@@ -8,7 +8,7 @@ using TreeNode = Xamarin.Forms.TestingLibrary.Diagnostics.TreeNode;
 
 namespace Xamarin.Forms.TestingLibrary.TreeFormatters
 {
-    public class SimpleTextFormatter : ITreeFormatter
+    internal class SimpleTextFormatter : ITreeFormatter
     {
         private readonly AnsiConsoleSettings _ansiConsoleSettings = new AnsiConsoleSettings
         {
