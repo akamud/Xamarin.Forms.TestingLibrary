@@ -1,5 +1,3 @@
-using System;
-
 namespace Xamarin.Forms.TestingLibrary.ValueFormatters
 {
     public interface IValueFormatter
