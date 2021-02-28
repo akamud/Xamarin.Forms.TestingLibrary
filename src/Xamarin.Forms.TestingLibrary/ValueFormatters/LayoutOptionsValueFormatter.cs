@@ -1,9 +1,15 @@
 namespace Xamarin.Forms.TestingLibrary.ValueFormatters
 {
-    public class LayoutOptionsValueFormatter : IValueFormatter
+    internal class LayoutOptionsValueFormatter : IValueFormatter
     {
+        /// <inheritdoc />
         public bool CanHandle(object value) => value is LayoutOptions;
 
+        /// <inheritdoc />
+        /// <summary>
+        /// Formats a LayoutOptions property correctly.
+        /// </summary>
+        /// <returns>The LayoutOptions chosen.</returns>
         public string Format(object value)
         {
             var layoutOptions = (LayoutOptions)value;

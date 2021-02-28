@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace Xamarin.Forms.TestingLibrary.ValueFormatters
 {
-    public class EnumerableValueFormatter : IValueFormatter
+    internal class EnumerableValueFormatter : IValueFormatter
     {
         /// <summary>
         /// The number of items to include when formatting this object.
@@ -12,15 +12,20 @@ namespace Xamarin.Forms.TestingLibrary.ValueFormatters
         /// <remarks>The default value is 5.</remarks>
         protected virtual int MaxItems { get; } = 5;
 
+        /// <inheritdoc />
         public virtual bool CanHandle(object value) => value is IEnumerable;
 
         private static ICollection<T> ConvertOrCastToCollection<T>(IEnumerable source) =>
             source as ICollection<T> ?? source.Cast<T>().ToList();
 
         /// <inheritdoc />
+        /// <summary>
+        /// Formats a Enumerable property iterating through its elements.
+        /// </summary>
+        /// <returns>A list with the string representation of the Enumerable items.</returns>
         public string Format(object value)
         {
-            ICollection<object> enumerable = ConvertOrCastToCollection<object>((IEnumerable)value);
+            var enumerable = ConvertOrCastToCollection<object>((IEnumerable)value);
 
             if (enumerable.Any())
             {
@@ -39,10 +44,8 @@ namespace Xamarin.Forms.TestingLibrary.ValueFormatters
                     return valueFormatter.Format(item);
                 }))}{postfix}}}";
             }
-            else
-            {
-                return "{empty}";
-            }
+
+            return "{empty}";
         }
     }
 }
