@@ -14,7 +14,8 @@ namespace Xamarin.Forms.TestingLibrary.Options
 
         public Func<LocalValueEntry, bool> DefaultPrintablePropertyFilter { get; set; } = x =>
             (x.Attributes.HasFlag(BindableContextAttributes.IsManuallySet) ||
-            x.Attributes.HasFlag(BindableContextAttributes.IsSetFromStyle)) &&
+             x.Attributes.HasFlag(BindableContextAttributes.IsSetFromStyle) ||
+             x.Attributes == BindableContextAttributes.None) &&
             x.Property.PropertyName != "Renderer" && x.Property.PropertyName != "Navigation";
 
         public List<IValueFormatter> DefaultValueFormatters { get; set; } =
@@ -23,6 +24,8 @@ namespace Xamarin.Forms.TestingLibrary.Options
                 new ThicknessValueFormatter(),
                 new ColorValueFormatter(),
                 new LayoutOptionsValueFormatter(),
+                new StringValueFormatter(),
+                new EnumerableValueFormatter(),
                 new DefaultValueFormatter()
             };
     }

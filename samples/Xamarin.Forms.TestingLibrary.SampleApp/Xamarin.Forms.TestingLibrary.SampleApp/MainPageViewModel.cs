@@ -8,7 +8,7 @@ namespace Xamarin.Forms.TestingLibrary.SampleApp
     {
         public MainPageViewModel()
         {
-            Images = new ObservableCollection<string> {"image1", "imaga2", "image3"};
+            Images = new ObservableCollection<string> {"image1", "image2", "image3"};
         }
 
         private bool _tapped;

@@ -43,7 +43,7 @@ namespace Xamarin.Forms.TestingLibrary.TreeFormatters
             {
                 var valueFormatter = TestingLibraryOptions.DebugOptions.DefaultValueFormatters.First(x =>
                     x.CanHandle(printableProperty.Value));
-                childNode.AddNode($"{printableProperty.Key}: {valueFormatter.Format(printableProperty.Value)}");
+                childNode.AddNode(EscapeMarkup($"{printableProperty.Key}: {valueFormatter.Format(printableProperty.Value)}"));
             }
 
             foreach (var treeNode in debugTreeNode.Nodes)
@@ -51,5 +51,7 @@ namespace Xamarin.Forms.TestingLibrary.TreeFormatters
                 FormatTreeNode(treeNode, childNode);
             }
         }
+
+        private string EscapeMarkup(string text) => text.Replace("[", "[[").Replace("]", "]]");
     }
 }
