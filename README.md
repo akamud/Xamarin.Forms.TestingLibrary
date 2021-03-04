@@ -212,7 +212,7 @@ public void TapShouldSetTheLabelTextToTrueWhenTappedTwice()
 
 ## How it works
 
-This project lies heavily on [Jonathan Peppers](https://github.com/jonathanpeppers) [Xamarin.Forms.Mocks](https://github.com/jonathanpeppers/Xamarin.Forms.Mocks) project. That's how we mock the Forms engine to actually work outside any platform (iOS, Android, etc.).
+This project relies heavily on [Jonathan Peppers](https://github.com/jonathanpeppers) [Xamarin.Forms.Mocks](https://github.com/jonathanpeppers/Xamarin.Forms.Mocks) project. That's how we mock the Forms engine to actually work outside any platform (iOS, Android, etc.).
 
 Other than that, most of the public APIs are using the same strategy: loading all the pages/views children and iterating and applying filters on them. It really is that simple. Xamarin.Forms.TestingLibrary is nothing more than a bunch of helpers that you could have written yourself. We are just giving you a shortcut.
 
