@@ -59,6 +59,10 @@ public void MyTestWithMockedDependencies()
 
 You can write tests to make sure your screen is rendered depending on the ViewModel's state, you can trigger gestures on a View and test the ViewModel is filled correctly, you can test that the page reacts correctly to the result of a service call, etc. You should be able to test any behavior as if the user was using your app. 
 
+## Documentation
+
+Check out the documentation [here](https://github.com/akamud/Xamarin.Forms.TestingLibrary/wiki).
+
 ## Why isn't unit testing enough?
 
 You surely can do a very complete test suite for your Xamarin.Forms app, but I feel like there is room for improvement. Unit testing your ViewModels can cover your code and run very fast, but they don't touch your user interfaces. UI Tests, on the other hand, can cover your user interfaces, but are very flaky and slow to run.
@@ -154,62 +158,6 @@ public class Tests
 
 As you can see, it is very focused on the user's perspective, so we load the page and get the visible text from the screen.
 
-## Documentation
-
-While I'm still writing more documentation, you can certainly learn a lot by taking a look at the tests I wrote for the [sample app](https://github.com/akamud/Xamarin.Forms.TestingLibrary/tree/main/samples/Xamarin.Forms.TestingLibrary.SampleApp/Xamarin.Forms.TestingLibrary.SampleApp.Tests) and for the [project itself](https://github.com/akamud/Xamarin.Forms.TestingLibrary/tree/main/test/Xamarin.Forms.TestingLibrary.Tests).
-
-### Queries APIs
-
-The queries APIs are probably where you'll spend most of your time, since the project's philosophy is to write a test as close as possible yo what a user see and does, these are the ways you can query the view hierarchy:
-
-- `*ByText` - Filters the views based on their `Text` content.
-    - Very useful to find labels and buttons.
-- `*ByAutomationId` - Filters the views based on their `AutomationId` content.
-    - Very useful when there is no easy way to differentiate elements on the screen. Also useful to make sure your app is accessible for people who use screen readers.
-- `*ByType` - Filters the views based only on their type.
-    - Useful when there are few elements of the same type on the screen.
-
-#### Types of Queries
-
-All the above queries can be combined with operators related to the number of elements that you expect on the screen. For example: if you are sure there is only 1 element with a given text on the screen, you can use `GetByText`. These are the available types of queries at the moment:
-
-- `Get*` - Returns exactly 1 matching element, throws an exception if no element, or more than 1 element is found.
-- `Query*` - Returns exactly 1 matching element, returns null if no element is found. Throws an exception if more than 1 element is found.
-- `GetAll*` - Returns all matching elements on the screen, throws an exception if no element is found.
-- `QueryAll*` - Returns all matching elements on the screen, returns an empty array if no element is found.
-
-To make it easier to find the correct type of query, refer to this table:
-
-| Type of Query  | 0 Matches | 1 Match | 2+ Matches |
-| -------------- | --------- | ------- | ---------- |
-| GetBy*  | Throws Exception | Returns the View | Throws exception |
-| QueryBy*  | Returns `null` | Returns the View | Throws exception |
-| GetAllBy*  | Throws Exception | Returns a List with the Views | Returns a List with the Views |
-| QueryAllBy*  | Returns an empty List | Returns a List with the Views | Returns a List with the Views |
-
-The single queries return a Xamarin.Forms [View](https://docs.microsoft.com/en-us/dotnet/api/xamarin.forms.view?view=xamarin-forms) object, and the multiple queries return is a .NET [List](https://docs.microsoft.com/en-us/dotnet/api/system.collections.generic.list-1?view=net-5.0), so you can do anything you want with the result, like checking for a specific property (e.g.: `IsVisible`) or do more filtering (e.g.: `First`, `Last`, `Skip`, etc.).
-
-### Emulating interactions
-
-Right now the only implemented interaction is the `Tap` gesture. If your View has a `TapGestureRecognizer`, you can trigger a `Tap` using the `Renderer`:
-
-```csharp
-[Test]
-public void TapShouldSetTheLabelTextToTrueWhenTappedTwice()
-{
-    var renderer = new Renderer<App>();
-    var screen = renderer.Render<MainPage>();
-    // Just to show that there is a Label representing if the user Tapped.
-    Assert.NotNull(screen.GetByText<Label>("False"));
-
-    // Tries to tap on the Button with text "Tappable Button" twice.
-    renderer.Tap(screen.GetByText("Tappable Button"), 2);
-
-    // The "Tappable Button" triggers a command that updates the other Label property
-    Assert.NotNull(screen.GetByText<Label>("True"));
-}
-```
-
 ## How it works
 
 This project relies heavily on [Jonathan Peppers](https://github.com/jonathanpeppers) [Xamarin.Forms.Mocks](https://github.com/jonathanpeppers/Xamarin.Forms.Mocks) project. That's how we mock the Forms engine to actually work outside any platform (iOS, Android, etc.).
@@ -232,6 +180,6 @@ This is a very initial release, I've been doing a bunch of proof-of-concepts for
 - How does this behave with MVVM frameworks? - I did some tests with Prism, but I still have to investigate if there are any limitations on working with all the other frameworks out there. If you find any, please open an issue.
 - See what's missing compared to [Flutter's Widget Testing](https://flutter.dev/docs/cookbook/testing/widget/introduction), [React Testing Library](https://testing-library.com/docs/react-testing-library/intro/), [iOS KIF](https://github.com/kif-framework/KIF) and [Android Robolectric](http://robolectric.org/). All these frameworks have similar philosophy, so we can borrow some ideas that could work in Xamarin.Forms.TestingLibrary.
 
-## Wanna help?
+## Contributing
 
 If you find any shortcomings or you have any idea on how to expand this project, please open an issue so we can discuss its evolution :)
