@@ -174,7 +174,6 @@ All the rendering in Xamarin.Forms.TestingLibrary is emulated, and while all the
 
 This is a very initial release, I've been doing a bunch of proof-of-concepts for new features. While I already have a bunch of ideas, I felt like releasing this initial version so I can get all the feedback I can. With that in mind, I certainly have these planned:
 
-- Debugging the rendered screen - While I have a working example of this, I decided to put it in the next release because I wanted more time to think of how this will work.
 - .NET MAUI support - while MAUI is still in its early stages, I'm studying how this could work with MAUI and I plan on having .NET MAUI support on day 1.
 - Assertions APIs - Create an assertion library on top of [FluentAssertions](https://fluentassertions.com/) to provide more readable assertions.
 - How does this behave with MVVM frameworks? - I did some tests with Prism, but I still have to investigate if there are any limitations on working with all the other frameworks out there. If you find any, please open an issue.
