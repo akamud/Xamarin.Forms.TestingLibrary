@@ -69,7 +69,7 @@ namespace Xamarin.Forms.TestingLibrary
             typeof(string), typeof(string), default(string));
 
 		/// <summary>
-        /// Emulates a tap gesture in the passed View. This will trigger any associated commands and events with the tap gesture.
+        /// Emulates a tap gesture in the passed Element. This will trigger any associated commands and events with the tap gesture.
         /// </summary>
         /// <param name="view">The view on which the Tap will be emulated.</param>
         /// <param name="numberOfTapsToSend">The number of Taps that you wish to send to the view.</param>

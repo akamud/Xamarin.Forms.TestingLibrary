@@ -1,6 +1,7 @@
 using FluentAssertions;
 using NUnit.Framework;
 using System;
+using System.IO;
 using Xamarin.Forms.TestingLibrary.SampleApp;
 using Xamarin.Forms.TestingLibrary.SampleApp.Pages;
 using Xamarin.Forms.TestingLibrary.Tests.Stubs;
@@ -776,6 +777,152 @@ namespace Xamarin.Forms.TestingLibrary.Tests.Specs
 
                 act.Should().ThrowExactly<InvalidOperationException>()
                     .WithMessage("Sequence contains no matching element");
+            }
+        }
+
+        public class Debug
+        {
+            [Test]
+            public void ShouldPrintTheVisualTreeWithItsElements()
+            {
+                var stringWriter = new StringWriter();
+                TestingLibraryOptions.DebugOptions.OutputTextWriter = stringWriter;
+                var testPage = new ContentPage
+                {
+                    Content = new StackLayout
+                    {
+                        AutomationId = "aut", HeightRequest = 50, Children = {new Label {Text = "LabelText"}}
+                    }
+                };
+                var screen = new Renderer<App>().Render(testPage);
+
+                screen.Debug();
+
+                var debugText = stringWriter.ToString();
+                var br = Environment.NewLine;
+                var expectedDebugText =
+                    $"ContentPage{br}`-- StackLayout{br}    |-- AutomationId: aut{br}    |-- HeightRequest: 50{br}    `-- Label{br}        |-- Text: LabelText{br}        `-- FormattedText: <null>{br}";
+                debugText.Should().BeEquivalentTo(expectedDebugText);
+
+                TestingLibraryOptions.DebugOptions.OutputTextWriter = Console.Out;
+            }
+
+            [Test]
+            public void ShouldCorrectlyFormatThicknessProperties()
+            {
+                var testPage = new ContentPage
+                {
+                    Content = new StackLayout
+                    {
+                        Margin = new Thickness(1, 2, 3, 4)
+                    }
+                };
+                var screen = new Renderer<App>().Render(testPage);
+
+                var debugText = screen.Debug();
+
+                debugText.Should().Contain("Margin: Left=1, Top=2, Right=3, Bottom=4");
+            }
+
+            [Test]
+            public void ShouldCorrectlyFormatColorProperties()
+            {
+                var testPage = new ContentPage
+                {
+                    Content = new StackLayout
+                    {
+                        BackgroundColor = new Color(0.1, 0.2, 0.3, 0.5)
+                    }
+                };
+                var screen = new Renderer<App>().Render(testPage);
+
+                var debugText = screen.Debug();
+
+                debugText.Should().Contain("BackgroundColor: #7F19334C");
+            }
+
+            [Test]
+            public void ShouldCorrectlyFormatLayoutOptionsProperties()
+            {
+                var testPage = new ContentPage
+                {
+                    Content = new StackLayout
+                    {
+                        HorizontalOptions = LayoutOptions.EndAndExpand
+                    }
+                };
+                var screen = new Renderer<App>().Render(testPage);
+
+                var debugText = screen.Debug();
+
+                debugText.Should().Contain("HorizontalOptions: EndAndExpand");
+            }
+
+            [Test]
+            public void ShouldCorrectlyFormatStringProperties()
+            {
+                var testPage = new ContentPage
+                {
+                    Content = new Label
+                    {
+                        Text = "LabelText"
+                    }
+                };
+                var screen = new Renderer<App>().Render(testPage);
+
+                var debugText = screen.Debug();
+
+                debugText.Should().Contain("Text: LabelText");
+            }
+
+            [Test]
+            public void ShouldCorrectlyFormatEnumerableProperties()
+            {
+                var renderer = new Renderer<App>();
+                var testPage = new ContentPage
+                {
+                    Content = new ListView
+                    {
+                        ItemsSource = new[] {"image1", "image2", "image3"}
+                    }
+                };
+                var screen = renderer.Render(testPage);
+
+                var debugText = screen.Debug();
+
+                debugText.Should().Contain("ItemsSource: {image1, image2, image3}");
+            }
+
+            [Test]
+            public void ShouldCorrectlyFormatEnumerablePropertiesWithMoreThanTheAllowedMax()
+            {
+                var renderer = new Renderer<App>();
+                var testPage = new ContentPage
+                {
+                    Content = new ListView
+                    {
+                        ItemsSource = new[] {"image1", "image2", "image3", "image4", "image5", "image6"}
+                    }
+                };
+                var screen = renderer.Render(testPage);
+
+                var debugText = screen.Debug();
+
+                debugText.Should().Contain("ItemsSource: {image1, image2, image3, image4, image5, …1 more…}");
+            }
+
+            [Test]
+            public void ShouldCorrectlyFormatPropertiesWithoutACustomFormatter()
+            {
+                var testPage = new ContentPage
+                {
+                    Content = new Label {HeightRequest = 20}
+                };
+                var screen = new Renderer<App>().Render(testPage);
+
+                var debugText = screen.Debug();
+
+                debugText.Should().Contain("HeightRequest: 20");
             }
         }
 

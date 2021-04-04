@@ -1,8 +1,11 @@
+using Spectre.Console;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using Xamarin.Forms.TestingLibrary.Extensions;
+using Xamarin.Forms.TestingLibrary.Options;
+using Tree = Xamarin.Forms.TestingLibrary.Diagnostics.Tree;
 
 namespace Xamarin.Forms.TestingLibrary
 {
@@ -19,7 +22,10 @@ namespace Xamarin.Forms.TestingLibrary
         /// </summary>
         public TPage Container { get; }
 
-        internal Screen(TPage page) => Container = page;
+        internal Screen(TPage page)
+        {
+            Container = page;
+        }
 
         private T? QueryBy<T>(Func<T, bool>? predicate = null) where T : View
             => predicate != null
@@ -203,7 +209,7 @@ namespace Xamarin.Forms.TestingLibrary
             QueryAllBy<T>();
 
         /// <summary>
-        /// Returns the only view matching the type <typeparamref name="T"/> on the screen. 
+        /// Returns the only view matching the type <typeparamref name="T"/> on the screen.
         /// Throws an exception if there is not exactly one matching element on the screen.
         /// </summary>
         /// <typeparam name="T">The type of the expected view.</typeparam>
@@ -351,5 +357,22 @@ namespace Xamarin.Forms.TestingLibrary
         /// </exception>
         public IReadOnlyCollection<View> GetAllByAutomationId(string automationId)
             => GetAllByAutomationId<View>(automationId);
+
+        /// <summary>
+        /// Provides a way of seeing what got "rendered" on the Screen. Use this when you want
+        /// to understand which elements and properties are present at the screen.
+        /// </summary>
+        /// <remarks>If you want to customize how this method works, check <see cref="DebugOptions"/>.</remarks>
+        /// <returns>A string representing the screen's elements and its properties.</returns>
+        public string Debug()
+        {
+            var renderedHierarchy = new Tree(Container);
+            var _ =Container.GetPageHierarchy<View>(renderedHierarchy).ToList();
+
+            var debugText = TestingLibraryOptions.DebugOptions.TreeFormatter.FormatTree(renderedHierarchy);
+            TestingLibraryOptions.DebugOptions.OutputTextWriter.Write(debugText);
+
+            return debugText;
+        }
     }
 }

@@ -23,6 +23,7 @@
     </PropertyGroup>
 
     <ItemGroup>
+      <PackageReference Include="Spectre.Console" Version="0.37.1-preview.0.28" />
       <PackageReference Include="Xamarin.Forms" Version="5.0.0.1931" />
       <PackageReference Include="Xamarin.Forms.Mocks" Version="4.7.0.1" />
     </ItemGroup>
