@@ -894,6 +894,25 @@ namespace Xamarin.Forms.TestingLibrary.Tests.Specs
             }
 
             [Test]
+            public void ShouldCorrectlyFormatEnumerablePropertiesWithMoreThanTheAllowedMax()
+            {
+                var renderer = new Renderer<App>();
+                var testPage = new ContentPage
+                {
+                    Content = new ListView
+                    {
+                        ItemsSource = new[] {"image1", "image2", "image3", "image4", "image5", "image6"}
+                    }
+                };
+                var screen = renderer.Render(testPage);
+
+                var debugText = screen.Debug();
+
+                debugText.Should().Contain("ItemsSource: {image1, image2, image3, image4, image5, …1 more…}");
+            }
+
+
+            [Test]
             public void ShouldCorrectlyFormatPropertiesWithoutACustomFormatter()
             {
                 var testPage = new ContentPage
