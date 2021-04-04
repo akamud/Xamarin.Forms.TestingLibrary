@@ -11,7 +11,7 @@
       <Title>Xamarin.Forms.TestingLibrary</Title>
       <SymbolPackageFormat>snupkg</SymbolPackageFormat>
       <DocumentationFile>bin\$(Configuration)\Xamarin.Forms.TestingLibrary.xml</DocumentationFile>
-      <Version>0.1.0-pre</Version>
+      <Version>0.2.0-pre</Version>
       <Authors>Mahmoud Ali</Authors>
       <Description>A testing library to make components testing for Xamarin.Forms easier, inspired by Testing Library, Flutter's Widget Testing and others.</Description>
       <PackageProjectUrl>https://github.com/akamud/Xamarin.Forms.TestingLibrary</PackageProjectUrl>
