@@ -911,7 +911,6 @@ namespace Xamarin.Forms.TestingLibrary.Tests.Specs
                 debugText.Should().Contain("ItemsSource: {image1, image2, image3, image4, image5, …1 more…}");
             }
 
-
             [Test]
             public void ShouldCorrectlyFormatPropertiesWithoutACustomFormatter()
             {
