@@ -1,0 +1,30 @@
+name: publish-on-release
+
+on:
+ release:
+  types: [ published ]
+
+jobs:
+  publish:
+    name: build, pack & publish
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Setup .NET Core
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: 5.0.103
+
+      - name: publish Xamarin.Forms.TestingLibrary
+        id: publish_nuget_common
+        uses: rohith/publish-nuget@v2
+        with:
+          PROJECT_FILE_PATH: src/Xamarin.Forms.TestingLibrary/Xamarin.Forms.TestingLibrary.csproj
+          PACKAGE_NAME: Xamarin.Forms.TestingLibrary
+          NUGET_KEY: ${{secrets.NUGET_API_KEY}}
+          TAG_COMMIT: false
+          VERSION_REGEX: ^\s*<Version>(.*)<\/Version>\s*$
+          INCLUDE_SYMBOLS: true
+
